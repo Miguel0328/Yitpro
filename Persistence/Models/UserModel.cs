@@ -14,10 +14,12 @@ namespace Persistence.Models
         public DateTime AdmissionDate { get; set; }
         public DateTime LevelChangeDate { get; set; }
         public long IdLevel { get; set; }
+        public LevelModel Level { get; set; }
         public int IdUserType { get; set; }
         public UserTypeModel UserType { get; set; }
         public long IdUManager { get; set; }
         public long IdDepartment { get; set; }
+        public GeneralCatalogMoldel Department { get; set; }
         public int BlockingAttempts { get; set; }
         public decimal Cost { get; set; }
         public bool Capture { get; set; }
