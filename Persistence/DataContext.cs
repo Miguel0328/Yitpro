@@ -14,7 +14,7 @@ namespace Persistence
         public DbSet<UserModel> User { get; set; }
         public DbSet<ViewModel> View { get; set; }
         public DbSet<MenuModel> Menu { get; set; }
-        public DbSet<GeneralCatalogMoldel> GeneralCatalog { get; set; }
+        public DbSet<GeneralCatalogModel> GeneralCatalog { get; set; }
         public DbSet<LevelModel> Level { get; set; }
         public DbSet<UserTypeModel> UserType { get; set; }
         public DbSet<UserTypePermissionsModel> UserTypePermissions { get; set; }

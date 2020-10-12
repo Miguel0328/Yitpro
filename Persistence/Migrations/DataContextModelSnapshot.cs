@@ -19,7 +19,7 @@ namespace Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Persistence.Models.GeneralCatalogMoldel", b =>
+            modelBuilder.Entity("Persistence.Models.GeneralCatalogModel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,9 +141,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Models.UserModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
@@ -202,11 +202,8 @@ namespace Persistence.Migrations
                     b.Property<bool>("Locked")
                         .HasColumnType("bit");
 
-                    b.Property<long>("ManagerId")
+                    b.Property<long?>("ManagerId")
                         .HasColumnType("bigint");
-
-                    b.Property<int?>("ManagerId1")
-                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(500)")
@@ -227,7 +224,9 @@ namespace Persistence.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.HasIndex("ManagerId1");
+                    b.HasIndex("ManagerId")
+                        .IsUnique()
+                        .HasFilter("[ManagerId] IS NOT NULL");
 
                     b.HasIndex("UserTypeId");
 
@@ -316,8 +315,8 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("View")
                         .IsRequired()
@@ -333,7 +332,7 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Models.UserModel", b =>
                 {
-                    b.HasOne("Persistence.Models.GeneralCatalogMoldel", "Department")
+                    b.HasOne("Persistence.Models.GeneralCatalogModel", "Department")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -346,8 +345,24 @@ namespace Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Persistence.Models.UserModel", "Manager")
+                        .WithOne()
+                        .HasForeignKey("Persistence.Models.UserModel", "ManagerId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Persistence.Models.UserTypeModel", "UserType")
                         .WithMany()
-                        .HasForeignKey("ManagerId1");
+                        .HasForeignKey("UserTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Persistence.Models.UserTypePermissionsModel", b =>
+                {
+                    b.HasOne("Persistence.Models.MenuModel", "Menu")
+                        .WithMany()
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Persistence.Models.UserTypeModel", "UserType")
                         .WithMany()

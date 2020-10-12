@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Persistence.Models
 {
     public class UserModel
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string EmployeeNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,10 +18,10 @@ namespace Persistence.Models
         public LevelModel Level { get; set; }
         public int UserTypeId { get; set; }
         public UserTypeModel UserType { get; set; }
-        public long ManagerId { get; set; }
+        public long? ManagerId { get; set; }
         public UserModel Manager { get; set; }
         public long DepartmentId { get; set; }
-        public GeneralCatalogMoldel Department { get; set; }
+        public GeneralCatalogModel Department { get; set; }
         public int BlockingAttempts { get; set; }
         public decimal Cost { get; set; }
         public bool Capture { get; set; }
