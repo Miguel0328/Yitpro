@@ -2,7 +2,7 @@
 using Persistence.Models;
 using System;
 using System.Reflection;
-using static Persistence.EntityConfiguration.Configurations;
+using static Persistence.EntityConfiguration.ViewConfigurations;
 
 namespace Persistence
 {
