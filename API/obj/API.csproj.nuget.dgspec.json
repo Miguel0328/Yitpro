@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\documentos\\proyectos\\repositorios\\yitpro\\API\\API.csproj": {}
+    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\documentos\\proyectos\\repositorios\\yitpro\\API\\API.csproj": {
+    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\documentos\\proyectos\\repositorios\\yitpro\\API\\API.csproj",
+        "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\documentos\\proyectos\\repositorios\\yitpro\\API\\API.csproj",
+        "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
         "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "D:\\documentos\\proyectos\\repositorios\\yitpro\\API\\obj\\",
+        "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
