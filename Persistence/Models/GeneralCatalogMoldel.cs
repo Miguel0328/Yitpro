@@ -7,7 +7,7 @@ namespace Persistence.Models
     public class GeneralCatalogMoldel
     {
         public long Id { get; set; }
-        public int IdTable { get; set; }
+        public int CatalogId { get; set; }
         public string ShortDesc { get; set; }
         public string LongDesc { get; set; }
         public string SpecialData { get; set; }

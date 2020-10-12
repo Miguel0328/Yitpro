@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Persistence.Models
 {
-    public class TypeUserPermissionsModel
+    public class UserTypePermissionsModel
     {
         public long Id { get; set; }
-        public int IdMenu { get; set; }
+        public int MenuId { get; set; }
         public MenuModel Menu { get; set; }
-        public int IdTypeUser { get; set; }
+        public int UserTypeId { get; set; }
         public UserTypeModel UserType { get; set; }
         public bool Watch { get; set; }
         public bool Save { get; set; }
