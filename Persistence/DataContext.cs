@@ -13,6 +13,7 @@ namespace Persistence
 
         public DbSet<UserModel> User { get; set; }
         public DbSet<ViewModel> View { get; set; }
+        public DbSet<MenuModel> Menu { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
