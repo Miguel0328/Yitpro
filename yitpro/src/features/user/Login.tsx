@@ -10,9 +10,7 @@ const validate = combineValidators({
 
 const Login = () => {
   return (
-    <FinalForm>
-
-    </FinalForm>
+    <h1>Hola</h1>
   );
 };
 

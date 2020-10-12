@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Models;
-using Repository;
-using Repository.Interfaces;
 using Service.DTO;
 using Service.Interfaces;
 
@@ -35,6 +33,6 @@ namespace API.Controllers
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserDTO>> Login(LoginDTO login) => await _user.Login(login.email, login.password);
+        public async Task<ActionResult<UserDTO>> Login(LoginDTO login) => await _user.Login(login.Email, login.Password);
     }
 }

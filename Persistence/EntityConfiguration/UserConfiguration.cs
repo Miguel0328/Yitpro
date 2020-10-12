@@ -34,6 +34,12 @@ namespace Persistence.EntityConfiguration
             builder
                 .Property(x => x.Password)
                 .HasMaxLength(500);
+
+            builder
+                .HasOne(x => x.Manager)
+                .WithOne()
+                .HasForeignKey<UserModel>(x => x.ManagerId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 

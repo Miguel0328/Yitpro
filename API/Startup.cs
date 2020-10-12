@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,7 @@ using Repository.Interfaces;
 using Service;
 using Service.Interfaces;
 using Service.Permission;
+using Service.DTO;
 
 namespace API
 {
@@ -59,7 +61,12 @@ namespace API
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
-            });
+            })
+                .AddFluentValidation(cfg =>
+                {
+                    cfg.RegisterValidatorsFromAssemblyContaining<UserDTO>();
+                    //cfg.ValidatorOptions.LanguageManager.Culture = new CultureInfo("en");
+                });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -68,7 +75,7 @@ namespace API
                 opt.AddPolicy("Create", policy =>
                 {
                     policy.Requirements.Add(new CreateRequirement());
-                });                
+                });
                 opt.AddPolicy("View", policy =>
                 {
                     policy.Requirements.Add(new ViewRequirement());

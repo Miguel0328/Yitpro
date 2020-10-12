@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Persistence.Models
 {
-    public class GeneralCatalogMoldel
+    public class GeneralCatalogModel
     {
         public long Id { get; set; }
         public int CatalogId { get; set; }
