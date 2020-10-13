@@ -1,0 +1,27 @@
+body {
+  background-image: linear-gradient(
+    135deg,
+    rgba(56, 98, 187, 0.904) 0%,
+    rgb(159, 160, 216) 49%,
+    rgba(209, 77, 180, 0.829) 89%
+  ) !important;
+}
+
+#root {
+  height: 100vh;
+}
+
+.ui.login-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui.login-segment {
+  min-width: 450px;
+  min-height: 300px;
+  border: none;
+  box-shadow: none;
+  background: none;
+}

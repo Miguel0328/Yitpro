@@ -1,6 +1,13 @@
 import React, { useContext } from "react";
 import { Form as FinalForm, Field } from "react-final-form";
-import { Button, Form, Header } from "semantic-ui-react";
+import {
+  Button,
+  Container,
+  Form,
+  Header,
+  Image,
+  Segment,
+} from "semantic-ui-react";
 import { combineValidators, isRequired } from "revalidate";
 import { RootStoreContext } from "../../app/stores/rootStore";
 import { ILogin } from "../../app/models/user";
@@ -18,12 +25,13 @@ const Login = () => {
   const { login } = rootStore.userStore;
 
   return (
+    <Container className="login-container">
       <FinalForm
         onSubmit={(values: ILogin) =>
           login(values).catch((error) => ({
             [FORM_ERROR]: error,
           }))
-        } 
+        }
         validate={validate}
         render={({
           handleSubmit,
@@ -33,31 +41,33 @@ const Login = () => {
           pristine,
           dirtySinceLastSubmit,
         }) => (
-          <Form onSubmit={handleSubmit} error>
-            <Header as="h2" content="Login" color="teal" textAlign="center" />
-            <Field name="email" placeholder="Correo" component={TextInput} />
-            <Field
-              name="password"
-              placeholder="Contraseña"
-              component={TextInput}
-              type="password"
-            />
-            {submitError && !dirtySinceLastSubmit && !submitting && (
-              <ErrorMessage
-                error={submitError}
-                text="Credenciales incorrectas"
+          <Segment className="login-segment" loading={submitting}>
+            <Form onSubmit={handleSubmit} error>
+              <Image src="/assets/logo.png" size="small" centered />
+              <Field name="email" placeholder="Correo" component={TextInput} />
+              <Field
+                name="password"
+                placeholder="Contraseña"
+                component={TextInput}
+                type="password"
               />
-            )}
-            <Button
-              loading={submitting}
-              color="teal"
-              content="Login"
-              disabled={(invalid && !dirtySinceLastSubmit) || pristine}
-              fluid
-            />
-          </Form>
+              {submitError && !dirtySinceLastSubmit && !submitting && (
+                <ErrorMessage
+                  error={submitError}
+                  text="Credenciales incorrectas"
+                />
+              )}
+              <Button
+                color="purple"
+                content="Login"
+                disabled={(invalid && !dirtySinceLastSubmit) || pristine}
+                fluid
+              />
+            </Form>
+          </Segment>
         )}
       />
+    </Container>
   );
 };
 
