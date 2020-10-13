@@ -16,8 +16,8 @@ import TextInput from "../../app/common/form/TextInput";
 import ErrorMessage from "../../app/common/form/ErrorMessage";
 
 const validate = combineValidators({
-  email: isRequired("correo"),
-  password: isRequired("contraseña"),
+  email: isRequired({message: "El correo es obligatorio"}),
+  password: isRequired({message: "La contraseña es obligatoria"}),
 });
 
 const Login = () => {

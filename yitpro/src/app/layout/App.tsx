@@ -8,12 +8,17 @@ import {
   withRouter,
 } from "react-router-dom";
 import { observer } from "mobx-react-lite";
+import { Container } from "semantic-ui-react";
+import NotFound from "./NotFound";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <Fragment>
       <ToastContainer position="top-right" />
-      <Route exact path="/login" component={Login} />
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Route component={NotFound} />
+      </Switch>
     </Fragment>
   );
 };

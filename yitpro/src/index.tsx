@@ -6,11 +6,15 @@ import "react-widgets/dist/css/react-widgets.css";
 import 'semantic-ui-css/semantic.min.css'
 import "./app/layout/styles.css";
 import App from './app/layout/App';
+import { Router } from 'react-router-dom';
+import { createBrowserHistory } from "history";
+
+export const history = createBrowserHistory();
 
 ReactDOM.render(
-  <Fragment>
+  <Router history={history}>
     <App />
-  </Fragment>,
+  </Router>,
   document.getElementById('root')
 );
 
