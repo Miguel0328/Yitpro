@@ -15,8 +15,8 @@ namespace Service.DTO
     {
         public LoginDTOValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
-            RuleFor(x => x.Password).NotEmpty().WithMessage("Escribe la contraseña");
+            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.Password).NotEmpty();
         }
     }
 }

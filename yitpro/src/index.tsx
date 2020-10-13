@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import * as serviceWorker from './serviceWorker';
+import "react-toastify/dist/ReactToastify.min.css";
+import "react-widgets/dist/css/react-widgets.css";
 import 'semantic-ui-css/semantic.min.css'
 import App from './app/layout/App';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Fragment>
     <App />
-  </React.StrictMode>,
+  </Fragment>,
   document.getElementById('root')
 );
 

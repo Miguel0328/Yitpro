@@ -14,13 +14,13 @@ namespace Persistence.Models
         public string Email { get; set; }
         public DateTime AdmissionDate { get; set; }
         public DateTime LevelChangeDate { get; set; }
-        public long LevelId { get; set; }
+        public long? LevelId { get; set; }
         public LevelModel Level { get; set; }
-        public int UserTypeId { get; set; }
+        public int? UserTypeId { get; set; }
         public UserTypeModel UserType { get; set; }
         public long? ManagerId { get; set; }
         public UserModel Manager { get; set; }
-        public long DepartmentId { get; set; }
+        public long? DepartmentId { get; set; }
         public GeneralCatalogModel Department { get; set; }
         public int BlockingAttempts { get; set; }
         public decimal Cost { get; set; }
