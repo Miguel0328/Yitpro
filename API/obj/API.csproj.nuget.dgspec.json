@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj": {}
+    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj": {}
   },
   "projects": {
-    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj": {
+    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
+        "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
+        "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj",
         "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\obj\\",
+        "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -285,9 +285,6 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
