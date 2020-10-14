@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { observer } from "mobx-react-lite";
 import { Container, Segment } from "semantic-ui-react";
-import 'react-pro-sidebar/dist/css/styles.css';
+import "react-pro-sidebar/dist/css/styles.css";
 import NotFound from "./NotFound";
 import Sidebar from "../../features/nav/Sidebar";
 import NavBar from "../../features/nav/Navbar";
@@ -21,10 +21,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Fragment>
+          <NavBar />
           <Container className="main">
             <Sidebar />
             <Container className="main_content">
-              <NavBar />
               <Route component={NotFound} />
             </Container>
           </Container>

@@ -1,17 +1,22 @@
-import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './serviceWorker';
+import React, { Fragment } from "react";
+import ReactDOM from "react-dom";
+import * as serviceWorker from "./serviceWorker";
 import "react-toastify/dist/ReactToastify.min.css";
 import "react-widgets/dist/css/react-widgets.css";
-import 'semantic-ui-css/semantic.min.css'
+import "semantic-ui-css/semantic.min.css";
 import "./app/layout/styles.css";
-import App from './app/layout/App';
-import { Router } from 'react-router-dom';
+import App from "./app/layout/App";
+import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCheckSquare, faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCheckSquare,
+  faCoffee,
+  faBell,
+  faKey,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(faCheckSquare, faCoffee)
+library.add(faCheckSquare, faCoffee, faBell, faKey);
 
 export const history = createBrowserHistory();
 
@@ -19,7 +24,7 @@ ReactDOM.render(
   <Router history={history}>
     <App />
   </Router>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
