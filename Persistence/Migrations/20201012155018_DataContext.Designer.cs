@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201012155018_DataContext")]
+    partial class DataContext
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -19,7 +21,7 @@ namespace Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Persistence.Models.GeneralCatalogModel", b =>
+            modelBuilder.Entity("Persistence.Models.GeneralCatalogMoldel", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,9 +143,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Models.UserModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
@@ -170,7 +172,7 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("DatePassword")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("DepartmentId")
+                    b.Property<long>("DepartmentId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Email")
@@ -196,14 +198,17 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("LevelChangeDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("LevelId")
+                    b.Property<long>("LevelId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("Locked")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("ManagerId")
+                    b.Property<long>("ManagerId")
                         .HasColumnType("bigint");
+
+                    b.Property<int?>("ManagerId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(500)")
@@ -215,7 +220,7 @@ namespace Persistence.Migrations
                     b.Property<long>("UserModifiedId")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("UserTypeId")
+                    b.Property<int>("UserTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -224,9 +229,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("LevelId");
 
-                    b.HasIndex("ManagerId")
-                        .IsUnique()
-                        .HasFilter("[ManagerId] IS NOT NULL");
+                    b.HasIndex("ManagerId1");
 
                     b.HasIndex("UserTypeId");
 
@@ -315,8 +318,8 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("View")
                         .IsRequired()
@@ -332,31 +335,21 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Models.UserModel", b =>
                 {
-                    b.HasOne("Persistence.Models.GeneralCatalogModel", "Department")
+                    b.HasOne("Persistence.Models.GeneralCatalogMoldel", "Department")
                         .WithMany()
-                        .HasForeignKey("DepartmentId");
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Persistence.Models.LevelModel", "Level")
                         .WithMany()
-                        .HasForeignKey("LevelId");
-
-                    b.HasOne("Persistence.Models.UserModel", "Manager")
-                        .WithOne()
-                        .HasForeignKey("Persistence.Models.UserModel", "ManagerId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("Persistence.Models.UserTypeModel", "UserType")
-                        .WithMany()
-                        .HasForeignKey("UserTypeId");
-                });
-
-            modelBuilder.Entity("Persistence.Models.UserTypePermissionsModel", b =>
-                {
-                    b.HasOne("Persistence.Models.MenuModel", "Menu")
-                        .WithMany()
-                        .HasForeignKey("MenuId")
+                        .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Persistence.Models.UserModel", "Manager")
+                        .WithMany()
+                        .HasForeignKey("ManagerId1");
 
                     b.HasOne("Persistence.Models.UserTypeModel", "UserType")
                         .WithMany()

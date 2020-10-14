@@ -2300,10 +2300,7 @@
         },
         "runtime": {
           "bin/placeholder/Repository.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        }
       },
       "Service/1.0.0": {
         "type": "project",
@@ -7658,23 +7655,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dell\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\marti\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dell\\Documents\\Miguel\\Proyectos\\yitpro\\API\\API.csproj",
+      "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "C:\\Users\\Dell\\Documents\\Miguel\\Proyectos\\yitpro\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dell\\Documents\\Miguel\\Proyectos\\yitpro\\API\\obj\\",
+      "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
+      "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7687,11 +7680,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\Dell\\Documents\\Miguel\\Proyectos\\yitpro\\Persistence\\Persistence.csproj": {
-              "projectPath": "C:\\Users\\Dell\\Documents\\Miguel\\Proyectos\\yitpro\\Persistence\\Persistence.csproj"
+            "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj": {
+              "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj"
             },
-            "C:\\Users\\Dell\\Documents\\Miguel\\Proyectos\\yitpro\\Service\\Service.csproj": {
-              "projectPath": "C:\\Users\\Dell\\Documents\\Miguel\\Proyectos\\yitpro\\Service\\Service.csproj"
+            "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj": {
+              "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj"
             }
           }
         }
@@ -7738,7 +7731,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
