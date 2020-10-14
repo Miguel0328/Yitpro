@@ -21,7 +21,7 @@ import { Image } from "semantic-ui-react";
 
 const Sidebar = () => {
   return (
-    <ProSidebar>
+    <ProSidebar className="proSidebar">
       <SidebarHeader className="header-height">
         <Image src={"/assets/logo_sidebar.png"} size="large" centered />
       </SidebarHeader>

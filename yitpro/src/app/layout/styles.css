@@ -6,6 +6,11 @@ body {
   height: 100%;
 }
 
+.proSidebar, .ui.main_content {
+  padding-top: 60px !important;
+  overflow-y: auto;
+}
+
 .header-height {
   height: 60px;
 }
@@ -20,15 +25,19 @@ body {
 
 .ui.navbar {
   margin-left: auto !important;
+  border-bottom: 1px solid rgba(173, 173, 173, 0.2) !important;
+}
+
+.ui.menu .item::before {
+  width: 0px !important;
 }
 
 .ui.menu > .container.navbar-container {
-  margin-left: auto !important;
-  margin-right: 10px;
+  width: 100% !important;
 }
 
 .ui.main_content {
-  width: 100%;
+  width: 100% !important;
 }
 
 .ui.segment {
