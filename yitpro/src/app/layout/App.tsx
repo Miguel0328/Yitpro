@@ -10,6 +10,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { Container } from "semantic-ui-react";
 import NotFound from "./NotFound";
+import Sidebar from "../../features/nav/Sidebar";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
@@ -17,7 +18,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <ToastContainer position="top-right" />
       <Switch>
         <Route exact path="/login" component={Login} />
-        <Route component={NotFound} />
+        <Sidebar />
+        <Container>
+          <Route component={NotFound} />
+        </Container>
       </Switch>
     </Fragment>
   );
