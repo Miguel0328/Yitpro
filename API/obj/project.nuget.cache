@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bRPy5AQnvS9eOYV4cB6ldelXuStII+1TGvTopvQw2+ptxkMpLupWY4Gc4EMrA1q6x4KKPlw2ot1DnzyRxAjeQQ==",
+  "dgSpecHash": "fik8pK0SiSy8cmaF3QeM2VhYXLeAiPPFF0bvPJBJf20XyXgpYaBMS3/rejd7/mEdayCQpTZasBbq6+8q4MPB4g==",
   "success": true,
-  "projectFilePath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj",
+  "projectFilePath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\marti\\.nuget\\packages\\automapper\\10.0.0\\automapper.10.0.0.nupkg.sha512",
     "C:\\Users\\marti\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.0.1\\automapper.extensions.microsoft.dependencyinjection.8.0.1.nupkg.sha512",
