@@ -7,12 +7,15 @@ body {
 }
 
 .proSidebar, .ui.main_content {
-  padding-top: 60px !important;
   overflow-y: auto;
 }
 
 .header-height {
-  height: 60px;
+  height: 50px;
+}
+
+.pro-sidebar .pro-menu .pro-menu-item.pro-sub-menu .pro-inner-list-item .pro-inner-item:before {
+  display: none !important;
 }
 
 .ui.main {
@@ -21,6 +24,7 @@ body {
   width: 100%;
   margin: 0px !important;
   padding: 0;
+  padding-top: 50px;
 }
 
 .ui.navbar {

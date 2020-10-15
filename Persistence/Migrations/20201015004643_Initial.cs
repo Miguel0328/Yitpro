@@ -55,9 +55,8 @@ namespace Persistence.Migrations
                 name: "Menu",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdParentMenu = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false),
+                    IdParent = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Controller = table.Column<string>(nullable: true),
                     Action = table.Column<string>(nullable: true),
@@ -102,10 +101,10 @@ namespace Persistence.Migrations
                     Email = table.Column<string>(maxLength: 100, nullable: false),
                     AdmissionDate = table.Column<DateTime>(nullable: false),
                     LevelChangeDate = table.Column<DateTime>(nullable: false),
-                    LevelId = table.Column<long>(nullable: false),
-                    UserTypeId = table.Column<int>(nullable: false),
+                    LevelId = table.Column<long>(nullable: true),
+                    UserTypeId = table.Column<int>(nullable: true),
                     ManagerId = table.Column<long>(nullable: true),
-                    DepartmentId = table.Column<long>(nullable: false),
+                    DepartmentId = table.Column<long>(nullable: true),
                     BlockingAttempts = table.Column<int>(nullable: false),
                     Cost = table.Column<decimal>(nullable: false),
                     Capture = table.Column<bool>(nullable: false),
@@ -126,13 +125,13 @@ namespace Persistence.Migrations
                         column: x => x.DepartmentId,
                         principalTable: "GeneralCatalog",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_User_Level_LevelId",
                         column: x => x.LevelId,
                         principalTable: "Level",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_User_User_ManagerId",
                         column: x => x.ManagerId,
@@ -143,7 +142,7 @@ namespace Persistence.Migrations
                         column: x => x.UserTypeId,
                         principalTable: "UserType",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
