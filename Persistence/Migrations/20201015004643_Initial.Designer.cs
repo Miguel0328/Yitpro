@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201012214604_RemoveRequired")]
-    partial class RemoveRequired
+    [Migration("20201015004643_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -108,9 +108,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Persistence.Models.MenuModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");
@@ -127,7 +125,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdParentMenu")
+                    b.Property<int?>("IdParent")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")

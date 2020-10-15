@@ -7,7 +7,7 @@ namespace Persistence.Models
     public  class MenuModel
     {
         public int Id { get; set; }
-        public int IdParentMenu { get; set; }
+        public int? IdParent { get; set; }
         public string Description { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }

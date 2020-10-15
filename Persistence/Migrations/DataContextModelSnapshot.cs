@@ -106,9 +106,7 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Persistence.Models.MenuModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");
@@ -125,7 +123,7 @@ namespace Persistence.Migrations
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdParentMenu")
+                    b.Property<int?>("IdParent")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -348,21 +346,6 @@ namespace Persistence.Migrations
                     b.HasOne("Persistence.Models.UserTypeModel", "UserType")
                         .WithMany()
                         .HasForeignKey("UserTypeId");
-                });
-
-            modelBuilder.Entity("Persistence.Models.UserTypePermissionsModel", b =>
-                {
-                    b.HasOne("Persistence.Models.MenuModel", "Menu")
-                        .WithMany()
-                        .HasForeignKey("MenuId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Persistence.Models.UserTypeModel", "UserType")
-                        .WithMany()
-                        .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Persistence.Models.UserTypePermissionsModel", b =>

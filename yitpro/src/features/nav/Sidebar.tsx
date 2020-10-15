@@ -17,23 +17,106 @@ import {
   SidebarHeader,
 } from "react-pro-sidebar";
 import { Image } from "semantic-ui-react";
+import { IMenu } from "../../app/models/menu";
+import SidebarMenu from "./SidebarMenu";
 // import { Label, Menu, MenuItem } from "semantic-ui-react";
+
+const menus: IMenu[] = [
+  {
+    Id: 1,
+    Description: "Dashboard",
+    Controller: "",
+    Action: "",
+    Order: 1,
+    Level: 1,
+    Icon: "",
+  },
+  {
+    Id: 2,
+    Description: "Kanban",
+    Controller: "",
+    Action: "",
+    Order: 1,
+    Level: 1,
+    Icon: "",
+    Menus: [
+      {
+        Id: 4,
+        IdParent: 2,
+        Description: "Reportes 1",
+        Controller: "",
+        Action: "",
+        Order: 1,
+        Level: 2,
+        Icon: "",
+      },
+    ],
+  },
+  {
+    Id: 3,
+    Description: "Panel de actividades",
+    Controller: "",
+    Action: "",
+    Order: 1,
+    Level: 1,
+    Icon: "",
+    Menus: [
+      {
+        Id: 5,
+        IdParent: 3,
+        Description: "Reportes 2",
+        Controller: "",
+        Action: "",
+        Order: 1,
+        Level: 2,
+        Icon: "",
+        Menus: [
+          {
+            Id: 5,
+            IdParent: 3,
+            Description: "Reportes 2.1",
+            Controller: "",
+            Action: "",
+            Order: 1,
+            Level: 3,
+            Icon: "",
+            
+          },
+          {
+            Id: 6,
+            IdParent: 3,
+            Description: "Reportes 2.2",
+            Controller: "",
+            Action: "",
+            Order: 1,
+            Level: 3,
+            Icon: "",
+          },
+        ]
+      },
+      {
+        Id: 6,
+        IdParent: 3,
+        Description: "Reportes 3",
+        Controller: "",
+        Action: "",
+        Order: 1,
+        Level: 2,
+        Icon: "",
+      },
+    ],
+  },
+];
 
 const Sidebar = () => {
   return (
     <ProSidebar className="proSidebar">
-      <SidebarHeader className="header-height">
+      <SidebarHeader>
         <Image src={"/assets/logo_sidebar.png"} size="large" centered />
       </SidebarHeader>
       <SidebarContent>
         <Menu>
-          <MenuItem icon={<FontAwesomeIcon icon="coffee" />}>
-            Dashboard
-          </MenuItem>
-          <SubMenu title="Components">
-            <MenuItem>Component 1</MenuItem>
-            <MenuItem>Component 2</MenuItem>
-          </SubMenu>
+          {menus.map((menu) =>(<SidebarMenu key={menu.Id} menu={menu}/>))}
         </Menu>
       </SidebarContent>
     </ProSidebar>
