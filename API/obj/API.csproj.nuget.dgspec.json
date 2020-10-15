@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj": {}
+    "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\API.csproj": {}
   },
   "projects": {
-    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj": {
+    "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj",
+        "projectUniqueName": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\API.csproj",
-        "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\api\\obj\\",
+        "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\API.csproj",
+        "packagesPath": "C:\\Users\\LAPAXSIS-00\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAPAXSIS-00\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -27,11 +27,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj": {
-                "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj"
+              "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj"
               },
-              "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj": {
-                "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj"
+              "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\Service.csproj": {
+                "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\Service.csproj"
               }
             }
           }
@@ -78,21 +78,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj": {
+    "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj",
         "projectName": "Persistence",
-        "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj",
-        "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\obj\\",
+        "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj",
+        "packagesPath": "C:\\Users\\LAPAXSIS-00\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAPAXSIS-00\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -148,21 +148,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Repository\\Repository.csproj": {
+    "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Repository\\Repository.csproj",
+        "projectUniqueName": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Repository\\Repository.csproj",
-        "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Repository\\obj\\",
+        "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\LAPAXSIS-00\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Repository\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAPAXSIS-00\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -175,8 +175,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj": {
-                "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj"
+              "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj"
               }
             }
           }
@@ -204,21 +204,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj": {
+    "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj",
+        "projectUniqueName": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\obj\\",
+        "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\LAPAXSIS-00\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\LAPAXSIS-00\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -231,11 +231,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj": {
-                "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj"
+              "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj": {
+                "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj"
               },
-              "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Repository\\Repository.csproj": {
-                "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Repository\\Repository.csproj"
+              "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Repository\\Repository.csproj": {
+                "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Repository\\Repository.csproj"
               }
             }
           }
@@ -285,11 +285,14 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
