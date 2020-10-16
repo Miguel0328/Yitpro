@@ -9,27 +9,26 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IMenu } from "../../app/models/menu";
 import React from "react";
+import { observer } from "mobx-react-lite";
 
 const SidebarMenu: React.FC<{ menu: IMenu }> = ({ menu }) =>
   menu.Menus ? (
     <SubMenu
-      key={menu.Id}
       icon={menu.Level === 1 ? <FontAwesomeIcon icon="coffee" /> : null}
       prefix={menu.Level > 1 ? <FontAwesomeIcon icon="coffee" /> : null}
       title={menu.Description}
     >
       {menu.Menus.map((child) => (
-        <SidebarMenu menu={child} />
+        <SidebarMenu key={child.Id} menu={child} />
       ))}
     </SubMenu>
   ) : (
-    <MenuItem
-      key={menu.Id}
-      icon={menu.Level === 1 ? <FontAwesomeIcon icon="coffee" /> : null}
-      prefix={menu.Level > 1 ? <FontAwesomeIcon icon="coffee" /> : null}
-    >
-      {menu.Description}
-    </MenuItem>
-  );
+      <MenuItem
+        icon={menu.Level === 1 ? <FontAwesomeIcon icon="coffee" /> : null}
+        prefix={menu.Level > 1 ? <FontAwesomeIcon icon="coffee" /> : null}
+      >
+        {menu.Description}
+      </MenuItem>
+    );
 
-export default SidebarMenu;
+export default observer(SidebarMenu);
