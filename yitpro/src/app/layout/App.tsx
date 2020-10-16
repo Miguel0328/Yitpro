@@ -8,11 +8,12 @@ import {
   withRouter,
 } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { Container, Segment } from "semantic-ui-react";
+import { Container } from "semantic-ui-react";
 import "react-pro-sidebar/dist/css/styles.css";
 import NotFound from "./NotFound";
 import Sidebar from "../../features/nav/Sidebar";
 import NavBar from "../../features/nav/Navbar";
+import Home from "../../features/home/Home";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
@@ -25,7 +26,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           <Container className="main">
             <Sidebar />
             <Container className="main_content">
-              <Route component={NotFound} />
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route component={NotFound} />
+              </Switch>
             </Container>
           </Container>
         </Fragment>

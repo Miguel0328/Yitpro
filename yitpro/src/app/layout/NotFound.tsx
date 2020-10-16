@@ -10,52 +10,7 @@ const NotFound = () => {
                 No encontramos el recurso solicitado.
             </Header>
             <Segment.Inline>
-                <Button as={Link} to='/login' primary>
-                    Regresar a Inicio
-                </Button>
-            </Segment.Inline>
-            <Header icon>
-                <Icon name='search' />
-                No encontramos el recurso solicitado.
-            </Header>
-            <Segment.Inline>
-                <Button as={Link} to='/login' primary>
-                    Regresar a Inicio
-                </Button>
-            </Segment.Inline>
-            <Header icon>
-                <Icon name='search' />
-                No encontramos el recurso solicitado.
-            </Header>
-            <Segment.Inline>
-                <Button as={Link} to='/login' primary>
-                    Regresar a Inicio
-                </Button>
-            </Segment.Inline>
-            <Header icon>
-                <Icon name='search' />
-                No encontramos el recurso solicitado.
-            </Header>
-            <Segment.Inline>
-                <Button as={Link} to='/login' primary>
-                    Regresar a Inicio
-                </Button>
-            </Segment.Inline>
-            <Header icon>
-                <Icon name='search' />
-                No encontramos el recurso solicitado.
-            </Header>
-            <Segment.Inline>
-                <Button as={Link} to='/login' primary>
-                    Regresar a Inicio
-                </Button>
-            </Segment.Inline>
-            <Header icon>
-                <Icon name='search' />
-                No encontramos el recurso solicitado.
-            </Header>
-            <Segment.Inline>
-                <Button as={Link} to='/login' primary>
+                <Button as={Link} to='/' primary>
                     Regresar a Inicio
                 </Button>
             </Segment.Inline>

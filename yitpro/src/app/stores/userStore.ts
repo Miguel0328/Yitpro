@@ -2,6 +2,7 @@ import { action, observable } from "mobx";
 import { RootStore } from "./rootStore";
 import { ILogin, IUser } from "../models/user";
 import User from "../api/user";
+import { history } from "../..";
 
 export default class UserStore {
   rootStore: RootStore;
@@ -17,6 +18,7 @@ export default class UserStore {
       const user = await User.login(values);
       this.user = user;
       this.rootStore.commonStore.setToken(user.token);
+      history.push("/");
     } catch (error) {
       throw error;
     }

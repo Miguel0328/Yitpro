@@ -6,6 +6,11 @@ body {
   height: 100%;
 }
 
+.svg-inline--fa:hover{
+  cursor: pointer;
+  color: goldenrod;
+}
+
 .proSidebar, .ui.main_content {
   overflow-y: auto;
 }
@@ -34,6 +39,12 @@ body {
 
 .ui.menu .item::before {
   width: 0px !important;
+}
+
+.item.menu-collapse-item {
+  width: 80px;
+  display: flex;
+  justify-content: center;
 }
 
 .ui.menu > .container.navbar-container {

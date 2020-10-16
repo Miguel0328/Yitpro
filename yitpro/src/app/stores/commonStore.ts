@@ -16,8 +16,14 @@ export default class CommonStore {
     );
   }
 
+  @observable collapsed = true;
+
   @observable token: string | undefined =
     window.localStorage.getItem("jwt") ?? undefined;
+
+  @action setCollapsed = () => {
+    this.collapsed = !this.collapsed;
+  }
 
   @action setToken = (token: string | undefined) => {
     this.token = token;

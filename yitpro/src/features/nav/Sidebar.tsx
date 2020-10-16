@@ -1,13 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-// import {
-//   ProSidebar,
-//   SidebarHeader,
-//   MenuItem,
-//   SubMenu,
-//   SidebarContent,
-//   SubMenu,
-// } from "react-pro-sidebar";
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
 import {
   ProSidebar,
   Menu,
@@ -16,10 +9,10 @@ import {
   SidebarContent,
   SidebarHeader,
 } from "react-pro-sidebar";
-import { Image } from "semantic-ui-react";
 import { IMenu } from "../../app/models/menu";
+import { Image } from "semantic-ui-react"
+import { RootStoreContext } from "../../app/stores/rootStore";
 import SidebarMenu from "./SidebarMenu";
-// import { Label, Menu, MenuItem } from "semantic-ui-react";
 
 const menus: IMenu[] = [
   {
@@ -80,7 +73,7 @@ const menus: IMenu[] = [
             Order: 1,
             Level: 3,
             Icon: "",
-            
+
           },
           {
             Id: 6,
@@ -91,6 +84,28 @@ const menus: IMenu[] = [
             Order: 1,
             Level: 3,
             Icon: "",
+            Menus: [
+              {
+                Id: 5,
+                IdParent: 3,
+                Description: "Reportes 2.1.1",
+                Controller: "",
+                Action: "",
+                Order: 1,
+                Level: 3,
+                Icon: "",
+
+              },
+              {
+                Id: 6,
+                IdParent: 3,
+                Description: "Reportes 2.1.2",
+                Controller: "",
+                Action: "",
+                Order: 1,
+                Level: 3,
+                Icon: "",
+              },]
           },
         ]
       },
@@ -108,19 +123,39 @@ const menus: IMenu[] = [
   },
 ];
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
+  const rootStore = useContext(RootStoreContext);
+  const { collapsed } = rootStore.commonStore;
+
   return (
-    <ProSidebar className="proSidebar">
+    <ProSidebar collapsed={collapsed} className="proSidebar">
       <SidebarHeader>
         <Image src={"/assets/logo_sidebar.png"} size="large" centered />
       </SidebarHeader>
       <SidebarContent>
         <Menu>
-          {menus.map((menu) =>(<SidebarMenu key={menu.Id} menu={menu}/>))}
+          {menus.map((menu) => (menu.Menus ? (
+            <SubMenu key={menu.Id}
+              icon={menu.Level === 1 ? <FontAwesomeIcon icon="coffee" /> : null}
+              prefix={menu.Level > 1 ? <FontAwesomeIcon icon="coffee" /> : null}
+              title={menu.Description}
+            >
+              {menu.Menus.map((child) => (
+                <SidebarMenu key={child.Id} menu={child} />
+              ))}
+            </SubMenu>
+          ) : (
+              <MenuItem key={menu.Id}
+                icon={menu.Level === 1 ? <FontAwesomeIcon icon="coffee" /> : null}
+                prefix={menu.Level > 1 ? <FontAwesomeIcon icon="coffee" /> : null}
+              >
+                {menu.Description}
+              </MenuItem>
+            )))}
         </Menu>
       </SidebarContent>
     </ProSidebar>
   );
 };
 
-export default Sidebar;
+export default observer(Sidebar);

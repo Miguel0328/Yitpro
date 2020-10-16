@@ -2320,10 +2320,7 @@
         },
         "runtime": {
           "bin/placeholder/Service.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        }
       }
     }
   },
@@ -7655,19 +7652,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marti\\.nuget\\packages\\": {}
+    "C:\\Users\\LAPAXSIS-00\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\API.csproj",
-      "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-      "outputPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\API\\obj\\",
+      "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\API.csproj",
+      "packagesPath": "C:\\Users\\LAPAXSIS-00\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\LAPAXSIS-00\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7680,11 +7677,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj": {
-              "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Persistence\\Persistence.csproj"
+            "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj": {
+              "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Persistence\\Persistence.csproj"
             },
-            "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj": {
-              "projectPath": "D:\\Documentos\\Proyectos\\Repositorios\\Yitpro\\Service\\Service.csproj"
+            "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\Service.csproj": {
+              "projectPath": "C:\\Users\\LAPAXSIS-00\\Documents\\Miguel\\Proyectos\\Yitpro\\Service\\Service.csproj"
             }
           }
         }
