@@ -4,7 +4,6 @@ import {
   Button,
   Container,
   Form,
-  Header,
   Image,
   Segment,
 } from "semantic-ui-react";

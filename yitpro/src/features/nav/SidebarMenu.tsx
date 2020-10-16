@@ -1,10 +1,6 @@
 import {
-  ProSidebar,
-  Menu,
   MenuItem,
   SubMenu,
-  SidebarContent,
-  SidebarHeader,
 } from "react-pro-sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IMenu } from "../../app/models/menu";
