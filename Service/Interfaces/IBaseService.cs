@@ -7,8 +7,7 @@ namespace Service.Interfaces
 {
     public interface IBaseService
     {
-        string GetCurrentUsername();
-        Task<bool> View(string controller, string view);
+        long GetCurrentUserId();
         string CreateToken(string name);
     }
 }

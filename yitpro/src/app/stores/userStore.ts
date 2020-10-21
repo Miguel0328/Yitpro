@@ -18,7 +18,7 @@ export default class UserStore {
       const user = await User.login(values);
       this.user = user;
       this.rootStore.commonStore.setToken(user.token);
-      history.push("/");
+      history.push("/usertype");
     } catch (error) {
       throw error;
     }

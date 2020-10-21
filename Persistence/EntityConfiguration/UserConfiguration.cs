@@ -12,35 +12,56 @@ namespace Persistence.EntityConfiguration
         public void Configure(EntityTypeBuilder<UserModel> builder)
         {
             builder
-                .Property(x => x.FirstName)
-                .IsRequired()
+                .Property(x => x.EmployeeNumber)
                 .HasMaxLength(50);
 
             builder
-                 .Property(X => X.LastName)
-                 .IsRequired()
-                 .HasMaxLength(50);
-
-            builder
-                .Property(x => x.Email)
-                .IsRequired()
+                .Property(x => x.FirstName)
                 .HasMaxLength(100);
 
             builder
-                .Property(x => x.EmployeeNumber)
-                .IsRequired()
-                .HasMaxLength(15);
+                 .Property(X => X.LastName)
+                 .HasMaxLength(100);
+
+            builder
+                .Property(x => x.Email)
+                .HasMaxLength(200);
+
+            builder
+                .Property(x => x.AdmissionDate)
+                .HasColumnType("smalldatetime");
 
             builder
                 .Property(x => x.Password)
                 .HasMaxLength(500);
 
             builder
+                .Property(x => x.PasswordLastUpdate)
+                .HasColumnType("smalldatetime");
+
+            builder
+                .Property(x => x.CreatedAt)
+                .HasColumnType("smalldatetime");
+
+            builder
+                .Property(x => x.UpdatedAt)
+                .IsRequired(false)
+                .HasColumnType("smalldatetime");
+
+            builder
                 .HasOne(x => x.Manager)
-                .WithOne()
-                .HasForeignKey<UserModel>(x => x.ManagerId)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(x => x.CreatedBy)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne(x => x.UpdatedBy)
+                .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
-
 }

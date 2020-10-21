@@ -13,9 +13,9 @@ const NavBar: React.FC = () => {
       <Container className="navbar-container">
         <Menu.Item className="menu-collapse-item">
           {collapsed ?
-            <FontAwesomeIcon size="lg" icon="long-arrow-alt-right" onClick={setCollapsed} />
+            <FontAwesomeIcon className="menu" size="lg" icon="long-arrow-alt-right" onClick={setCollapsed} />
             :
-            <FontAwesomeIcon size="lg" icon="long-arrow-alt-left" onClick={setCollapsed} />}
+            <FontAwesomeIcon className="menu" size="lg" icon="long-arrow-alt-left" onClick={setCollapsed} />}
         </Menu.Item>
         <Menu.Item header>
           <img src="/assets/logo.png" alt="Logo" style={{ marginRight: 10 }} />
@@ -23,10 +23,10 @@ const NavBar: React.FC = () => {
         </Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>
-            <FontAwesomeIcon icon="key" />
+            <FontAwesomeIcon className="menu" icon="key" />
           </Menu.Item>{" "}
           <Menu.Item>
-            <FontAwesomeIcon icon="bell" />
+            <FontAwesomeIcon className="menu" icon="bell" />
           </Menu.Item>
           <Menu.Item>
             <Image avatar spaced="right" src={"/assets/avatar.jpg"} />

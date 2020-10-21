@@ -6,9 +6,15 @@ body {
   height: 100%;
 }
 
-.svg-inline--fa:hover{
+.svg-inline--fa.menu:hover{
   cursor: pointer;
   color: goldenrod;
+}
+
+.svg-inline--fa.table:hover{
+  cursor: pointer;
+  color: darkslategray;
+  transform: scale(1.2);
 }
 
 .proSidebar, .ui.main_content {
@@ -79,4 +85,18 @@ body {
   border: none;
   box-shadow: none;
   background: none;
+}
+
+.MuiTableCell-root {
+  padding: 10px !important;
+}
+
+.MuiTablePagination-spacer {
+  display: none !important;
+}
+
+.MuiTablePagination-toolbar {
+  padding-left: 2px !important;
+  min-height: 25px !important;
+  height: 25px !important;
 }

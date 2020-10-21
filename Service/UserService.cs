@@ -40,7 +40,7 @@ namespace Service
             return new UserDTO
             {
                 Name = user.FirstName,
-                Token = _baseService.CreateToken(user.EmployeeNumber)
+                Token = _baseService.CreateToken(user.Email)
             };
         }
     }

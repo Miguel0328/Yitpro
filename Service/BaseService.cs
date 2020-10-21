@@ -29,11 +29,11 @@ namespace Service
             _context = context;
         }
 
-        public string CreateToken(string employeeNumber)
+        public string CreateToken(string email)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, employeeNumber)
+                new Claim(JwtRegisteredClaimNames.NameId, email)
             };
 
             var key = _key;
@@ -53,37 +53,12 @@ namespace Service
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<bool> View(string controller, string view)
-        {
-            var user = await _context.User.SingleOrDefaultAsync(x => x.EmployeeNumber == GetCurrentUsername());
-            var currentView = await _context.View.SingleOrDefaultAsync(x => x.UserId == user.Id);
-
-            if (currentView == null)
-            {
-                _context.View.Add(new ViewModel
-                {
-                    UserId = user.Id,
-                    View = view,
-                    Controller = controller
-                });
-            }
-            else
-            {
-                currentView.UserId = user.Id;
-                currentView.View = view;
-                currentView.Controller = controller;
-            }
-
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public string GetCurrentUsername()
+        public long GetCurrentUserId()
         {
             var employeeNumber = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var id = _context.User.SingleOrDefault(x => x.Email == employeeNumber).Id;
 
-            return employeeNumber;
+            return id;
         }
     }
 }

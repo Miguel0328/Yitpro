@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 import "react-widgets/dist/css/react-widgets.css";
 import "semantic-ui-css/semantic.min.css";
 import "./app/layout/styles.css";
-import 'react-pro-sidebar/dist/css/styles.css';
+import "react-pro-sidebar/dist/css/styles.css";
 import App from "./app/layout/App";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
@@ -17,10 +17,24 @@ import {
   faKey,
   faBars,
   faLongArrowAltRight,
-  faLongArrowAltLeft
+  faLongArrowAltLeft,
+  faEdit,
+  faLock,
+  faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faCheckSquare, faCoffee, faBell, faKey, faBars, faLongArrowAltRight, faLongArrowAltLeft);
+library.add(
+  faCheckSquare,
+  faCoffee,
+  faBell,
+  faKey,
+  faBars,
+  faLongArrowAltRight,
+  faLongArrowAltLeft,
+  faEdit,
+  faLock,
+  faAddressBook
+);
 
 export const history = createBrowserHistory();
 

@@ -11,11 +11,30 @@ namespace Persistence.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<MenuModel> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder
+                .HasKey(x => x.Id);
 
-            builder.Property(x => x.Id).ValueGeneratedNever();
+            builder
+                .Property(x => x.Id)
+                .ValueGeneratedNever();
 
-            builder.Property(x => x.IdParent).IsRequired(false);
+            builder
+                .Property(x => x.Description)
+                .HasMaxLength(100);
+
+            builder
+                .Property(x => x.Controller)
+                .HasMaxLength(50);
+
+            builder
+                .Property(x => x.Action)
+                .HasMaxLength(100);
+
+            builder
+                .HasOne(x => x.Parent)
+                .WithOne()
+                .HasForeignKey<MenuModel>(x => x.ParentId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

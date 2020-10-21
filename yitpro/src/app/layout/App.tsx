@@ -14,6 +14,7 @@ import NotFound from "./NotFound";
 import Sidebar from "../../features/nav/Sidebar";
 import NavBar from "../../features/nav/Navbar";
 import Home from "../../features/home/Home";
+import Role from "../../features/role/Role";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   return (
@@ -28,6 +29,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <Container className="main_content">
               <Switch>
                 <Route exact path="/" component={Home} />
+                <Route exact path="/role" component={Role} />
                 <Route component={NotFound} />
               </Switch>
             </Container>

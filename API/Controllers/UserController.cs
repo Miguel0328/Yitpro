@@ -16,19 +16,13 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _user;
-        private readonly IBaseService _base;
 
         public UserController(IUserService user, IBaseService @base)
         {
             _user = user;
-            _base = @base;
         }
 
-        [HttpGet("index")]
-        public async Task<bool> Index() => await _base.View("User", "Index");
-
         [HttpGet]
-        [Authorize(Policy = "View")]
         public async Task<List<UserModel>> ReadUsers() => await _user.ReadUsers();
 
         [HttpPost("login")]

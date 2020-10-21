@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
-namespace Service.Migrations
+namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20201020174258_AddConfiguration")]
+    partial class AddConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,9 +93,13 @@ namespace Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CreatedById")
+                        .IsUnique()
+                        .HasFilter("[CreatedById] IS NOT NULL");
 
-                    b.HasIndex("UpdatedById");
+                    b.HasIndex("UpdatedById")
+                        .IsUnique()
+                        .HasFilter("[UpdatedById] IS NOT NULL");
 
                     b.ToTable("Role");
                 });
@@ -194,13 +200,19 @@ namespace Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
+                    b.HasIndex("CreatedById")
+                        .IsUnique()
+                        .HasFilter("[CreatedById] IS NOT NULL");
 
-                    b.HasIndex("ManagerId");
+                    b.HasIndex("ManagerId")
+                        .IsUnique()
+                        .HasFilter("[ManagerId] IS NOT NULL");
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UpdatedById");
+                    b.HasIndex("UpdatedById")
+                        .IsUnique()
+                        .HasFilter("[UpdatedById] IS NOT NULL");
 
                     b.ToTable("User");
                 });
@@ -216,13 +228,13 @@ namespace Service.Migrations
             modelBuilder.Entity("Persistence.Models.RoleModel", b =>
                 {
                     b.HasOne("Persistence.Models.UserModel", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
+                        .WithOne()
+                        .HasForeignKey("Persistence.Models.RoleModel", "CreatedById")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
+                        .WithOne()
+                        .HasForeignKey("Persistence.Models.RoleModel", "UpdatedById")
                         .OnDelete(DeleteBehavior.NoAction);
                 });
 
@@ -244,13 +256,13 @@ namespace Service.Migrations
             modelBuilder.Entity("Persistence.Models.UserModel", b =>
                 {
                     b.HasOne("Persistence.Models.UserModel", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
+                        .WithOne()
+                        .HasForeignKey("Persistence.Models.UserModel", "CreatedById")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Persistence.Models.UserModel", "Manager")
-                        .WithMany()
-                        .HasForeignKey("ManagerId")
+                        .WithOne()
+                        .HasForeignKey("Persistence.Models.UserModel", "ManagerId")
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("Persistence.Models.RoleModel", "Role")
@@ -260,8 +272,8 @@ namespace Service.Migrations
                         .IsRequired();
 
                     b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
-                        .WithMany()
-                        .HasForeignKey("UpdatedById")
+                        .WithOne()
+                        .HasForeignKey("Persistence.Models.UserModel", "UpdatedById")
                         .OnDelete(DeleteBehavior.NoAction);
                 });
 #pragma warning restore 612, 618

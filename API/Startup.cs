@@ -27,6 +27,7 @@ using Repository.Interfaces;
 using Service;
 using Service.Interfaces;
 using Service.Permission;
+using AutoMapper;
 using Service.DTO;
 
 namespace API
@@ -56,6 +57,8 @@ namespace API
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
                 });
             });
+
+            services.AddAutoMapper(typeof(RoleService));
 
             services.AddControllers(opt =>
             {
@@ -100,7 +103,9 @@ namespace API
 
             services.AddScoped<IBaseService, BaseService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUser, User>();
+            services.AddScoped<IRol, Rol>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

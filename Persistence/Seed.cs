@@ -12,73 +12,37 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, IConfiguration config)
         {
-            if (!context.User.Any())
+            if (!context.Role.Any())
             {
-                var userAdmin = new UserModel
+                var adminRole = new RoleModel
                 {
-                    FirstName = "Administrador",
-                    LastName = "Sistema",
-                    EmployeeNumber = "ADM_SIS",
-                    Email = "administrador@sistema.com",
-                    Password = BCrypt.Net.BCrypt.HashPassword("Pa$$w0rd" + config["SecretPass"].ToString())
+                    Name = "Admin",
+                    Protected = true,
+                    Active = true,
+                    CreatedAt = DateTime.Now
                 };
 
-                await context.User.AddAsync(userAdmin);
-                await context.SaveChangesAsync();
+                await context.Role.AddAsync(adminRole);
             }
 
-            if (!context.Menu.Any())
+            if (!context.User.Any())
             {
-                var menuDefault = new List<MenuModel>
+                var adminUser = new UserModel
                 {
-                    new MenuModel{
-                        Id = 1,
-                        IdParent = 1,
-                        Description = "Dashboard",
-                        Active = true,
-                        Order = 1,
-                        Level = 1
-                    },
-                    new MenuModel{
-                        Id = 2,
-                        Description = "Kanban",
-                        Active = true,
-                        Order = 1,
-                        Level = 1
-                    },
-                    new MenuModel{
-                        Id = 3,
-                        Description = "Panel de Actividades",
-                        Active = true,
-                        Order = 1,
-                        Level = 1
-                    },
-                    new MenuModel{
-                        Id = 4,
-                        IdParent = 2,
-                        Description = "Reportes 1",
-                        Active = true,
-                        Order = 1,
-                        Level = 1
-                    },
-                    new MenuModel{
-                        Id = 5,
-                        IdParent = 3,
-                        Description = "Reporte 2",
-                        Active = true,
-                        Order = 1,
-                        Level = 1
-                    },
-                    new MenuModel{
-                        Id = 6,
-                        IdParent = 3,
-                        Description = "Reporte 3",
-                        Active = true,
-                        Order = 1,
-                        Level = 1
-                    },
+                    EmployeeNumber = "Admin",
+                    FirstName = "Administrador",
+                    LastName = "Sistema",
+                    Email = "administrador@sistema.com",
+                    AdmissionDate = DateTime.Now,
+                    RoleId = 1,
+                    Active=true,
+                    Locked = false,
+                    Password = BCrypt.Net.BCrypt.HashPassword("Pa$$w0rd" + config["SecretPass"].ToString()),
+                    PasswordLastUpdate = DateTime.Now,
+                    CreatedAt = DateTime.Now
                 };
-                await context.Menu.AddRangeAsync(menuDefault);
+
+                await context.User.AddAsync(adminUser);
                 await context.SaveChangesAsync();
             }
         }
