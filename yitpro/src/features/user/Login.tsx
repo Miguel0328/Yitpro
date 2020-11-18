@@ -9,7 +9,7 @@ import {
 } from "semantic-ui-react";
 import { combineValidators, isRequired } from "revalidate";
 import { RootStoreContext } from "../../app/stores/rootStore";
-import { ILogin } from "../../app/models/user";
+import { ILogin } from "../../app/models/profile";
 import { FORM_ERROR } from "final-form";
 import TextInput from "../../app/common/form/TextInput";
 import ErrorMessage from "../../app/common/form/ErrorMessage";
@@ -21,7 +21,7 @@ const validate = combineValidators({
 
 const Login = () => {
   const rootStore = useContext(RootStoreContext);
-  const { login } = rootStore.userStore;
+  const { login } = rootStore.profileStore;
 
   return (
     <Container className="login-container">
@@ -57,8 +57,10 @@ const Login = () => {
                 />
               )}
               <Button
-                color="purple"
+                color="facebook"
                 content="Login"
+                basic
+                inverted
                 disabled={(invalid && !dirtySinceLastSubmit) || pristine}
                 fluid
               />

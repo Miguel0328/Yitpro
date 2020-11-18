@@ -23,17 +23,13 @@ namespace Persistence.EntityConfiguration
                 .HasMaxLength(100);
 
             builder
-                .Property(x => x.Controller)
-                .HasMaxLength(50);
-
-            builder
-                .Property(x => x.Action)
-                .HasMaxLength(100);
+                .Property(x => x.Route)
+                .HasMaxLength(100)
+                .IsRequired(false);
 
             builder
                 .HasOne(x => x.Parent)
-                .WithOne()
-                .HasForeignKey<MenuModel>(x => x.ParentId)
+                .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

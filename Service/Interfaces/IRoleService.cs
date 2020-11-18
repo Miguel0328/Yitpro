@@ -8,9 +8,11 @@ namespace Service.Interfaces
 {
     public interface IRoleService
     {
-        Task<bool> CreateRole(RoleDTO role);
-        Task<bool> UpdateRole(RoleDTO role);
-        Task<List<RoleDTO>> ReadRoles();
-        Task<RoleDTO> ReadRole(int id);
+        Task<bool> Post(RoleDTO _role);
+        Task<bool> Put(RoleDTO _role);
+        Task<List<RoleDTO>> Get();
+        Task<RoleDTO> Get(short id);
+        Task<List<RolePermisssionDTO>> GetPermissions(short id);
+        Task<bool> PutPermissions(List<RolePermisssionDTO> permissions);
     }
 }

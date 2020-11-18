@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import Login from "../../features/user/Login";
 import {
@@ -15,11 +15,33 @@ import Sidebar from "../../features/nav/Sidebar";
 import NavBar from "../../features/nav/Navbar";
 import Home from "../../features/home/Home";
 import Role from "../../features/role/Role";
+import ModalContainer from "../common/modals/ModalContainer";
+import DeletionModalContainer from "../common/modals/DeletionModalContainer";
+import PrivateRoute from "./PrivateRoute";
+import { RootStoreContext } from "../stores/rootStore";
+import LoadingComponent from "./LoadingComponent";
+import Forbidden from "./Forbidden";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
+  const rootStore = useContext(RootStoreContext);
+  const { token, appLoaded, setAppLoaded } = rootStore.commonStore;
+  const { current } = rootStore.profileStore;
+
+  useEffect(() => {
+    if (token) {
+      current().finally(() => setAppLoaded());
+    } else {
+      setAppLoaded();
+    }
+  }, [token, current, setAppLoaded]);
+
+  if (!appLoaded) return <LoadingComponent content="Cargando..." />;
+
   return (
     <Fragment>
       <ToastContainer position="top-right" />
+      <ModalContainer />
+      <DeletionModalContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
         <Fragment>
@@ -28,9 +50,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <Sidebar />
             <Container className="main_content">
               <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/role" component={Role} />
-                <Route component={NotFound} />
+                <PrivateRoute exact path="/" component={Home} />
+                <PrivateRoute exact path="/role" component={Role} />
+                <PrivateRoute exact path="/forbidden" component={Forbidden} />
+                <PrivateRoute component={NotFound} />
               </Switch>
             </Container>
           </Container>
