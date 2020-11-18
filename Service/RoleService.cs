@@ -12,47 +12,49 @@ namespace Service
 {
     public class RoleService : IRoleService
     {
-        private readonly IRol _role;
-        private readonly IBaseService _baseService;
+        private readonly IRole _role_;
         private readonly IMapper _mapper;
 
-        public RoleService(IBaseService baseService, IMapper mapper, IRol role)
+        public RoleService(IBaseService baseService, IMapper mapper, IRole role)
         {
-            _role = role;
-            _baseService = baseService;
+            _role_ = role;
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateRole(RoleDTO role)
+        public async Task<bool> Post(RoleDTO _role)
         {
-            var userId = _baseService.GetCurrentUserId();
-            var roleModel = _mapper.Map<RoleDTO, RoleModel>(role);
-            roleModel.CreatedById = userId;
-            roleModel.CreatedAt = DateTime.Now;
-
-            return await _role.CreateRole(roleModel);
+            var role = _mapper.Map<RoleModel>(_role);
+            return await _role_.Post(role);
         }
 
-        public async Task<RoleDTO> ReadRole(int id)
+        public async Task<RoleDTO> Get(short id)
         {
-            var role = await _role.ReadRole(id);
-            return _mapper.Map<RoleModel, RoleDTO>(role);
+            var role = await _role_.Get(id);
+            return _mapper.Map<RoleDTO>(role);
         }
 
-        public async Task<List<RoleDTO>> ReadRoles()
+        public async Task<List<RoleDTO>> Get()
         {
-            var roles = await _role.ReadRoles();
-            return _mapper.Map<List<RoleModel>, List<RoleDTO>>(roles);
+            var roles = await _role_.Get();
+            return _mapper.Map<List<RoleDTO>>(roles);
         }
 
-        public async Task<bool> UpdateRole(RoleDTO role)
+        public async Task<bool> Put(RoleDTO _role)
         {
-            var userId = _baseService.GetCurrentUserId();
-            var roleModel = _mapper.Map<RoleDTO, RoleModel>(role);
-            roleModel.UpdatedById = userId;
-            roleModel.UpdatedAt = DateTime.Now;
+            var role = _mapper.Map<RoleModel>(_role);
+            return await _role_.Put(role);
+        }        
 
-            return await _role.UpdateRole(roleModel);
+        public async Task<List<RolePermisssionDTO>> GetPermissions(short id)
+        {
+            var permissions = await _role_.GetPermissions(id);
+            return _mapper.Map<List<RolePermisssionDTO>>(permissions);
+        }
+
+        public async Task<bool> PutPermissions(List<RolePermisssionDTO> _permissions)
+        {
+            var permissions = _mapper.Map<List<RolePermissionsModel>>(_permissions);
+            return await _role_.PutPermissions(permissions);
         }
     }
 }

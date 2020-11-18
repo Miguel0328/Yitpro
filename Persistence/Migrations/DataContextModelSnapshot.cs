@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
-namespace Service.Migrations
+namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -21,19 +21,11 @@ namespace Service.Migrations
 
             modelBuilder.Entity("Persistence.Models.MenuModel", b =>
                 {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Action")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                    b.Property<short>("Id")
+                        .HasColumnType("smallint");
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Controller")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(100)")
@@ -42,39 +34,35 @@ namespace Service.Migrations
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
+                    b.Property<byte>("Level")
+                        .HasColumnType("tinyint");
 
-                    b.Property<long>("Order")
-                        .HasColumnType("bigint");
+                    b.Property<short>("Order")
+                        .HasColumnType("smallint");
 
-                    b.Property<int?>("ParentId")
-                        .HasColumnType("int");
+                    b.Property<short?>("ParentId")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Route")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentId")
-                        .IsUnique()
-                        .HasFilter("[ParentId] IS NOT NULL");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Menu");
                 });
 
             modelBuilder.Entity("Persistence.Models.RoleModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<short>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("smallint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("smalldatetime");
-
-                    b.Property<long?>("CreatedById")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)")
@@ -91,8 +79,6 @@ namespace Service.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CreatedById");
-
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Role");
@@ -100,37 +86,35 @@ namespace Service.Migrations
 
             modelBuilder.Entity("Persistence.Models.RolePermissionsModel", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<short>("MenuId")
+                        .HasColumnType("smallint");
+
+                    b.Property<short>("RoleId")
+                        .HasColumnType("smallint");
+
+                    b.Property<bool>("Access")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Create")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("Delete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MenuId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("Modify")
+                    b.Property<bool>("Update")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Print")
-                        .HasColumnType("bit");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<long?>("UpdatedById")
+                        .HasColumnType("bigint");
 
-                    b.Property<bool>("Save")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Watch")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MenuId");
+                    b.HasKey("MenuId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("UpdatedById");
 
                     b.ToTable("RolePermissions");
                 });
@@ -148,25 +132,23 @@ namespace Service.Migrations
                     b.Property<DateTime>("AdmissionDate")
                         .HasColumnType("smalldatetime");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("smalldatetime");
-
-                    b.Property<long?>("CreatedById")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("EmployeeNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
@@ -177,14 +159,23 @@ namespace Service.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
 
                     b.Property<DateTime>("PasswordLastUpdate")
                         .HasColumnType("smalldatetime");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
+                    b.Property<string>("Photo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short>("RoleId")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("SecondLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("smalldatetime");
@@ -193,8 +184,6 @@ namespace Service.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
 
                     b.HasIndex("ManagerId");
 
@@ -208,18 +197,13 @@ namespace Service.Migrations
             modelBuilder.Entity("Persistence.Models.MenuModel", b =>
                 {
                     b.HasOne("Persistence.Models.MenuModel", "Parent")
-                        .WithOne()
-                        .HasForeignKey("Persistence.Models.MenuModel", "ParentId")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Persistence.Models.RoleModel", b =>
                 {
-                    b.HasOne("Persistence.Models.UserModel", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
                         .WithMany()
                         .HasForeignKey("UpdatedById")
@@ -235,19 +219,19 @@ namespace Service.Migrations
                         .IsRequired();
 
                     b.HasOne("Persistence.Models.RoleModel", "Role")
-                        .WithMany()
+                        .WithMany("Permissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Persistence.Models.UserModel", b =>
                 {
-                    b.HasOne("Persistence.Models.UserModel", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Persistence.Models.UserModel", "Manager")
                         .WithMany()
                         .HasForeignKey("ManagerId")
@@ -256,7 +240,7 @@ namespace Service.Migrations
                     b.HasOne("Persistence.Models.RoleModel", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Persistence.Models.UserModel", "UpdatedBy")

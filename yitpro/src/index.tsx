@@ -9,32 +9,6 @@ import "react-pro-sidebar/dist/css/styles.css";
 import App from "./app/layout/App";
 import { Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faCheckSquare,
-  faCoffee,
-  faBell,
-  faKey,
-  faBars,
-  faLongArrowAltRight,
-  faLongArrowAltLeft,
-  faEdit,
-  faLock,
-  faAddressBook,
-} from "@fortawesome/free-solid-svg-icons";
-
-library.add(
-  faCheckSquare,
-  faCoffee,
-  faBell,
-  faKey,
-  faBars,
-  faLongArrowAltRight,
-  faLongArrowAltLeft,
-  faEdit,
-  faLock,
-  faAddressBook
-);
 
 export const history = createBrowserHistory();
 

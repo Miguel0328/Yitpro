@@ -27,11 +27,13 @@ namespace Service.Permission
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ViewRequirement requirement)
         {
-            var currentController = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.Webpage)?.Value;
+            var route = _httpContextAccessor.HttpContext.Request.RouteValues["controller"];
+            var user = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var menu = _context.Menu.FirstOrDefault(x => x.Route == route.ToString().ToLower());
 
-            var hasPermission = true;
+            var hasPermission = _context.RolePermissions.FirstOrDefault(x => x.RoleId == 1 && x.MenuId == menu.Id)?.Access;
 
-            if (hasPermission)
+            if (Convert.ToBoolean(hasPermission))
                 context.Succeed(requirement);
 
             return Task.CompletedTask;

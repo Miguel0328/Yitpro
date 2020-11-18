@@ -1,14 +1,20 @@
 import { createContext } from "react";
 import CommonStore from "./commonStore";
-import UserStore from "./userStore";
+import ModalStore from "./modalStore";
+import RoleStore from "./roleStore";
+import ProfileStore from "./profileStore";
 
 export class RootStore {
-  userStore: UserStore;
+  profileStore: ProfileStore;
   commonStore: CommonStore;
+  roleStore: RoleStore;
+  modalStore: ModalStore;
 
   constructor() {
-    this.userStore = new UserStore(this);
+    this.profileStore = new ProfileStore(this);
     this.commonStore = new CommonStore(this);
+    this.roleStore = new RoleStore(this);
+    this.modalStore = new ModalStore(this);
   }
 }
 

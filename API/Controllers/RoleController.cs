@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.DTO;
@@ -20,20 +21,28 @@ namespace API.Controllers
             _role = role;
         }
 
+        [HttpGet("index")]
+        [Authorize("View")]
+        public void Index() { return; }
+
         [HttpPost]
-        public async Task<bool> CreateRole(RoleDTO role) => await _role.CreateRole(role);
+        [Authorize("Create")]
+        public async Task<bool> Post(RoleDTO role) => await _role.Post(role);
 
         [HttpGet("{id}")]
-        public async Task<RoleDTO> ReadRole(int id) => await _role.ReadRole(id);
+        public async Task<RoleDTO> Get(short id) => await _role.Get(id);
 
         [HttpGet]
-        public async Task<List<RoleDTO>> ReadRoles() => await _role.ReadRoles();
+        [Authorize("View")]
+        public async Task<List<RoleDTO>> Get() => await _role.Get();
 
-        [HttpPut("{id}")]
-        public async Task<bool> UpdateRole(int id, RoleDTO role)
-        {
-            role.Id = id;
-            return await _role.UpdateRole(role);
-        }
+        [HttpPut]
+        public async Task<bool> Put(RoleDTO role) => await _role.Put(role);
+
+        [HttpGet("permissions/{id}")]
+        public async Task<List<RolePermisssionDTO>> GetPermissions(short id) => await _role.GetPermissions(id);
+
+        [HttpPut("permissions")]
+        public async Task<bool> PutPermissions(List<RolePermisssionDTO> permissions) => await _role.PutPermissions(permissions);
     }
 }

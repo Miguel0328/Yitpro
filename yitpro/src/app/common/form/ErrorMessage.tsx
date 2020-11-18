@@ -21,7 +21,7 @@ const ErrorMessage: React.FC<IProps> = ({ error, text }) => {
             (error.data.errors)}
         </Message.List>
       )}
-      {text && <Message.Content content={text} />}
+      {text && error.status !== 500 && <Message.Content content={text} />}
     </Message>
   );
 };

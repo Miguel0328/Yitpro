@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using API.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -12,14 +7,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Persistence;
 using Repository;
@@ -29,6 +21,7 @@ using Service.Interfaces;
 using Service.Permission;
 using AutoMapper;
 using Service.DTO;
+using Service.Mapping;
 
 namespace API
 {
@@ -54,11 +47,14 @@ namespace API
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                    policy
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithExposedHeaders("WWW-Authenticate")
+                    .WithOrigins("http://localhost:3000")
+                    .AllowCredentials();
                 });
             });
-
-            services.AddAutoMapper(typeof(RoleService));
 
             services.AddControllers(opt =>
             {
@@ -67,7 +63,7 @@ namespace API
             })
                 .AddFluentValidation(cfg =>
                 {
-                    cfg.RegisterValidatorsFromAssemblyContaining<UserDTO>();
+                    cfg.RegisterValidatorsFromAssemblyContaining<ProfileDTO>();
                     //cfg.ValidatorOptions.LanguageManager.Culture = new CultureInfo("en");
                 });
 
@@ -97,15 +93,22 @@ namespace API
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
                         ValidateAudience = false,
-                        ValidateIssuer = false
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
                     };
                 });
 
             services.AddScoped<IBaseService, BaseService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<IUser, User>();
-            services.AddScoped<IRol, Rol>();
+            services.AddScoped<IProfile, Repository.Profile>();
+            services.AddScoped<IRole, Role>();
+
+            services.AddScoped(provider => new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(new RoleProfile(provider.GetService<IBaseService>()));
+            }).CreateMapper());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
