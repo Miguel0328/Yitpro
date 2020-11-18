@@ -1,0 +1,237 @@
+body {
+  box-sizing: border-box;
+}
+
+#root {
+  height: 100% !important;
+}
+
+/* Icons */
+i.icon {
+  width: unset !important;
+  height: unset !important;
+}
+
+.icon-header > i.icon {
+  font-size: 32px !important;
+}
+
+i.icon.icon-table {
+  font-size: 16px !important;
+  margin: auto 5px !important;
+}
+
+i.icon.icon-table:hover {
+  cursor: pointer !important;
+  color: darkslategray !important;
+  transform: scale(1.2) !important;
+}
+
+i.icon.icon-menu {
+  font-size: 16px !important;
+  margin: auto 0px !important;
+}
+
+i.icon.icon-menu:hover {
+  cursor: pointer !important;
+  color: goldenrod !important;
+  transform: scale(1.2) !important;
+}
+/* Icons */
+
+/* Table */
+.MuiTableCell-stickyHeader {
+  background-color: #6d7c8f !important;
+  z-index: 3 !important;
+}
+/* Table */
+
+/* Navbar */
+.ui.navbar {
+  height: 50px !important;
+  margin-left: auto !important;
+  border-bottom: 1px solid rgba(173, 173, 173, 0.2) !important;
+}
+
+.ui.menu > .container.navbar-container {
+  width: 100% !important;
+}
+
+.ui.menu .item::before {
+  width: 0px !important; /* Hides menu division */
+}
+
+.item.menu-collapse-item {
+  width: 80px !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+/* Navbar */
+
+/* Sidebar */
+.prosidebar {
+  overflow-y: auto !important;
+}
+
+.pro-sidebar
+  .pro-menu
+  .pro-menu-item.pro-sub-menu
+  .pro-inner-list-item
+  .pro-inner-item:before {
+  display: none !important; /* Hides list decoration in sidebar */
+}
+/* Sidebar */
+
+/* App */
+.ui.main {
+  display: flex !important;
+  height: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-top: 50px !important;
+}
+
+.ui.main_content {
+  width: 100% !important;
+  overflow-y: auto !important;
+}
+/* App */
+
+/* Notfound */
+.notfound {
+  min-height: 100% !important;
+  justify-content: start !important;
+}
+/* Notfound */
+
+/* Login */
+.ui.login-container {
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-image: linear-gradient(
+    135deg,
+    rgba(71, 107, 179, 0.904) 0%,
+    rgb(106, 107, 160) 70%,
+    rgba(87, 100, 214, 0.829) 89%
+  ) !important;
+}
+
+.ui.login-segment {
+  min-width: 450px !important;
+  min-height: 300px !important;
+  max-width: 450px !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: none !important;
+}
+/* Login */
+
+/* Table */
+.MuiTableCell-root {
+  padding: 10px !important;
+}
+
+.MuiTablePagination-spacer {
+  display: none !important;
+}
+
+.MuiTablePagination-toolbar {
+  padding-left: 2px !important;
+  min-height: 25px !important;
+  height: 25px !important;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Table */
+
+/* Filter */
+.filter-segment {
+  display: block !important;
+  position: absolute !important;
+  top: 120% !important;
+  right: 0 !important;
+  padding: 15px !important;
+  z-index: 999 !important;
+}
+
+.filter-segment:before {
+  content: " " !important;
+  position: absolute !important;
+  background: #1b1c1d !important;
+  width: 8px !important;
+  height: 8px !important;
+  top: -4px !important;
+  right: 15px !important;
+  transform: rotate(135deg) !important;
+}
+
+.filter-segment .ui.selection.dropdown {
+  min-width: unset !important;
+  width: 100% !important;
+}
+/* Filter */
+
+/* Slider */
+.ui.toggle.checkbox .box:before,
+.ui.toggle.checkbox label:before {
+  background-color: #cc415ba6 !important;
+}
+
+.ui.toggle.checkbox .box:before,
+.ui.toggle.checkbox label:before {
+  top: 3px !important;
+  height: 1.1rem !important;
+}
+/* Slider */
+
+/* Segment */
+.ui.segment {
+  margin: 0 !important;
+}
+
+.ui.principal-segment {
+  min-height: 100% !important;
+}
+
+.ui.principal-segment .divider {
+  margin-top: 1em !important;
+  margin-bottom: 1em !important;
+}
+
+.segment-header {
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.segment-table {
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+}
+/* Segment */
+
+/* Toastify */
+.Toastify__toast-container {
+  z-index: 99999 !important;
+  white-space: pre-line !important;
+}
+/* Toastify */
+
+/* Validator */
+.ui.basic.red.label {
+  background: none rgba(255, 255, 255, 0) !important;
+  color: #9c1e1e !important;
+  border: none !important;
+  padding-left: 0 !important;
+}
+/* Validator */

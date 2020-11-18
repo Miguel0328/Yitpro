@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@nivo/bullet": "^0.62.0",
+    "@nivo/pie": "^0.62.0",
+    "@nivo/sunburst": "^0.62.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -10,10 +15,30 @@
     "@types/node": "^12.12.66",
     "@types/react": "^16.9.51",
     "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6",
+    "@types/react-widgets": "^4.4.3",
+    "@types/revalidate": "^1.1.2",
+    "axios": "^0.20.0",
+    "date-fns": "^2.0.0-alpha.13",
+    "final-form": "^4.16.1",
+    "mobx": "^5.15.6",
+    "mobx-react-lite": "^2.2.1",
+    "nivo": "^0.31.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-final-form": "^6.3.0",
+    "react-pro-sidebar": "^0.4.4",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
-    "typescript": "^3.7.5"
+    "react-toastify": "^6.0.9",
+    "react-widgets": "^4.4.11",
+    "react-widgets-date-fns": "^4.0.26",
+    "recharts": "^1.8.5",
+    "revalidate": "^1.2.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^1.2.1",
+    "typescript": "^3.7.5",
+    "uuidv4": "^6.2.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/recharts": "^1.8.16"
   }
 }
