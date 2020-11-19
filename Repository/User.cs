@@ -52,27 +52,14 @@ namespace Repository
             if (duplicate)
                 throw new RestException(HttpStatusCode.BadRequest, new { user = "Already exists" });
 
-            var user = await _context.User.FindAsync(_user.Id);
+            var user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _user.Id);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
 
-            user.EmployeeNumber = _user.EmployeeNumber;
-            user.FirstName = _user.FirstName;
-            user.LastName = _user.LastName;
-            user.SecondLastName = _user.SecondLastName;
-            user.Email = _user.Email;
-            user.AdmissionDate = _user.AdmissionDate;
-            user.RoleId = _user.RoleId;
-            user.ManagerId = _user.ManagerId;
-            user.Password = _user.Password;
-            user.PasswordLastUpdate = _user.PasswordLastUpdate;
-            user.Photo = _user.Photo;
-            user.Active = _user.Active;
-            user.Locked = _user.Locked;
-            user.UpdatedById = _user.UpdatedById;
-            user.UpdatedAt = _user.UpdatedAt;
-
-            //_context.AddOrUpdate(_user);
+            var entry = _context.Entry(_user);
+            entry.State = EntityState.Modified;
+            entry.Property(x => x.Password).IsModified = false;
+            entry.Property(x => x.PasswordLastUpdate).IsModified = false;
 
             return await _context.SaveChangesAsync() > 0;
         }

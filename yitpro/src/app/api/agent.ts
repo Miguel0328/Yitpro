@@ -18,6 +18,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(undefined, (error) => {
   if (error.message === "Network Error" && !error.response) {
     toast.error("Error de red - Asegurate de tener conexión a Internet");
+    return;
   }
 
   const { status, headers } = error.response;
