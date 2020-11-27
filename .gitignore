@@ -17,7 +17,6 @@ _ReSharper.*
 bin
 obj
 packages
-Files/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
