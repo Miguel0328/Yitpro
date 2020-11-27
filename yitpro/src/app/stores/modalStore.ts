@@ -15,6 +15,13 @@ export default class ModalStore {
     header: "",
   };
 
+  @observable.shallow upperModal = {
+    open: false,
+    body: null,
+    size: Modal.defaultProps!.size,
+    header: "",
+  };
+
   @observable.shallow deletionModal = {
     open: false,
     name: "",
@@ -32,6 +39,19 @@ export default class ModalStore {
     this.modal.open = false;
     this.modal.body = null;
     this.modal.header = "";
+  };
+
+  @action openUpperModal = (content: any, size: any, header: string) => {
+    this.upperModal.open = true;
+    this.upperModal.body = content;
+    this.upperModal.size = size;
+    this.upperModal.header = header;
+  };
+
+  @action closeUpperModal = () => {
+    this.upperModal.open = false;
+    this.upperModal.body = null;
+    this.upperModal.header = "";
   };
 
   @action openDeletionModal = (

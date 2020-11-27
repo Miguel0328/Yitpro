@@ -1,8 +1,13 @@
 import React, { useContext } from "react";
-import { Button, Container, Form, Grid } from "semantic-ui-react";
+import { Button, Form, Grid, Segment } from "semantic-ui-react";
 import { Form as FinalForm, Field } from "react-final-form";
 import { IRole, RoleFormValues } from "../../app/models/role";
-import { combineValidators, composeValidators, hasLengthLessThan, isRequired } from "revalidate";
+import {
+  combineValidators,
+  composeValidators,
+  hasLengthLessThan,
+  isRequired,
+} from "revalidate";
 import TextInput from "../../app/common/form/TextInput";
 import SliderInput from "../../app/common/form/SliderInput";
 import { RootStoreContext } from "../../app/stores/rootStore";
@@ -12,67 +17,54 @@ const validate = combineValidators({
   name: composeValidators(
     isRequired({ message: "El nombre es obligatorio" }),
     hasLengthLessThan(100)({
-      message: "La longitud máxima es de 100 carácteres"
+      message: "La longitud máxima es de 100 carácteres",
     })
-  )()
+  )(),
 });
 
 const RoleForm = () => {
   const rootStore = useContext(RootStoreContext);
-  const { submitting, role: currentRole, postRole, putRole } = rootStore.roleStore;
+  const { submitting, role: currentRole, post, put } = rootStore.roleStore;
 
   let role = new RoleFormValues(currentRole);
 
   const handleSubmit = async (role: IRole) => {
     if (role.id) {
-      putRole(role);
+      put(role);
     } else {
-      postRole(role);
+      post(role);
     }
   };
 
   return (
-    <Container>
+    <Segment className="form-container" basic loading={submitting}>
       <FinalForm
         initialValues={role}
         onSubmit={handleSubmit}
         validate={validate}
-        render={({
-          handleSubmit,
-          invalid,
-          pristine
-        }) => (
+        render={({ handleSubmit, invalid }) => (
           <Form onSubmit={handleSubmit} error>
             <Grid>
-              <Grid.Column width={3} verticalAlign="middle">
-                <label>Nombre</label>
+              <Grid.Column width={16}>
+                <strong>Nombre</strong>
+                <Field name="name" placeholder="Nombre" component={TextInput} />
               </Grid.Column>
-              <Grid.Column width={13}>
-                <Field
-                  name="name"
-                  placeholder="Nombre"
-                  component={TextInput}
-                />
-              </Grid.Column>
-              <Grid.Column width={3} verticalAlign="middle">
-                <label>Activo</label>
-              </Grid.Column>
-              <Grid.Column width={13}>
+              <Grid.Column width={16}>
+                <strong>Activo</strong>
                 <Field name="active" component={SliderInput} type="checkbox" />
               </Grid.Column>
               <Grid.Column textAlign="right" width={16}>
                 <Button
                   color="vk"
                   content="Guardar"
-                  disabled={submitting || invalid || pristine}
-                  loading={submitting}
+                  disabled={submitting || invalid}
                 />
               </Grid.Column>
             </Grid>
           </Form>
         )}
       />
-    </Container>
+    </Segment>
   );
 };
 

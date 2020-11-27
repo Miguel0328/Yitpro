@@ -18,6 +18,8 @@ namespace Service.DTO
         public int MenuId { get; set; }
         public int RoleId { get; set; }
         public string Name { get; set; }
+        public string Icon { get; set; }
+        public byte Level { get; set; }
         public bool Access { get; set; }
         public bool Create { get; set; }
         public bool Update { get; set; }

@@ -80,6 +80,10 @@ i.icon.icon-menu:hover {
   .pro-inner-item:before {
   display: none !important; /* Hides list decoration in sidebar */
 }
+
+.pro-sidebar {
+  z-index: 100 !important;
+}
 /* Sidebar */
 
 /* App */
@@ -235,3 +239,86 @@ i.icon.icon-menu:hover {
   padding-left: 0 !important;
 }
 /* Validator */
+
+/* Form */
+.rw-widget-picker.rw-widget-container {
+  border: 1px solid rgba(34, 36, 38, 0.15) !important;
+}
+
+.rw-state-focus {
+  color: unset !important;
+  border-color: unset !important;
+  border-radius: unset !important;
+  background: unset !important;
+  box-shadow: unset !important;
+}
+
+.rw-widget-input.rw-input:focus {
+  color: rgba(0, 0, 0, 0.95) !important;
+  border-color: #85b7d9 !important;
+  border-radius: 0.28571429rem !important;
+  background: #fff !important;
+}
+
+.rw-widget-container.rw-state-focus,
+.rw-state-focus > .rw-widget-container,
+.rw-widget-container.rw-state-focus:hover,
+.rw-state-focus > .rw-widget-container:hover {
+  border-color: #66afe9 !important;
+  box-shadow: unset !important;
+}
+
+.rw-widget-picker.rw-widget-container > input {
+  border: unset !important;
+}
+
+.form-container {
+  padding: 0 !important;
+}
+
+.ui.selection.dropdown > .divider.text {
+  white-space: nowrap !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+.ui.grid > .column:not(.row) {
+  padding-top: 0px !important;
+}
+
+.ui.grid {
+  padding-top: 1rem !important;
+}
+
+.ui.grid > .row {
+  padding-top: 0px !important;
+}
+/* Form */
+
+/* Cropper */
+.cropper-container.cropper-bg {
+  width: 100% !important;
+}
+/* Cropper */
+
+/* Modal */
+.upper-modal {
+  z-index: 10010 !important;
+}
+/* Modal */
+
+/* Photo widget */
+.preview-container {
+  display: "flex" !important;
+  flex-direction: "column" !important;
+  align-items: "center" !important;
+}
+/* Photo widget */
+
+/* Loading */
+.ui.loading.segment:before {
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 10;
+}
+/* Loading */

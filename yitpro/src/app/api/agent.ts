@@ -18,7 +18,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(undefined, (error) => {
   if (error.message === "Network Error" && !error.response) {
     toast.error("Error de red - Asegurate de tener conexión a Internet");
-    return;
+    throw error.response;
   }
 
   const { status, headers } = error.response;
@@ -30,12 +30,14 @@ axios.interceptors.response.use(undefined, (error) => {
     window.localStorage.removeItem("jwt");
     history.push("/login");
     toast.info("La sesión expiró, por favor inicia sesión nuevamente");
+    return;
   }
 
   if (status === 500) {
     toast.error(
       "Error en el servidor, contacta a tu administrador de sistemas"
     );
+    console.log(error.response);
   }
 
   if (!headers["www-authenticate"]?.includes("The token expired"))
@@ -57,8 +59,22 @@ const requests = {
       .then(responseBody),
   post: (url: string, body: {}) =>
     axios.post(url, body).then(sleep(500)).then(responseBody),
+  postForm: (url: string, formData: FormData) => {
+    return axios
+      .post(url, formData, {
+        headers: { "Content-type": "multipart/form-data" },
+      })
+      .then(responseBody);
+  },
   put: (url: string, body: {}) =>
     axios.put(url, body).then(sleep(500)).then(responseBody),
+  putForm: (url: string, formData: FormData) => {
+    return axios
+      .put(url, formData, {
+        headers: { "Content-type": "multipart/form-data" },
+      })
+      .then(responseBody);
+  },
   delete: (url: string) =>
     axios.delete(url).then(sleep(500)).then(responseBody),
 };

@@ -10,9 +10,10 @@ namespace Repository.Interfaces
     {
         Task<bool> Post(UserModel _user);
         Task<bool> Put(UserModel _user);
+        Task<bool> PutEnabled(UserModel _user);
         Task<List<UserModel>> Get();
         Task<UserModel> Get(long id);
-        //Task<List<RolePermissionsModel>> GetPermissions(short id);
-        //Task<bool> PutPermissions(List<RolePermissionsModel> permissions);
+        Task<List<UserPermissionsModel>> GetPermissions(long id);
+        Task<bool> PutPermissions(List<UserPermissionsModel> permissions);
     }
 }

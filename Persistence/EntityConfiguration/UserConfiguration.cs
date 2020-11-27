@@ -42,16 +42,12 @@ namespace Persistence.EntityConfiguration
 
             builder
                 .Property(x => x.Password)
-                .IsRequired()
-                .HasMaxLength(500);
-
-            builder
-                .Property(x => x.Password)
-                .IsRequired()
+                .IsRequired(false)
                 .HasMaxLength(300);
 
             builder
                 .Property(x => x.PasswordLastUpdate)
+                .IsRequired(false)
                 .HasColumnType("smalldatetime");
 
             builder
@@ -63,6 +59,30 @@ namespace Persistence.EntityConfiguration
                 .HasOne(x => x.Role)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .Property(x => x.UpdatedAt)
+                .IsRequired(false)
+                .HasColumnType("smalldatetime");
+
+            builder
+                .HasOne(x => x.UpdatedBy)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasMany(x => x.Permissions)
+                .WithOne(x => x.User)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
+    }
+
+    public class UserPermissionsConfiguration : IEntityTypeConfiguration<UserPermissionsModel>
+    {
+        public void Configure(EntityTypeBuilder<UserPermissionsModel> builder)
+        {
+            builder
+                .HasKey(x => new { x.MenuId, x.UserId });
 
             builder
                 .Property(x => x.UpdatedAt)

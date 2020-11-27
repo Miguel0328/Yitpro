@@ -11,7 +11,12 @@ import RolePermission from "./RolePermission";
 
 const RoleTable = () => {
   const rootStore = useContext(RootStoreContext);
-  const { loading, filtered: roles, setRole, deleteRole } = rootStore.roleStore;
+  const {
+    loading,
+    filtered: roles,
+    setRole,
+    putEnabled,
+  } = rootStore.roleStore;
   const { openModal } = rootStore.modalStore;
 
   const columns: IColumn[] = [
@@ -51,9 +56,7 @@ const RoleTable = () => {
       width: "8%",
       render: (role: IRole) =>
         !role.protected && (
-          <div
-            className="table-actions"
-          >
+          <div className="table-actions">
             <Icon
               name="edit"
               className="icon-table"
@@ -68,7 +71,7 @@ const RoleTable = () => {
               checked={role.active}
               onChange={() => {
                 role.active = !role.active;
-                deleteRole(role).catch(() => (role.active = !role.active));
+                putEnabled(role).catch(() => (role.active = !role.active));
               }}
             />
           </div>
@@ -77,10 +80,7 @@ const RoleTable = () => {
   ];
 
   return (
-    <Segment
-      loading={loading}
-      className="segment-table"
-    >
+    <Segment loading={loading} className="segment-table">
       <TableComponent columns={columns} data={roles} />
     </Segment>
   );

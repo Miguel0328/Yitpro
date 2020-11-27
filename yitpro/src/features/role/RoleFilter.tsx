@@ -1,6 +1,13 @@
 import { observer } from "mobx-react-lite";
 import React, { Dispatch, SetStateAction, useContext } from "react";
-import { Form, Segment, Grid, Select, Divider, Button } from "semantic-ui-react";
+import {
+  Form,
+  Segment,
+  Grid,
+  Select,
+  Divider,
+  Button,
+} from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/rootStore";
 
 interface IProps {
@@ -12,7 +19,12 @@ const RoleFilter: React.FC<IProps> = ({ setShowFilter }) => {
   const { filter, setFilter, clearFilter, filterRoles } = rootStore.roleStore;
 
   return (
-    <Segment className="filter-segment" inverted clearing>
+    <Segment
+      style={{ width: 300 }}
+      className="filter-segment"
+      inverted
+      clearing
+    >
       <Form
         onSubmit={() => {
           filterRoles();
@@ -20,10 +32,8 @@ const RoleFilter: React.FC<IProps> = ({ setShowFilter }) => {
         }}
       >
         <Grid>
-          <Grid.Column width={4} verticalAlign="middle">
+          <Grid.Column width={16}>
             <label>Rol</label>
-          </Grid.Column>
-          <Grid.Column width={12}>
             <input
               name="role"
               autoComplete="off"
@@ -33,16 +43,26 @@ const RoleFilter: React.FC<IProps> = ({ setShowFilter }) => {
               onChange={setFilter}
             ></input>
           </Grid.Column>
-        </Grid>
-        <Grid>
-          <Grid.Column width={4} verticalAlign="middle">
+          <Grid.Column width={8}>
             <label>Activo</label>
-          </Grid.Column>
-          <Grid.Column width={12}>
             <Select
               pointing="top right"
               name="active"
               value={filter.active}
+              onChange={setFilter}
+              options={[
+                { key: "all", text: "Todos", value: "all" },
+                { key: "yes", text: "Sí", value: "yes" },
+                { key: "no", text: "No", value: "no" },
+              ]}
+            />
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <label>Protegido</label>
+            <Select
+              pointing="top right"
+              name="protected"
+              value={filter.protected}
               onChange={setFilter}
               options={[
                 { key: "all", text: "Todos", value: "all" },

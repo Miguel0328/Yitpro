@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useContext, useEffect } from "react";
-import { Button, Checkbox, Form, Grid } from "semantic-ui-react";
+import { Button, Checkbox, Form, Grid, Icon, Segment } from "semantic-ui-react";
 import TableComponent from "../../app/common/table/TableComponent";
 import { observer } from "mobx-react-lite";
 import { IRolePermission } from "../../app/models/role";
@@ -15,7 +15,6 @@ const RolePermission = () => {
     totalCreateChecked,
     totalUpdateChecked,
     totalDeleteChecked,
-    loadingPermissions,
     submitting,
     getPermissions,
     setAllChecked,
@@ -137,6 +136,18 @@ const RolePermission = () => {
       label: "Nombre",
       align: "left",
       width: "55%",
+      render: (permission: IRolePermission) => {
+        return (
+          <div
+            style={{
+              paddingLeft: permission.level === 1 ? 0 : permission.level * 10,
+            }}
+          >
+            <Icon inverted circular color="grey" className={permission.icon} />{" "}
+            {permission.name}
+          </div>
+        );
+      },
     },
     {
       id: "access",
@@ -203,32 +214,29 @@ const RolePermission = () => {
   ];
 
   return (
-    <Form
-      loading={loadingPermissions}
-      onSubmit={() => putPermissions(permissions)}
-      error
-    >
-      <Grid>
-        <Grid.Column width={16}>
-          <TableComponent
-            key="permission"
-            columns={columns}
-            data={permissions}
-            headers={headers}
-            paginated={false}
-          />
-        </Grid.Column>
-        <Grid.Column width={16} textAlign="right">
-          <Button
-            loading={submitting}
-            disabled={submitting}
-            type="submit"
-            color="vk"
-            content="Guardar"
-          />
-        </Grid.Column>
-      </Grid>
-    </Form>
+    <Segment className="form-container" basic loading={submitting}>
+      <Form onSubmit={() => putPermissions(permissions)} error>
+        <Grid>
+          <Grid.Column width={16}>
+            <TableComponent
+              key="permission"
+              columns={columns}
+              data={permissions}
+              headers={headers}
+              paginated={false}
+            />
+          </Grid.Column>
+          <Grid.Column width={16} textAlign="right">
+            <Button
+              disabled={submitting}
+              type="submit"
+              color="vk"
+              content="Guardar"
+            />
+          </Grid.Column>
+        </Grid>
+      </Form>
+    </Segment>
   );
 };
 

@@ -21,10 +21,11 @@ namespace Persistence.Models
         public bool Active { get; set; }
         public bool Locked { get; set; }
         public string Password { get; set; }
-        public DateTime PasswordLastUpdate { get; set; }
+        public DateTime? PasswordLastUpdate { get; set; }
         public string Photo { get; set; }
         public long? UpdatedById { get; set; }
         public virtual UserModel UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public virtual ICollection<UserPermissionsModel> Permissions { get; set; }
     }
 }

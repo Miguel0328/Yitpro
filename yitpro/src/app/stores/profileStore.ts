@@ -24,7 +24,8 @@ export default class ProfileStore {
       const user = await Profile.current();
       this.user = user;
     } catch (error) {
-      toast.error(getErrors(error));
+      console.log(error);
+      if (error && error.status !== 500 ) toast.error(getErrors(error));
     }
   };
 

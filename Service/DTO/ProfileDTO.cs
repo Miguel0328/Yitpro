@@ -8,6 +8,7 @@ namespace Service.DTO
     public class ProfileDTO
     {
         public string Name { get; set; }
+        public string Photo { get; set; }
         public string Token { get; set; }
         public List<MenuDTO> Menus { get; set; }
     }

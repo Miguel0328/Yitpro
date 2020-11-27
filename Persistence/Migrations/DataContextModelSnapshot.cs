@@ -159,11 +159,10 @@ namespace Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(300)")
                         .HasMaxLength(300);
 
-                    b.Property<DateTime>("PasswordLastUpdate")
+                    b.Property<DateTime?>("PasswordLastUpdate")
                         .HasColumnType("smalldatetime");
 
                     b.Property<string>("Photo")
@@ -192,6 +191,41 @@ namespace Persistence.Migrations
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("Persistence.Models.UserPermissionsModel", b =>
+                {
+                    b.Property<short>("MenuId")
+                        .HasColumnType("smallint");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Access")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Create")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Update")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("UpdatedById")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("MenuId", "UserId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserPermissions");
                 });
 
             modelBuilder.Entity("Persistence.Models.MenuModel", b =>
@@ -247,6 +281,27 @@ namespace Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("UpdatedById")
                         .OnDelete(DeleteBehavior.NoAction);
+                });
+
+            modelBuilder.Entity("Persistence.Models.UserPermissionsModel", b =>
+                {
+                    b.HasOne("Persistence.Models.MenuModel", "Menu")
+                        .WithMany()
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Persistence.Models.UserModel", "User")
+                        .WithMany("Permissions")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

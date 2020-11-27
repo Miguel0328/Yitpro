@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -21,12 +23,14 @@ namespace Service
         private readonly SymmetricSecurityKey _key;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly DataContext _context;
+        private readonly IConfiguration _configuration;
 
-        public BaseService(IConfiguration config, IHttpContextAccessor httpContextAccessor, DataContext context)
+        public BaseService(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, DataContext context)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
             _httpContextAccessor = httpContextAccessor;
             _context = context;
+            _configuration = configuration;
         }
 
         public string CreateToken(string email)
@@ -55,10 +59,20 @@ namespace Service
 
         public long GetCurrentUserId()
         {
-            var employeeNumber = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var id = _context.User.SingleOrDefault(x => x.Email == employeeNumber).Id;
+            var email = _httpContextAccessor.HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            var id = _context.User.AsNoTracking().SingleOrDefault(x => x.Email == email).Id;
 
             return id;
+        }
+
+        public string GetFilesPath()
+        {
+            return _configuration.GetValue<string>(WebHostDefaults.ContentRootKey);
+        }
+
+        public HttpRequest GetRequest()
+        {
+            return _httpContextAccessor.HttpContext.Request;
         }
     }
 }

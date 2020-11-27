@@ -18,7 +18,8 @@ namespace Persistence
                 {
                     new MenuModel { Id = 1, Description = "Inicio", Route = "", Icon = "home", Level = 1,Order = 1000, Active = true },
                     new MenuModel { Id = 2, Description = "Configuración", Icon = "cogs", Level = 1, Order = 2000, Active = true },
-                    new MenuModel { Id = 3, ParentId = 2, Description = "Roles", Route = "role", Icon = "address card outline", Level = 2, Order = 2100, Active = true }
+                    new MenuModel { Id = 3, ParentId = 2, Description = "Roles", Route = "role", Icon = "address card outline", Level = 2, Order = 2100, Active = true },
+                    new MenuModel { Id = 4, ParentId = 2, Description = "Usuarios", Route = "user", Icon = "users", Level = 2, Order = 2200, Active = true }
                 };
 
                 await context.Menu.AddRangeAsync(menus);
@@ -57,6 +58,7 @@ namespace Persistence
                     EmployeeNumber = "Admin",
                     FirstName = "Administrador",
                     LastName = "Sistema",
+                    SecondLastName = "Seeded",
                     Email = "administrador@sistema.com",
                     AdmissionDate = DateTime.Now,
                     RoleId = 1,

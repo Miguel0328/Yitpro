@@ -10,20 +10,23 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace Service
 {
     public class ProfileService : IProfileService
     {
         private readonly IProfile _profile_;
-        private readonly IBaseService _baseService;
+        private readonly IBaseService _service;
         private readonly string _secretPassword;
+        private readonly HttpRequest _request;
 
-        public ProfileService(IConfiguration config, IProfile profile, IBaseService baseService)
+        public ProfileService(IConfiguration configuration, IProfile profile, IBaseService service)
         {
             _profile_ = profile;
-            _baseService = baseService;
-            _secretPassword = config["SecretPass"].ToString();
+            _service = service;
+            _secretPassword = configuration["SecretPass"].ToString();
+            _request = _service.GetRequest();
         }
 
         public List<MenuDTO> GetMenus(ICollection<RolePermissionsModel> permissions, ICollection<RolePermissionsModel> child, byte level)
@@ -46,7 +49,7 @@ namespace Service
 
         public async Task<ProfileDTO> CurrentUser()
         {
-            var id = _baseService.GetCurrentUserId();
+            var id = _service.GetCurrentUserId();
             var user = await _profile_.CurrentUser(id);
             var permissions = user.Role.Permissions.Where(x => x.Access).ToList();
             var menus = GetMenus(permissions, permissions, 1);
@@ -54,8 +57,9 @@ namespace Service
             return new ProfileDTO
             {
                 Name = user.FirstName,
+                Photo = user.Photo == null ? null : $"{_request.Scheme}://{_request.Host}{_request.PathBase}/{user.Photo}",
                 Menus = menus,
-                Token = _baseService.CreateToken(user.Email)
+                Token = _service.CreateToken(user.Email)
             };
         }
 
@@ -69,7 +73,7 @@ namespace Service
             return new ProfileDTO
             {
                 Name = user.FirstName,
-                Token = _baseService.CreateToken(user.Email)
+                Token = _service.CreateToken(user.Email)
             };
         }
     }

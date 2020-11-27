@@ -1,5 +1,6 @@
 export interface IProfile {
   name: string;
+  photo: string;
   token: string;
   menus: IMenu[];
 }

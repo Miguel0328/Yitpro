@@ -52,7 +52,7 @@ const TableComponent: React.FC<IProps> = ({
             <TableRow>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100, { label: "All", value: -1 }]}
-                colSpan={5}
+                colSpan={columns.length}
                 count={data.length}
                 page={page}
                 rowsPerPage={rowsPerPage}
@@ -104,17 +104,17 @@ const TableComponent: React.FC<IProps> = ({
               ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               : data
             ).map((datum) => (
-              <TableRow
-                hover
-                role="checkbox"
-                tabIndex={-1}
-                key={uuid()}
-              >
+              <TableRow hover role="checkbox" tabIndex={-1} key={uuid()}>
                 {columns.map((column) => {
                   return (
                     <TableCell
                       key={uuid()}
                       align={column.align}
+                      style={{
+                        backgroundColor: column.color
+                          ? column.color(datum)
+                          : "unset",
+                      }}
                     >
                       {column.render === undefined
                         ? datum[column.id]

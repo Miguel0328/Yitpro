@@ -15,7 +15,7 @@ namespace Service
         private readonly IRole _role_;
         private readonly IMapper _mapper;
 
-        public RoleService(IBaseService baseService, IMapper mapper, IRole role)
+        public RoleService(IMapper mapper, IRole role)
         {
             _role_ = role;
             _mapper = mapper;

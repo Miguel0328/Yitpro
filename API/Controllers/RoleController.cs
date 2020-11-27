@@ -22,27 +22,31 @@ namespace API.Controllers
         }
 
         [HttpGet("index")]
-        [Authorize("View")]
+        [Authorize("Get")]
         public void Index() { return; }
 
         [HttpPost]
-        [Authorize("Create")]
+        [Authorize("Post")]
         public async Task<bool> Post(RoleDTO role) => await _role.Post(role);
 
         [HttpGet("{id}")]
+        [Authorize("Get")]
         public async Task<RoleDTO> Get(short id) => await _role.Get(id);
 
         [HttpGet]
-        [Authorize("View")]
+        [Authorize("Get")]
         public async Task<List<RoleDTO>> Get() => await _role.Get();
 
         [HttpPut]
+        [Authorize("Put")]
         public async Task<bool> Put(RoleDTO role) => await _role.Put(role);
 
         [HttpGet("permissions/{id}")]
+        [Authorize("Get")]
         public async Task<List<RolePermisssionDTO>> GetPermissions(short id) => await _role.GetPermissions(id);
 
         [HttpPut("permissions")]
+        [Authorize("Put")]
         public async Task<bool> PutPermissions(List<RolePermisssionDTO> permissions) => await _role.PutPermissions(permissions);
     }
 }

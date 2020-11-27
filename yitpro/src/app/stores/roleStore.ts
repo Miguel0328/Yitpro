@@ -27,9 +27,12 @@ export default class RoleStore {
 
   @observable role: IRole | undefined;
   @observable roles: IRole[] = [];
-  @observable filter: IRoleFilter = { role: "", active: "all" };
+  @observable filter: IRoleFilter = {
+    role: "",
+    active: "all",
+    protected: "all",
+  };
   @observable loading = false;
-  @observable loadingPermissions = false;
   @observable submitting = false;
   @observable filtered: IRole[] = [];
   @observable permissions: IRolePermission[] = [];
@@ -47,7 +50,7 @@ export default class RoleStore {
   };
 
   @action clearFilter = () => {
-    this.filter = { role: "", active: "all" };
+    this.filter = { role: "", active: "all", protected: "all" };
   };
 
   @action clearPermissions = () => {
@@ -94,28 +97,27 @@ export default class RoleStore {
     }
   };
 
-  @action getRoles = async () => {
-    console.log("getRoles");
+  @action get = async () => {
     this.loading = true;
     try {
       const roles = await Role.get();
       this.roles = roles;
     } catch (error) {
-      toast.error(getErrors(error));
+      if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
       this.loading = false;
     }
   };
 
   @action getPermissions = async (id: number) => {
-    this.loadingPermissions = true;
+    this.submitting = true;
     try {
       const permissions = await Role.getPermissions(id);
       this.permissions = permissions;
     } catch (error) {
-      toast.error(getErrors(error));
+      if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
-      this.loadingPermissions = false;
+      this.submitting = false;
     }
   };
 
@@ -128,34 +130,40 @@ export default class RoleStore {
             : this.filter.active === "yes"
             ? true
             : false) &&
+        x.protected ===
+          (this.filter.protected === "all"
+            ? x.protected
+            : this.filter.protected === "yes"
+            ? true
+            : false) &&
         (x.name.toLowerCase().includes(this.filter.role.toLowerCase()) ||
           this.filter.role === "")
     );
   };
 
-  @action postRole = async (role: IRole) => {
+  @action post = async (role: IRole) => {
     this.submitting = true;
     try {
       await Role.post(role);
       toast.success(Messages.postSuccess);
-      this.getRoles();
+      this.get();
       this.rootStore.modalStore.closeModal();
     } catch (error) {
-      toast.error(getErrors(error));
+      if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
       this.submitting = false;
     }
   };
 
-  @action putRole = async (role: IRole) => {
+  @action put = async (role: IRole) => {
     this.submitting = true;
     try {
       await Role.put(role);
       toast.success(Messages.putSuccess);
-      this.getRoles();
+      this.get();
       this.rootStore.modalStore.closeModal();
     } catch (error) {
-      toast.error(getErrors(error));
+      if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
       this.submitting = false;
     }
@@ -168,22 +176,23 @@ export default class RoleStore {
       toast.success(Messages.putSuccess);
       this.rootStore.modalStore.closeModal();
     } catch (error) {
-      toast.error(getErrors(error));
+      if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
       this.submitting = false;
     }
   };
 
-  @action deleteRole = async (role: IRole) => {
+  @action putEnabled = async (role: IRole) => {
     try {
       await Role.put(role);
       toast.success(Messages.putSuccess);
     } catch (error) {
-      toast.error(getErrors(error));
+      if (error && error?.status !== 500) toast.error(getErrors(error));
+      throw error;
     }
   };
 
-  countCheckPermissions() {
+  countCheckPermissions = () => {
     const total = this.permissions.length;
     const accessChecked = this.permissions.filter((x) => x.access).length;
     const createChecked = this.permissions.filter((x) => x.create).length;
@@ -217,5 +226,5 @@ export default class RoleStore {
         : deleteChecked > 0 && deleteChecked < total
         ? "indeterminate"
         : "all";
-  }
+  };
 }

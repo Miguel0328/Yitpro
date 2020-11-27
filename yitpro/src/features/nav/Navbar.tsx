@@ -13,9 +13,17 @@ const NavBar: React.FC = () => {
       <Container className="navbar-container">
         <Menu.Item className="menu-collapse-item">
           {collapsed ? (
-            <Icon className="icon-menu" name="long arrow alternate right" onClick={setCollapsed} />
+            <Icon
+              className="icon-menu"
+              name="long arrow alternate right"
+              onClick={setCollapsed}
+            />
           ) : (
-            <Icon className="icon-menu" name="long arrow alternate left" onClick={setCollapsed} />
+            <Icon
+              className="icon-menu"
+              name="long arrow alternate left"
+              onClick={setCollapsed}
+            />
           )}
         </Menu.Item>
         <Menu.Item header>
@@ -30,7 +38,11 @@ const NavBar: React.FC = () => {
             <Icon className="icon-menu" name="bell" />
           </Menu.Item>
           <Menu.Item>
-            <Image avatar spaced="right" src={"/assets/avatar.jpg"} />
+            <Image
+              avatar
+              spaced="right"
+              src={user?.photo ?? "/assets/avatar.png"}
+            />
             <Dropdown pointing="top right" text={user?.name}>
               <Dropdown.Menu>
                 <Dropdown.Item text="My profile" icon="user" />

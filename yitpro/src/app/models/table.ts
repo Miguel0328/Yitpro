@@ -4,4 +4,5 @@ export interface IColumn {
   label: string;
   width: string;
   align: "left" | "center" | "right";
+  color?: any;
 }

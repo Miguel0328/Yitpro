@@ -21,6 +21,8 @@ import PrivateRoute from "./PrivateRoute";
 import { RootStoreContext } from "../stores/rootStore";
 import LoadingComponent from "./LoadingComponent";
 import Forbidden from "./Forbidden";
+import User from "../../features/user/User";
+import UpperModalContainer from "../common/modals/UpperModalContainer";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -41,6 +43,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     <Fragment>
       <ToastContainer position="top-right" />
       <ModalContainer />
+      <UpperModalContainer />
       <DeletionModalContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
@@ -52,6 +55,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
               <Switch>
                 <PrivateRoute exact path="/" component={Home} />
                 <PrivateRoute exact path="/role" component={Role} />
+                <PrivateRoute exact path="/user" component={User} />
                 <PrivateRoute exact path="/forbidden" component={Forbidden} />
                 <PrivateRoute component={NotFound} />
               </Switch>

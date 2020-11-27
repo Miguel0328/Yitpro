@@ -7,16 +7,16 @@ import RoleTable from "./RoleTable";
 
 const Role = () => {
   const rootStore = useContext(RootStoreContext);
-  const { index, getRoles, clearRoles } = rootStore.roleStore;
+  const { index, get, clearRoles } = rootStore.roleStore;
   const { loadingIndex } = rootStore.commonStore;
 
   useEffect(() => {
     index()
-      .then(getRoles)
+      .then(get)
       .catch((error) => console.log(error));
 
     return clearRoles();
-  }, [index, getRoles, clearRoles]);
+  }, [index, get, clearRoles]);
 
   if (loadingIndex) return null;
 

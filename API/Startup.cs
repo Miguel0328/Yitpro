@@ -22,13 +22,14 @@ using Service.Permission;
 using AutoMapper;
 using Service.DTO;
 using Service.Mapping;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace API
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
-
         {
             Configuration = configuration;
         }
@@ -71,18 +72,28 @@ namespace API
 
             services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("Create", policy =>
+                opt.AddPolicy("Get", policy =>
                 {
-                    policy.Requirements.Add(new CreateRequirement());
+                    policy.Requirements.Add(new GetRequirement());
                 });
-                opt.AddPolicy("View", policy =>
+                opt.AddPolicy("Post", policy =>
                 {
-                    policy.Requirements.Add(new ViewRequirement());
+                    policy.Requirements.Add(new PostRequirement());
+                });
+                opt.AddPolicy("Put", policy =>
+                {
+                    policy.Requirements.Add(new PutRequirement());
+                });
+                opt.AddPolicy("Delete", policy =>
+                {
+                    policy.Requirements.Add(new DeleteRequirement());
                 });
             });
 
-            services.AddTransient<IAuthorizationHandler, CreateRequirementHandler>();
-            services.AddTransient<IAuthorizationHandler, ViewRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, GetRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, PostRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, PutRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, DeleteRequirementHandler>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -102,12 +113,18 @@ namespace API
             services.AddScoped<IBaseService, BaseService>();
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IOptionService, OptionService>();
             services.AddScoped<IProfile, Repository.Profile>();
             services.AddScoped<IRole, Role>();
+            services.AddScoped<IUser, User>();
+            services.AddScoped<IOption, Option>();
 
             services.AddScoped(provider => new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile(new RoleProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new UserProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new OptionProfile(provider.GetService<IBaseService>()));
             }).CreateMapper());
         }
 
@@ -120,6 +137,12 @@ namespace API
             {
                 //app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Files")),
+                RequestPath = "/Files"
+            });
 
             app.UseHttpsRedirection();
 

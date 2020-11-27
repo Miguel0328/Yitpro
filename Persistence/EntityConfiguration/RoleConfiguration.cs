@@ -27,12 +27,17 @@ namespace Persistence.EntityConfiguration
         }
     }
 
-    public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissionsModel>
+    public class RolePermissionsConfiguration : IEntityTypeConfiguration<RolePermissionsModel>
     {
         public void Configure(EntityTypeBuilder<RolePermissionsModel> builder)
         {
             builder
                 .HasKey(x => new { x.MenuId, x.RoleId });
+
+            builder
+                .Property(x => x.UpdatedAt)
+                .IsRequired(false)
+                .HasColumnType("smalldatetime");
 
             builder
                 .HasOne(x => x.UpdatedBy)
