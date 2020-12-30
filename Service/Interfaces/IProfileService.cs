@@ -1,5 +1,5 @@
 ﻿using Persistence.Models;
-using Service.DTO;
+using Resources.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Persistence;
-using Persistence.Errors;
+using Resources.Errors;
 using Persistence.Models;
 using Repository.Interfaces;
 using System;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Resources.DTO;
 
 namespace Repository
 {
@@ -21,21 +22,32 @@ namespace Repository
             _context = context;
         }
 
-        public async Task<List<UserModel>> Get()
+        public async Task<List<UserModel>> Get(UserFilterDTO filter)
         {
-            return await _context.User.Include(x => x.Role).ToListAsync();
+            var users = _context.User.Include(x => x.Role).Select(x => x);
+
+            if (filter != null)
+            {
+                users = users.Where(x =>
+                ((x.FirstName + " " + x.LastName + " " + x.SecondLastName).Contains(filter.Name) || filter.Name == "")
+                && (x.Email.Contains(filter.Email) || filter.Email == "")
+                && (x.RoleId == filter.RoleId || filter.RoleId == null)
+                && (x.Active == filter.Active || filter.Active == null));
+            }
+
+            return await users.ToListAsync();
         }
 
-        public async Task<UserModel> Get(long id)
+        public async Task<UserModel> GetDetail(long id)
         {
-            var user = await _context.User.FindAsync(id);
+            var user = await _context.User.Include(x => x.Role).FirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
 
             return user;
         }
 
-        public async Task<bool> Post(UserModel user)
+        public async Task<long> Post(UserModel user)
         {
             var duplicate = await _context.User.AnyAsync(x => x.Email == user.Email || x.EmployeeNumber == user.EmployeeNumber);
             if (duplicate)
@@ -46,19 +58,19 @@ namespace Repository
             await _context.SaveChangesAsync();
             await SetPermissions(user);
 
-            return true;
+            return user.Id;
         }
 
         public async Task<bool> Put(UserModel _user)
         {
+            var user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _user.Id);
+            if (user == null)
+                throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
+
             var duplicate = await _context.User
                 .AnyAsync(x => (x.Email == _user.Email || x.EmployeeNumber == _user.EmployeeNumber) && x.Id != _user.Id);
             if (duplicate)
                 throw new RestException(HttpStatusCode.BadRequest, new { user = "Already exists" });
-
-            var user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _user.Id);
-            if (user == null)
-                throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
 
             var entry = _context.Entry(_user);
             entry.State = EntityState.Modified;
@@ -87,7 +99,7 @@ namespace Repository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<List<UserPermissionsModel>> GetPermissions(long id)
+        public async Task<List<UserPermissionModel>> GetPermissions(long id)
         {
             var User = await _context.User.FindAsync(id);
             if (User == null)
@@ -95,10 +107,10 @@ namespace Repository
 
             var permissions = await
                 (from menu in _context.Menu
-                 join leftPermissions in _context.UserPermissions.Where(x => x.UserId == id) on menu.Id equals leftPermissions.MenuId into ljPermissions
+                 join leftPermissions in _context.UserPermission.Where(x => x.UserId == id) on menu.Id equals leftPermissions.MenuId into ljPermissions
                  from permission in ljPermissions.DefaultIfEmpty()
                  select new { menu, permission })
-                 .Select(x => new UserPermissionsModel
+                 .Select(x => new UserPermissionModel
                  {
                      MenuId = x.menu.Id,
                      UserId = id,
@@ -112,7 +124,7 @@ namespace Repository
             return permissions;
         }
 
-        public async Task<bool> PutPermissions(List<UserPermissionsModel> permissions)
+        public async Task<bool> PutPermissions(List<UserPermissionModel> permissions)
         {
             await _context.BulkMergeAsync(permissions);
             return true;
@@ -120,11 +132,11 @@ namespace Repository
 
         public async Task SetPermissions(UserModel user)
         {
-            var rolePermissions = await _context.RolePermissions.Where(x => x.RoleId == user.RoleId).ToListAsync();
-            var userPermissions = await _context.UserPermissions.Where(x => x.UserId == user.Id).ToListAsync();
+            var rolePermissions = await _context.RolePermission.Where(x => x.RoleId == user.RoleId).ToListAsync();
+            var userPermissions = await _context.UserPermission.Where(x => x.UserId == user.Id).ToListAsync();
             var permissions =
                 rolePermissions
-                .Select(x => new UserPermissionsModel
+                .Select(x => new UserPermissionModel
                 {
                     MenuId = x.MenuId,
                     UserId = user.Id,
@@ -138,6 +150,29 @@ namespace Repository
 
             await _context.BulkDeleteAsync(userPermissions);
             await _context.BulkInsertAsync(permissions);
+        }
+
+        public async Task<object> Download()
+        {
+            var users =
+                await _context.User
+                .Select(x => new
+                {
+                    No_Empleado = x.EmployeeNumber,
+                    Nombre = x.FirstName + " " + x.LastName + " " + x.SecondLastName,
+                    x.Email,
+                    Rol = x.Role.Name,
+                    Jefe_Directo = x.Manager.EmployeeNumber,
+                    Fecha_Ingreso = x.AdmissionDate.ToString("dd/MM/yyyy"),
+                    Activo = x.Active ? "Sí" : "No",
+                    Bloqueado = x.Locked ? "Sí" : "No"
+                })
+                .ToListAsync();
+
+            if (users.Count == 0)
+                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = "No hay registros para exportar" });
+
+            return users;
         }
     }
 }

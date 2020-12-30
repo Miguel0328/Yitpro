@@ -8,7 +8,7 @@ import {
   Segment,
 } from "semantic-ui-react";
 import { combineValidators, isRequired } from "revalidate";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 import { ILogin } from "../../app/models/profile";
 import { FORM_ERROR } from "final-form";
 import TextInput from "../../app/common/form/TextInput";

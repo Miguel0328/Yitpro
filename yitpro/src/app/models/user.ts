@@ -8,7 +8,14 @@ export interface IUser {
   active: boolean;
 }
 
-export interface IUserDetails {
+export interface IUserFilter {
+  name: string;
+  email: string;
+  roleId?: number | "";
+  active?: boolean | "";
+}
+
+export interface IUserDetail {
   id: number;
   employeeNumber: string;
   firstName: string;
@@ -35,14 +42,18 @@ export interface IUserPermission {
   delete: boolean;
 }
 
-export interface IUserFilter {
-  user: string;
-  email: string;
-  active: string;
-  roleId: number | "";
+export class UserFilterValues implements IUserFilter {
+  name = "";
+  email = "";
+  roleId?: number | "" =  "";
+  active?: boolean | "" = "";
+
+  constructor(init?: IUserFilter) {
+    Object.assign(this, init);
+  }
 }
 
-export class UserFormValues implements IUserDetails {
+export class UserFormValues implements IUserDetail {
   id: number = 0;
   employeeNumber = "";
   firstName = "";
@@ -55,7 +66,7 @@ export class UserFormValues implements IUserDetails {
   active = true;
   locked = false;
 
-  constructor(init?: IUserDetails) {
+  constructor(init?: IUserDetail) {
     Object.assign(this, init);
   }
 }

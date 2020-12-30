@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Persistence.Errors;
+using Resources.Errors;
 using Persistence.Models;
 using Repository.Interfaces;
-using Service.DTO;
+using Resources.DTO;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace Service
             _request = _service.GetRequest();
         }
 
-        public List<MenuDTO> GetMenus(ICollection<RolePermissionsModel> permissions, ICollection<RolePermissionsModel> child, byte level)
+        public List<MenuDTO> GetMenus(ICollection<UserPermissionModel> permissions, ICollection<UserPermissionModel> child, byte level)
         {
             var menus = new List<MenuDTO>();
             foreach (var menu in child.Where(x => x.Menu.Level == level))
@@ -51,7 +51,7 @@ namespace Service
         {
             var id = _service.GetCurrentUserId();
             var user = await _profile_.CurrentUser(id);
-            var permissions = user.Role.Permissions.Where(x => x.Access).ToList();
+            var permissions = user.Permissions.Where(x => x.Access).ToList();
             var menus = GetMenus(permissions, permissions, 1);
 
             return new ProfileDTO

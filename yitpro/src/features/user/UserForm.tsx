@@ -11,7 +11,6 @@ import {
   Form,
   Button,
   Grid,
-  Container,
   Image,
   Segment,
 } from "semantic-ui-react";
@@ -20,8 +19,8 @@ import SelectInput from "../../app/common/form/SelectInput";
 import SliderInput from "../../app/common/form/SliderInput";
 import TextInput from "../../app/common/form/TextInput";
 import PhotoUploadWidget from "../../app/common/photoUpload/PhotoUploadWidget";
-import { IUserDetails, UserFormValues } from "../../app/models/user";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { IUserDetail, UserFormValues } from "../../app/models/user";
+import { RootStoreContext } from "../../app/stores/root";
 
 const validate = combineValidators({
   employeeNumber: composeValidators(
@@ -65,7 +64,7 @@ const UserForm = () => {
     submitting,
     user: currentUser,
     initForm,
-    getById,
+    getDetail,
     post,
     put,
     clearUser,
@@ -78,15 +77,17 @@ const UserForm = () => {
   useEffect(() => {
     initForm();
     if (userId !== 0) {
-      getById();
+      getDetail();
     }
 
-    return clearUser();
-  }, [userId, initForm, clearUser, getById]);
+    return () => {
+      clearUser();
+    };
+  }, [userId, initForm, clearUser, getDetail]);
 
   let user = new UserFormValues(currentUser);
 
-  const handleSubmit = async (user: IUserDetails) => {
+  const handleSubmit = async (user: IUserDetail) => {
     let formData = new FormData();
     formData.append("id", user.id.toString());
     formData.append("employeeNumber", user.employeeNumber);
@@ -114,131 +115,131 @@ const UserForm = () => {
         initialValues={user}
         onSubmit={handleSubmit}
         validate={validate}
-        render={({ handleSubmit, invalid }) => (
-          <Form onSubmit={handleSubmit} error>
-            <Grid>
-              <Grid.Row stretched style={{ paddingBottom: 0 }}>
-                <Grid.Column width={4}>
-                  <Image
-                    circular
-                    style={{ width: "100%" }}
-                    src={
-                      photo
-                        ? URL.createObjectURL(photo)
-                        : user.photoUrl
-                        ? user.photoUrl
-                        : "assets/avatar.png"
-                    }
-                  />
-                </Grid.Column>
-                <Grid.Column width={6}>
-                  <Container style={{ margin: 0, padding: 0 }}>
+        render={({ handleSubmit, invalid }) => {
+          return (
+            <Form onSubmit={handleSubmit} error>
+              <Grid stackable>
+                <Grid.Row stretched style={{ paddingBottom: "1em" }}>
+                  <Grid.Column width={4}>
+                    <Image
+                      circular
+                      style={{ width: "100%" }}
+                      src={
+                        photo
+                          ? URL.createObjectURL(photo)
+                          : user.photoUrl
+                          ? user.photoUrl
+                          : "assets/avatar.png"
+                      }
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={6}>
                     <strong>Numero de empleado</strong>
                     <Field
                       name="employeeNumber"
                       placeholder="Numero de empleado"
                       component={TextInput}
                     />
-                  </Container>
-                  <Container>
                     <strong>Apellido paterno</strong>
                     <Field
                       name="lastName"
                       placeholder="Apellido paterno"
                       component={TextInput}
                     />
-                  </Container>
-                </Grid.Column>
-                <Grid.Column width={6}>
-                  <Container style={{ margin: 0, padding: 0 }}>
+                  </Grid.Column>
+                  <Grid.Column width={6}>
                     <strong>Nombre(s)</strong>
                     <Field
                       name="firstName"
                       placeholder="Nombre(s)"
                       component={TextInput}
                     />
-                  </Container>
-                  <Container>
                     <strong>Apellido materno</strong>
                     <Field
                       name="secondLastName"
                       placeholder="Apellido materno"
                       component={TextInput}
                     />
-                  </Container>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Column width={4} verticalAlign="bottom">
+                  <Button
+                    fluid
+                    onClick={(e) => {
+                      e.preventDefault();
+                      openUpperModal(
+                        <PhotoUploadWidget setPhoto={setPhoto} />,
+                        "tiny",
+                        "Foto"
+                      );
+                    }}
+                  >
+                    Agregar Foto
+                  </Button>
                 </Grid.Column>
-              </Grid.Row>
-              <Grid.Column width={4} verticalAlign="bottom">
-                <Button
-                  fluid
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openUpperModal(
-                      <PhotoUploadWidget setPhoto={setPhoto} />,
-                      "tiny",
-                      "Foto"
-                    );
-                  }}
-                >
-                  Agregar Foto
-                </Button>
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <Container>
+                <Grid.Column width={6}>
                   <strong>Correo</strong>
                   <Field
                     name="email"
                     placeholder="Correo"
                     component={TextInput}
                   />
-                </Container>
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <strong>Fecha de ingreso</strong>
-                <Field
-                  name="admissionDate"
-                  placeholder="Fecha de ingreso"
-                  date={true}
-                  component={DateInput}
-                />
-              </Grid.Column>
-              <Grid.Column width={2}>
-                <strong>Activo</strong>
-                <Field name="active" component={SliderInput} type="checkbox" />
-              </Grid.Column>
-              <Grid.Column width={2}>
-                <strong>Bloqueado</strong>
-                <Field name="locked" component={SliderInput} type="checkbox" />
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <strong>Rol</strong>
-                <Field
-                  name="roleId"
-                  placeholder="Rol"
-                  options={roleOptions ?? []}
-                  component={SelectInput}
-                />
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <strong>Jefe directo</strong>
-                <Field
-                  name="managerId"
-                  placeholder="Jefe directo"
-                  options={lineManagersOptions ?? []}
-                  component={SelectInput}
-                  clearable={true}
-                />
-              </Grid.Column>
-              <Grid.Column textAlign="right" width={16}>
-                <Button
-                  color="vk"
-                  content="Guardar"
-                  disabled={submitting || invalid}
-                />
-              </Grid.Column>
-            </Grid>
-          </Form>
-        )}
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <strong>Fecha de ingreso</strong>
+                  <Field
+                    name="admissionDate"
+                    placeholder="Fecha de ingreso"
+                    date={true}
+                    component={DateInput}
+                  />
+                </Grid.Column>
+                <Grid.Column width={2}>
+                  <strong>Activo</strong>
+                  <Field
+                    name="active"
+                    component={SliderInput}
+                    type="checkbox"
+                  />
+                </Grid.Column>
+                <Grid.Column width={2}>
+                  <strong>Bloqueado</strong>
+                  <Field
+                    name="locked"
+                    component={SliderInput}
+                    type="checkbox"
+                  />
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <strong>Rol</strong>
+                  <Field
+                    name="roleId"
+                    placeholder="Rol"
+                    options={roleOptions ?? []}
+                    component={SelectInput}
+                  />
+                </Grid.Column>
+                <Grid.Column width={6}>
+                  <strong>Jefe directo</strong>
+                  <Field
+                    name="managerId"
+                    placeholder="Jefe directo"
+                    options={lineManagersOptions ?? []}
+                    component={SelectInput}
+                    clearable={true}
+                  />
+                </Grid.Column>
+                <Grid.Column textAlign="right" width={16}>
+                  <Button
+                    color="vk"
+                    content="Guardar"
+                    disabled={submitting || invalid}
+                  />
+                </Grid.Column>
+              </Grid>
+            </Form>
+          );
+        }}
       />
     </Segment>
   );

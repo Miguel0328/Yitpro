@@ -27,6 +27,16 @@ i.icon.icon-table:hover {
   transform: scale(1.2) !important;
 }
 
+i.icon.icon-table-header {
+  font-size: 16px !important;
+  margin: auto 5px !important;
+}
+
+i.icon.icon-table-header:hover {
+  cursor: pointer !important;
+  transform: scale(1.2) !important;
+}
+
 i.icon.icon-menu {
   font-size: 16px !important;
   margin: auto 0px !important;
@@ -160,10 +170,11 @@ i.icon.icon-menu:hover {
 .filter-segment {
   display: block !important;
   position: absolute !important;
-  top: 120% !important;
-  right: 0 !important;
+  top: 46px !important;
+  right: 2.2rem !important;
   padding: 15px !important;
   z-index: 999 !important;
+  opacity: 0.96 !important;
 }
 
 .filter-segment:before {
@@ -206,14 +217,15 @@ i.icon.icon-menu:hover {
 }
 
 .ui.principal-segment .principal-divider {
-  margin-top: 1em !important;
+  margin-top: 0 !important;
   margin-bottom: 1em !important;
 }
 
-.segment-header {
+.ui.segment.segment-header {
   padding: 0 !important;
   border: none !important;
   box-shadow: none !important;
+  margin-bottom: 1em !important;
 }
 
 .segment-table {
@@ -221,6 +233,17 @@ i.icon.icon-menu:hover {
   margin: 0 !important;
   min-width: 100% !important;
   min-height: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.project-detail-segment {
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 /* Segment */
 
@@ -283,12 +306,20 @@ i.icon.icon-menu:hover {
   text-overflow: ellipsis;
 }
 
+.ui.selection.active.dropdown .menu {
+  width: max-content;
+}
+
 .ui.grid > .column:not(.row) {
   padding-top: 0px !important;
 }
 
 .ui.grid {
   padding-top: 1rem !important;
+}
+
+.ui.grid + .grid {
+  margin-top: unset;
 }
 
 .ui.grid > .row {
@@ -322,3 +353,148 @@ i.icon.icon-menu:hover {
   z-index: 10;
 }
 /* Loading */
+
+.calendar .months-container .month-container {
+  height: 235px !important;
+}
+
+.calendar table.month td.day .day-content {
+  border-radius: 0 !important;
+}
+
+.calendar-year > .calendar {
+  max-height: 500px !important;
+  padding: 0 !important;
+}
+
+/* .calendar .calendar-header {
+  background-color: white;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
+  border: 0;
+}
+
+.calendar .calendar-header .year-title {
+  font-size: 18px;
+}
+
+.calendar .calendar-header .year-title:hover,
+.calendar .calendar-header .prev:hover,
+.calendar .calendar-header .next:hover{
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.calendar .calendar-header .year-title:not(.year-neighbor):not(.year-neighbor2) {
+  border-bottom: 2px solid #ccc;
+}
+
+.calendar .calendar-header .year-neighbor {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.calendar .calendar-header .year-neighbor2 {
+  color: inherit;
+  opacity: 0.4;
+}
+
+.calendar .months-container .month-container {
+  height: 235px;
+  margin-bottom: 25px;
+}
+
+.calendar table.month {
+  background-color: white;
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
+  height: 100%;
+}
+
+.calendar table.month th.month-title {
+  background-color: #f0f0f0;
+  color: #888;
+  padding: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.calendar table.month th.day-header {
+  padding-top: 8px;
+  padding-bottom: 5px;
+  color: #666;
+  font-weight: 500;
+}
+
+.calendar table.month td.day .day-content {
+  color: #666;
+  padding: 9px 7px;
+  border-radius: 2px;
+} */
+
+.search-table input {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  border-radius: 0px !important;
+  color: #e0e0e0 !important;
+  margin-right: 15px !important;
+  width: 120px !important;
+  height: 25px !important;
+}
+
+.search-table.input > i.icon {
+  top: 15px !important;
+  right: 35px !important;
+}
+
+.columns-segment {
+  display: block !important;
+  position: absolute !important;
+  top: 46px !important;
+  right: 0.25rem !important;
+  padding: 15px !important;
+  z-index: 999 !important;
+  opacity: 0.96 !important;
+}
+
+.columns-segment:before {
+  content: " " !important;
+  position: absolute !important;
+  background: #1b1c1d !important;
+  width: 8px !important;
+  height: 8px !important;
+  top: -4px !important;
+  right: 15px !important;
+  transform: rotate(135deg) !important;
+}
+
+.columns-segment .ui.checkbox label {
+  color: white !important;
+}
+
+table a {
+  color: #2a5075 !important;
+  text-decoration: underline !important;
+}
+
+.ui.container.table-selected-actions {
+  width: 50% !important;
+  margin: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: inline-block !important;
+}
+
+.ui.vertical.tabular.menu .active.item {
+  background-color: #6d7c8f !important;
+  color: white !important;
+}
+/* 
+.ui.bottom.attached.segment.active.tab {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  min-height: unset !important;
+} */
+
+.ui.grid > .stretched.column:not(.row) {
+  height: max-content;
+}

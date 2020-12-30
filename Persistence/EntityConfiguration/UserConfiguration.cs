@@ -77,9 +77,9 @@ namespace Persistence.EntityConfiguration
         }
     }
 
-    public class UserPermissionsConfiguration : IEntityTypeConfiguration<UserPermissionsModel>
+    public class UserPermissionConfiguration : IEntityTypeConfiguration<UserPermissionModel>
     {
-        public void Configure(EntityTypeBuilder<UserPermissionsModel> builder)
+        public void Configure(EntityTypeBuilder<UserPermissionModel> builder)
         {
             builder
                 .HasKey(x => new { x.MenuId, x.UserId });

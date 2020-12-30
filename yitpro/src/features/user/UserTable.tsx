@@ -1,23 +1,36 @@
 import { Switch } from "@material-ui/core";
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Segment, Icon, Image } from "semantic-ui-react";
 import TableComponent from "../../app/common/table/TableComponent";
 import { IColumn } from "../../app/models/table";
 import { IUser } from "../../app/models/user";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
+import UserFilter from "./UserFilter";
 import UserForm from "./UserForm";
 import UserPermission from "./UserPermission";
 
-const RoleTable = () => {
+const UserTable = () => {
   const rootStore = useContext(RootStoreContext);
   const {
     loading,
     filtered: users,
+    get,
+    clearUsers,
     setUserId,
     putEnabled,
+    download,
+    filterByText,
   } = rootStore.userStore;
   const { openModal } = rootStore.modalStore;
+
+  useEffect(() => {
+    get();
+
+    return () => {
+      clearUsers();
+    };
+  }, [get, clearUsers]);
 
   const columns: IColumn[] = [
     {
@@ -57,6 +70,7 @@ const RoleTable = () => {
       label: "Contraseña",
       align: "center",
       width: "8%",
+      orderable: false,
       render: (user: IUser) => (
         <Icon
           name="user secret"
@@ -74,6 +88,7 @@ const RoleTable = () => {
       label: "Permisos",
       align: "center",
       width: "8%",
+      orderable: false,
       render: (user: IUser) => (
         <Icon
           name="lock"
@@ -90,12 +105,14 @@ const RoleTable = () => {
       label: "Acciones",
       align: "center",
       width: "8%",
+      orderable: false,
       render: (user: IUser) => (
         <div className="table-actions">
           <Icon
             name="edit"
             className="icon-table"
             onClick={() => {
+              console.log("Editando");
               setUserId(user.id);
               openModal(<UserForm />, "small", "Editar: " + user.name);
             }}
@@ -116,9 +133,16 @@ const RoleTable = () => {
 
   return (
     <Segment loading={loading} className="segment-table">
-      <TableComponent columns={columns} data={users} />
+      <TableComponent
+        orderColumn="name"
+        columns={columns}
+        data={users}
+        filterAction={filterByText}
+        downloadAction={download}
+        filterComponent={<UserFilter />}
+      />
     </Segment>
   );
 };
 
-export default observer(RoleTable);
+export default observer(UserTable);

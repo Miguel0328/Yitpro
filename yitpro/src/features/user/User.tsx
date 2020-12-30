@@ -1,22 +1,18 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
 import { Divider, Segment } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 import UserHeader from "./UserHeader";
 import UserTable from "./UserTable";
 
 const User = () => {
   const rootStore = useContext(RootStoreContext);
-  const { index, get, clearUsers } = rootStore.userStore;
+  const { index } = rootStore.userStore;
   const { loadingIndex } = rootStore.commonStore;
 
   useEffect(() => {
-    index()
-      .then(get)
-      .catch((error) => console.log(error));
-
-    return clearUsers();
-  }, [index, get, clearUsers]);
+    index().catch((error) => console.log(error));
+  }, [index]);
 
   if (loadingIndex) return null;
 

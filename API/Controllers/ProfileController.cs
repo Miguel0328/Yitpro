@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Models;
-using Service.DTO;
+using Resources.DTO;
 using Service.Interfaces;
 
 namespace API.Controllers

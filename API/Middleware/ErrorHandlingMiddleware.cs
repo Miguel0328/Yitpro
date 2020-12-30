@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Persistence.Errors;
+using Resources.Errors;
 using System;
 using System.Net;
 using System.Text.Json;

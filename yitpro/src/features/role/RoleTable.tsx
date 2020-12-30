@@ -1,11 +1,12 @@
 import { Switch } from "@material-ui/core";
 import { observer } from "mobx-react-lite";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Segment, Icon } from "semantic-ui-react";
 import TableComponent from "../../app/common/table/TableComponent";
 import { IRole } from "../../app/models/role";
 import { IColumn } from "../../app/models/table";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
+import RoleFilter from "./RoleFilter";
 import RoleForm from "./RoleForm";
 import RolePermission from "./RolePermission";
 
@@ -14,10 +15,22 @@ const RoleTable = () => {
   const {
     loading,
     filtered: roles,
+    get,
+    clearRoles,
     setRole,
     putEnabled,
+    download,
+    filterRoles,
   } = rootStore.roleStore;
   const { openModal } = rootStore.modalStore;
+
+  useEffect(() => {
+    get();
+
+    return () => {
+      clearRoles();
+    };
+  }, [get, clearRoles]);
 
   const columns: IColumn[] = [
     {
@@ -38,6 +51,7 @@ const RoleTable = () => {
       label: "Permisos",
       align: "center",
       width: "8%",
+      orderable: false,
       render: (role: IRole) => (
         <Icon
           name="lock"
@@ -54,6 +68,7 @@ const RoleTable = () => {
       label: "Acciones",
       align: "center",
       width: "8%",
+      orderable: false,
       render: (role: IRole) =>
         !role.protected && (
           <div className="table-actions">
@@ -81,7 +96,14 @@ const RoleTable = () => {
 
   return (
     <Segment loading={loading} className="segment-table">
-      <TableComponent columns={columns} data={roles} />
+      <TableComponent
+        filterComponent={<RoleFilter />}
+        orderColumn="name"
+        columns={columns}
+        data={roles}
+        filterAction={filterRoles}
+        downloadAction={download}
+      />
     </Segment>
   );
 };

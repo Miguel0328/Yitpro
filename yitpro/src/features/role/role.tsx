@@ -1,22 +1,18 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
 import { Divider, Segment } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 import RoleHeader from "./RoleHeader";
 import RoleTable from "./RoleTable";
 
 const Role = () => {
   const rootStore = useContext(RootStoreContext);
-  const { index, get, clearRoles } = rootStore.roleStore;
+  const { index  } = rootStore.roleStore;
   const { loadingIndex } = rootStore.commonStore;
 
   useEffect(() => {
-    index()
-      .then(get)
-      .catch((error) => console.log(error));
-
-    return clearRoles();
-  }, [index, get, clearRoles]);
+    index().catch((error) => console.log(error));
+  }, [index]);
 
   if (loadingIndex) return null;
 

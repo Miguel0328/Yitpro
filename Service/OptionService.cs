@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Persistence;
 using Repository.Interfaces;
-using Service.DTO;
+using Resources.DTO;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,6 +24,12 @@ namespace Service
         public async Task<List<OptionDTO>> GetRoles()
         {
             var options = await _option_.GetRoles();
+            return _mapper.Map<List<OptionDTO>>(options);
+        }          
+        
+        public async Task<List<OptionDTO>> GetClients()
+        {
+            var options = await _option_.GetClients();
             return _mapper.Map<List<OptionDTO>>(options);
         }        
         

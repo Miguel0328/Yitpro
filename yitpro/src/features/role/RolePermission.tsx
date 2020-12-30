@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Grid, Icon, Segment } from "semantic-ui-react";
 import TableComponent from "../../app/common/table/TableComponent";
 import { observer } from "mobx-react-lite";
 import { IRolePermission } from "../../app/models/role";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 import { IColumn } from "../../app/models/table";
 
 const RolePermission = () => {
@@ -25,7 +25,9 @@ const RolePermission = () => {
   useEffect(() => {
     getPermissions(role!.id);
 
-    return clearPermissions();
+    return () => {
+      clearPermissions();
+    };
   }, [role, getPermissions, clearPermissions]);
 
   const headers: IColumn[] = [
@@ -223,7 +225,8 @@ const RolePermission = () => {
               columns={columns}
               data={permissions}
               headers={headers}
-              paginated={false}
+              header={false}
+              orderable={false}
             />
           </Grid.Column>
           <Grid.Column width={16} textAlign="right">

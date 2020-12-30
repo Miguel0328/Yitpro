@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Service.DTO;
+using Resources.Constants;
+using Resources.DTO;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -27,19 +28,27 @@ namespace API.Controllers
 
         [HttpGet]
         [Authorize("Get")]
-        public async Task<List<UserDTO>> Get() => await _user.Get();
+        public async Task<List<UserDTO>> Get() => await _user.Get();      
+        
+        [HttpPost("filter")]
+        [Authorize("Get")]
+        public async Task<List<UserDTO>> Get(UserFilterDTO filter) => await _user.Get(filter);
 
         [HttpGet("{id}")]
         [Authorize("Get")]
-        public async Task<UserDetailsDTO> Get(long id) => await _user.Get(id);
+        public async Task<UserDTO> Get(long id) => await _user.Get(id);
+
+        [HttpGet("detail/{id}")]
+        [Authorize("Get")]
+        public async Task<UserDetailDTO> GetDetail(long id) => await _user.GetDetail(id);
 
         [HttpPost]
         [Authorize("Post")]
-        public async Task<bool> Post([FromForm] UserDetailsDTO user) => await _user.Post(user);
+        public async Task<long> Post([FromForm] UserDetailDTO user) => await _user.Post(user);
 
         [HttpPut]
         [Authorize("Put")]
-        public async Task<bool> Put([FromForm] UserDetailsDTO user) => await _user.Put(user);
+        public async Task<bool> Put([FromForm] UserDetailDTO user) => await _user.Put(user);
 
         [HttpPut("active")]
         [Authorize("Put")]
@@ -52,5 +61,8 @@ namespace API.Controllers
         [HttpPut("permissions")]
         [Authorize("Put")]
         public async Task<bool> PutPermissions(List<UserPermisssionDTO> permissions) => await _user.PutPermissions(permissions);
+
+        [HttpGet("download")]
+        public async Task<IActionResult> Download() => File(await _user.Download(), MimeType.XLSX);
     }
 }

@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Button, Grid } from "semantic-ui-react";
-import { RootStoreContext } from "../../stores/rootStore";
+import { RootStoreContext } from "../../stores/root";
 import PhotoWidgetCropper from "./PhotoWidgetCropper";
 import PhotoWidgetDropzone from "./PhotoWidgetDropzone";
 

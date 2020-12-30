@@ -5,4 +5,12 @@ export interface IColumn {
   width: string;
   align: "left" | "center" | "right";
   color?: any;
+  orderable?: boolean;
+}
+
+export type Order = "asc" | "desc";
+
+export interface IShow {
+  name: string;
+  visible: boolean;
 }

@@ -27,9 +27,9 @@ namespace Persistence.EntityConfiguration
         }
     }
 
-    public class RolePermissionsConfiguration : IEntityTypeConfiguration<RolePermissionsModel>
+    public class RolePermissionConfiguration : IEntityTypeConfiguration<RolePermissionModel>
     {
-        public void Configure(EntityTypeBuilder<RolePermissionsModel> builder)
+        public void Configure(EntityTypeBuilder<RolePermissionModel> builder)
         {
             builder
                 .HasKey(x => new { x.MenuId, x.RoleId });

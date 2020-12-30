@@ -1,20 +1,16 @@
 import { observer } from "mobx-react-lite";
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { useContext } from "react";
 import {
   Form,
   Segment,
   Grid,
-  Select,
   Divider,
   Button,
+  Dropdown,
 } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 
-interface IProps {
-  setShowFilter: Dispatch<SetStateAction<boolean>>;
-}
-
-const RoleFilter: React.FC<IProps> = ({ setShowFilter }) => {
+const RoleFilter: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { filter, setFilter, clearFilter, filterRoles } = rootStore.roleStore;
 
@@ -28,7 +24,6 @@ const RoleFilter: React.FC<IProps> = ({ setShowFilter }) => {
       <Form
         onSubmit={() => {
           filterRoles();
-          setShowFilter(false);
         }}
       >
         <Grid>
@@ -45,13 +40,15 @@ const RoleFilter: React.FC<IProps> = ({ setShowFilter }) => {
           </Grid.Column>
           <Grid.Column width={8}>
             <label>Activo</label>
-            <Select
+            <Dropdown
+              selection
+              clearable
               pointing="top right"
               name="active"
               value={filter.active}
               onChange={setFilter}
+              placeholder="Todos..."
               options={[
-                { key: "all", text: "Todos", value: "all" },
                 { key: "yes", text: "Sí", value: "yes" },
                 { key: "no", text: "No", value: "no" },
               ]}
@@ -59,13 +56,15 @@ const RoleFilter: React.FC<IProps> = ({ setShowFilter }) => {
           </Grid.Column>
           <Grid.Column width={8}>
             <label>Protegido</label>
-            <Select
+            <Dropdown
+              selection
+              clearable
               pointing="top right"
               name="protected"
               value={filter.protected}
               onChange={setFilter}
+              placeholder="Todos..."
               options={[
-                { key: "all", text: "Todos", value: "all" },
                 { key: "yes", text: "Sí", value: "yes" },
                 { key: "no", text: "No", value: "no" },
               ]}

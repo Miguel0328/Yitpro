@@ -1,12 +1,12 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Button, Header, Icon, Modal } from "semantic-ui-react";
-import { RootStoreContext } from "../../stores/rootStore";
+import { RootStoreContext } from "../../stores/root";
 
 const DeletionModalContainer = () => {
   const rootStore = useContext(RootStoreContext);
   const {
-    deletionModal: { open, name, onDelete },
+    deletionModal: { open, name, onDelete, multiple },
     closeDeletionModal,
   } = rootStore.modalStore;
 
@@ -21,20 +21,27 @@ const DeletionModalContainer = () => {
     >
       <Header color="red" icon>
         <Icon name="trash" />
-        Eliminar registro
+        Eliminar
       </Header>
       <Modal.Content>
-        <p>
-          Esta seguro que desea eliminar el registro{" "}
-          <strong style={{ fontSize: "1.2em" }}>{name}</strong>?
-        </p>
+        {multiple ? (
+          <p>
+            Esta seguro que desea eliminar{" "}
+            <strong style={{ fontSize: "1.1em" }}>{name}</strong> registro(s)?
+          </p>
+        ) : (
+          <p>
+            Esta seguro que desea eliminar el registro{" "}
+            <strong style={{ fontSize: "1.1em" }}>{name}</strong>?
+          </p>
+        )}
       </Modal.Content>
       <Modal.Actions>
         <Button basic color="red" inverted onClick={closeDeletionModal}>
           <Icon name="remove" /> No
         </Button>
         <Button color="green" inverted onClick={onDelete}>
-          <Icon name="checkmark" /> Yes
+          <Icon name="checkmark" /> Sí
         </Button>
       </Modal.Actions>
     </Modal>

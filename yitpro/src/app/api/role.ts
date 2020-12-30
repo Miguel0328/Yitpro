@@ -3,14 +3,16 @@ import requests from "./agent";
 
 const Role = {
   index: (): Promise<void> => requests.get("role/index"),
-  get: (id?: number): Promise<IRole[]> => requests.get("role", id),
-  post: (role: IRole): Promise<boolean> => requests.post("role", role),
+  get: (): Promise<IRole[]> => requests.get("role"),
+  post: (role: IRole): Promise<number> => requests.post("role", role),
   put: (role: IRole): Promise<boolean> => requests.put("role", role),
   putEnable: (role: IRole): Promise<boolean> => requests.put("role", role),
   getPermissions: (id: number): Promise<IRolePermission[]> =>
     requests.get("role/permissions", id),
   putPermissions: (permissions: IRolePermission[]) =>
     requests.put("role/permissions", permissions),
+  download: (): Promise<void> =>
+    requests.download("role/download", "roles.xlsx"),
 };
 
 export default Role;

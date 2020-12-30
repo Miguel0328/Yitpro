@@ -18,9 +18,9 @@ using Repository;
 using Repository.Interfaces;
 using Service;
 using Service.Interfaces;
-using Service.Permission;
+using Resources.Authorization;
 using AutoMapper;
-using Service.DTO;
+using Resources.DTO;
 using Service.Mapping;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
@@ -115,16 +115,24 @@ namespace API
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOptionService, OptionService>();
+            services.AddScoped<IClientService, ClientService>();
+            services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IProfile, Repository.Profile>();
             services.AddScoped<IRole, Role>();
             services.AddScoped<IUser, User>();
             services.AddScoped<IOption, Option>();
+            services.AddScoped<IClient, Client>();
+            services.AddScoped<IProject, Project>();
 
             services.AddScoped(provider => new MapperConfiguration(cfg =>
             {
+                cfg.AddProfile(new BaseProfile());
+                cfg.AddProfile(new EventProfile());
                 cfg.AddProfile(new RoleProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new UserProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new OptionProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new ClientProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new ProjectProfile(provider.GetService<IBaseService>()));
             }).CreateMapper());
         }
 
@@ -141,7 +149,13 @@ namespace API
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Files")),
-                RequestPath = "/Files"
+                RequestPath = "/Files",
+                OnPrepareResponse = (context) =>
+                {
+                    context.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
+                    context.Context.Response.Headers["Pragma"] = "no-cache";
+                    context.Context.Response.Headers["Expires"] = "-1";
+                }
             });
 
             app.UseHttpsRedirection();

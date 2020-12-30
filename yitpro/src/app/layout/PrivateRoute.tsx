@@ -6,7 +6,7 @@ import {
   RouteComponentProps,
   RouteProps,
 } from "react-router-dom";
-import { RootStoreContext } from "../stores/rootStore";
+import { RootStoreContext } from "../stores/root";
 
 interface IProps extends RouteProps {
   component: React.ComponentType<RouteComponentProps<any>>;

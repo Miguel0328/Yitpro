@@ -1,21 +1,16 @@
 import { observer } from "mobx-react-lite";
-import React, { Dispatch, SetStateAction, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Form,
   Segment,
   Grid,
-  Select,
   Divider,
   Button,
   Dropdown,
 } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 
-interface IProps {
-  setShowFilter: Dispatch<SetStateAction<boolean>>;
-}
-
-const UserFilter: React.FC<IProps> = ({ setShowFilter }) => {
+const UserFilter: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { filter, setFilter, clearFilter, filterUsers } = rootStore.userStore;
   const { getRoleOptions, roleOptions } = rootStore.optionStore;
@@ -34,16 +29,15 @@ const UserFilter: React.FC<IProps> = ({ setShowFilter }) => {
       <Form
         onSubmit={() => {
           filterUsers();
-          setShowFilter(false);
         }}
       >
         <Grid>
           <Grid.Column width={8}>
             <label>Usuario</label>
             <input
-              name="user"
+              name="name"
               autoComplete="off"
-              value={filter.user}
+              value={filter.name}
               type="text"
               placeholder="Usuario..."
               onChange={setFilter}
@@ -76,15 +70,17 @@ const UserFilter: React.FC<IProps> = ({ setShowFilter }) => {
           </Grid.Column>
           <Grid.Column width={8}>
             <label>Activo</label>
-            <Select
+            <Dropdown
+              clearable
+              selection
               pointing="top right"
               name="active"
               value={filter.active}
               onChange={setFilter}
+              placeholder="Todos..."
               options={[
-                { key: "all", text: "Todos", value: "all" },
-                { key: "yes", text: "Sí", value: "yes" },
-                { key: "no", text: "No", value: "no" },
+                { key: "yes", text: "Sí", value: true },
+                { key: "no", text: "No", value: false },
               ]}
             />
           </Grid.Column>

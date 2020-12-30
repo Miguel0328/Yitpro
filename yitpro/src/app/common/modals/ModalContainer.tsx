@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Icon, Modal } from "semantic-ui-react";
-import { RootStoreContext } from "../../stores/rootStore";
+import { RootStoreContext } from "../../stores/root";
 
 const ModalContainer = () => {
   const rootStore = useContext(RootStoreContext);
@@ -9,7 +9,7 @@ const ModalContainer = () => {
     modal: { open, body, size, header },
     closeModal,
   } = rootStore.modalStore;
-
+  console.log("Modal aqui");
   return (
     <Modal
       closeIcon

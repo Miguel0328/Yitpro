@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{03F97B78-4139-4883-81AF-6642687FA652}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "Persistence\Persistence.csproj", "{9A707732-9EF7-43AB-9E98-071C14AABE14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{9A707732-9EF7-43AB-9E98-071C14AABE14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{A858962C-DCB1-4E9F-978A-171218DCADF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{A858962C-DCB1-4E9F-978A-171218DCADF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{EFE3ABF6-5458-4E81-A606-4390F3735056}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Service\Service.csproj", "{EFE3ABF6-5458-4E81-A606-4390F3735056}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{A1710AD7-278D-4BAE-9079-2E925AAF8C26}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,18 @@ Global
 		{EFE3ABF6-5458-4E81-A606-4390F3735056}.Release|x64.Build.0 = Release|Any CPU
 		{EFE3ABF6-5458-4E81-A606-4390F3735056}.Release|x86.ActiveCfg = Release|Any CPU
 		{EFE3ABF6-5458-4E81-A606-4390F3735056}.Release|x86.Build.0 = Release|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Debug|x64.Build.0 = Debug|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Release|x64.ActiveCfg = Release|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Release|x64.Build.0 = Release|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1710AD7-278D-4BAE-9079-2E925AAF8C26}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

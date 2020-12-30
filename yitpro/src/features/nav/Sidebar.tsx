@@ -10,7 +10,7 @@ import {
 } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { Icon, Image } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 import SidebarMenu from "./SidebarMenu";
 
 const Sidebar: React.FC = () => {
@@ -43,7 +43,7 @@ const Sidebar: React.FC = () => {
                 icon={menu.level === 1 ? <Icon className={menu.icon} /> : null}
                 prefix={menu.level > 1 ? <Icon className={menu.icon} /> : null}
               >
-                <Link to={menu.route ?? ""}>{menu.description}</Link>
+                <Link to={"/" + menu.route ?? ""}>{menu.description}</Link>
               </MenuItem>
             )
           )}

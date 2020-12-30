@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Persistence.Models;
-using Service.DTO;
+using Resources.DTO;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,12 +14,17 @@ namespace Service.Mapping
         private readonly IBaseService _service;
         private readonly HttpRequest _request;
 
-        public OptionProfile(IBaseService baseService)
+        public OptionProfile(IBaseService service)
         {
-            _service = baseService;
+            _service = service;
             _request = _service.GetRequest();
 
             CreateMap<RoleModel, OptionDTO>()
+                .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
+                .ForMember(x => x.Text, o => o.MapFrom(s => s.Name))
+                .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));            
+            
+            CreateMap<ClientModel, OptionDTO>()
                 .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
                 .ForMember(x => x.Text, o => o.MapFrom(s => s.Name))
                 .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));

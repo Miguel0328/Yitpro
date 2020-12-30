@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Persistence.Models;
 using Repository.Interfaces;
-using Service.DTO;
+using Resources.DTO;
+using Resources.Extension;
 using Service.Interfaces;
+using Resources.Reports;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,7 +23,7 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<bool> Post(RoleDTO _role)
+        public async Task<short> Post(RoleDTO _role)
         {
             var role = _mapper.Map<RoleModel>(_role);
             return await _role_.Post(role);
@@ -53,8 +55,16 @@ namespace Service
 
         public async Task<bool> PutPermissions(List<RolePermisssionDTO> _permissions)
         {
-            var permissions = _mapper.Map<List<RolePermissionsModel>>(_permissions);
+            var permissions = _mapper.Map<List<RolePermissionModel>>(_permissions);
             return await _role_.PutPermissions(permissions);
+        }
+
+        public async Task<byte[]> Download()
+        {
+            var roles = await _role_.Download();
+            var file = roles.ToTable("Usuarios").ToExcel();
+
+            return file;
         }
     }
 }

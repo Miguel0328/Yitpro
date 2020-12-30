@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Service.DTO;
+using Resources.Constants;
+using Resources.DTO;
 using Service.Interfaces;
 
 namespace API.Controllers
@@ -27,7 +28,7 @@ namespace API.Controllers
 
         [HttpPost]
         [Authorize("Post")]
-        public async Task<bool> Post(RoleDTO role) => await _role.Post(role);
+        public async Task<short> Post(RoleDTO role) => await _role.Post(role);
 
         [HttpGet("{id}")]
         [Authorize("Get")]
@@ -48,5 +49,8 @@ namespace API.Controllers
         [HttpPut("permissions")]
         [Authorize("Put")]
         public async Task<bool> PutPermissions(List<RolePermisssionDTO> permissions) => await _role.PutPermissions(permissions);
+
+        [HttpGet("download")]
+        public async Task<IActionResult> Download() => File(await _role.Download(), MimeType.XLSX);
     }
 }

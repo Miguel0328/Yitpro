@@ -1,15 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Segment, Header, Button } from "semantic-ui-react";
-import { RootStoreContext } from "../../app/stores/rootStore";
-import UserFilter from "./UserFilter";
+import { RootStoreContext } from "../../app/stores/root";
 import UserForm from "./UserForm";
 
 const UserHeader = () => {
   const rootStore = useContext(RootStoreContext);
   const { setUserId } = rootStore.userStore;
   const { openModal } = rootStore.modalStore;
-
-  const [showFilter, setShowFilter] = useState(false);
 
   return (
     <Segment clearing className="segment-header">
@@ -21,14 +18,6 @@ const UserHeader = () => {
         content="Usuarios"
         floated="left"
       />
-      <Button
-        className="button-filter"
-        basic
-        floated="right"
-        icon="filter"
-        onClick={() => setShowFilter(!showFilter)}
-      />
-      {showFilter && <UserFilter setShowFilter={setShowFilter} />}
       <Button
         color="vk"
         content="Nuevo"

@@ -18,11 +18,15 @@ import Role from "../../features/role/Role";
 import ModalContainer from "../common/modals/ModalContainer";
 import DeletionModalContainer from "../common/modals/DeletionModalContainer";
 import PrivateRoute from "./PrivateRoute";
-import { RootStoreContext } from "../stores/rootStore";
+import { RootStoreContext } from "../stores/root";
 import LoadingComponent from "./LoadingComponent";
 import Forbidden from "./Forbidden";
 import User from "../../features/user/User";
 import UpperModalContainer from "../common/modals/UpperModalContainer";
+import CalendarComponent from "../../features/calendar/Calendar";
+import Client from "../../features/client/Client";
+import Project from "../../features/project/Project";
+import ProjectDetail from "../../features/project/projectDetail/ProjectDetail";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -56,6 +60,18 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute exact path="/" component={Home} />
                 <PrivateRoute exact path="/role" component={Role} />
                 <PrivateRoute exact path="/user" component={User} />
+                <PrivateRoute exact path="/client" component={Client} />
+                <PrivateRoute exact path="/project" component={Project} />
+                <PrivateRoute
+                  exact
+                  path="/project/detail/:code"
+                  component={ProjectDetail}
+                />
+                <PrivateRoute
+                  exact
+                  path="/calendar"
+                  component={CalendarComponent}
+                />
                 <PrivateRoute exact path="/forbidden" component={Forbidden} />
                 <PrivateRoute component={NotFound} />
               </Switch>

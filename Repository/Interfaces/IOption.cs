@@ -10,5 +10,7 @@ namespace Repository.Interfaces
     {
         Task<List<RoleModel>> GetRoles();
         Task<List<UserModel>> GetLineManagers();
+        Task<List<ClientModel>> GetClients();
+
     }
 }

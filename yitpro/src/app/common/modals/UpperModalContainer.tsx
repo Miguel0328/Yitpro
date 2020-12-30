@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Icon, Modal } from "semantic-ui-react";
-import { RootStoreContext } from "../../stores/rootStore";
+import { RootStoreContext } from "../../stores/root";
 
 const UpperModalContainer = () => {
   const rootStore = useContext(RootStoreContext);

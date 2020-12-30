@@ -21,7 +21,7 @@ const SidebarMenu: React.FC<{ menu: IMenu }> = ({ menu }) =>
       icon={menu.level === 1 ? <Icon className={menu.icon} /> : null}
       prefix={menu.level > 1 ? <Icon className={menu.icon} /> : null}
     >
-      <Link to={menu.route ?? ""}>{menu.description}</Link>
+      <Link to={"/" + menu.route ?? ""}>{menu.description}</Link>
     </MenuItem>
   );
 

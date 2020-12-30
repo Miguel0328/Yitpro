@@ -2,7 +2,7 @@ import React, { SyntheticEvent, useContext, useEffect } from "react";
 import { Button, Checkbox, Form, Grid, Icon, Segment } from "semantic-ui-react";
 import TableComponent from "../../app/common/table/TableComponent";
 import { observer } from "mobx-react-lite";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 import { IColumn } from "../../app/models/table";
 import { IUserPermission } from "../../app/models/user";
 
@@ -24,7 +24,9 @@ const UserPermission = () => {
   useEffect(() => {
     getPermissions();
 
-    return clearPermissions();
+    return () => {
+      clearPermissions();
+    };
   }, [getPermissions, clearPermissions]);
 
   const headers: IColumn[] = [
@@ -222,7 +224,8 @@ const UserPermission = () => {
               columns={columns}
               data={permissions}
               headers={headers}
-              paginated={false}
+              header={false}
+              orderable={false}
             />
           </Grid.Column>
           <Grid.Column width={16} textAlign="right">

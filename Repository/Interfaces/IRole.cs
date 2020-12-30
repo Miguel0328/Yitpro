@@ -8,11 +8,12 @@ namespace Repository.Interfaces
 {
     public interface IRole
     {
-        Task<bool> Post(RoleModel _role);
+        Task<short> Post(RoleModel _role);
         Task<bool> Put(RoleModel _role);
         Task<List<RoleModel>> Get();
         Task<RoleModel> Get(short id);
-        Task<List<RolePermissionsModel>> GetPermissions(short id);
-        Task<bool> PutPermissions(List<RolePermissionsModel> permissions);
+        Task<List<RolePermissionModel>> GetPermissions(short id);
+        Task<bool> PutPermissions(List<RolePermissionModel> permissions);
+        Task<object> Download();
     }
 }

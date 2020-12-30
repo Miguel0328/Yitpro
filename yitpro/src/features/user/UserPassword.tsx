@@ -10,7 +10,7 @@ import {
 } from "revalidate";
 import TextInput from "../../app/common/form/TextInput";
 import SliderInput from "../../app/common/form/SliderInput";
-import { RootStoreContext } from "../../app/stores/rootStore";
+import { RootStoreContext } from "../../app/stores/root";
 import { observer } from "mobx-react-lite";
 
 const validate = combineValidators({

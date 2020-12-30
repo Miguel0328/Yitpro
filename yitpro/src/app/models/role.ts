@@ -7,8 +7,8 @@ export interface IRole {
 
 export interface IRoleFilter {
   role: string;
-  active: "all" | "yes" | "no";
-  protected: "all" | "yes" | "no";
+  active: "" | "yes" | "no";
+  protected: "" | "yes" | "no";
 }
 
 export interface IRolePermission {

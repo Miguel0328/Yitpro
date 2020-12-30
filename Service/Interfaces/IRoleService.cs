@@ -1,4 +1,4 @@
-﻿using Service.DTO;
+﻿using Resources.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,11 +8,12 @@ namespace Service.Interfaces
 {
     public interface IRoleService
     {
-        Task<bool> Post(RoleDTO _role);
+        Task<short> Post(RoleDTO _role);
         Task<bool> Put(RoleDTO _role);
         Task<List<RoleDTO>> Get();
         Task<RoleDTO> Get(short id);
         Task<List<RolePermisssionDTO>> GetPermissions(short id);
         Task<bool> PutPermissions(List<RolePermisssionDTO> permissions);
+        Task<byte[]> Download();
     }
 }

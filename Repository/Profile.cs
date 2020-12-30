@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Persistence;
-using Persistence.Errors;
+using Resources.Errors;
 using Persistence.Models;
 using Repository.Interfaces;
 using System;
@@ -29,7 +29,7 @@ namespace Repository
 
         public async Task<UserModel> CurrentUser(long id)
         {
-            var user = await _context.User.Include(x => x.Role.Permissions).ThenInclude(x => x.Menu).FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _context.User.Include(x => x.Permissions).ThenInclude(x => x.Menu).FirstOrDefaultAsync(x => x.Id == id);
 
             return user;
         }
