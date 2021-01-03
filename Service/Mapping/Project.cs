@@ -36,6 +36,7 @@ namespace Service.Mapping
                 .ForMember(x => x.UpdatedAt, o => o.MapFrom(s => DateTime.Now));
 
             CreateMap<ProjectTeamModel, ProjectTeamDTO>()
+                .ForMember(x => x.Id, o => o.MapFrom(s => s.UserId))
                 .ForMember(x => x.User, o => o.MapFrom(s => s.User.FullName))
                 .ForMember(x => x.UserPhoto, o => o.MapFrom(s => s.User.Photo == null ? null :
                 $"{_request.Scheme}://{_request.Host}{_request.PathBase}/{s.User.Photo}"));

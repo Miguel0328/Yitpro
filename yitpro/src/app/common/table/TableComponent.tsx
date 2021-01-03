@@ -38,6 +38,8 @@ interface IProps {
   filterComponent?: JSX.Element;
   selectionActions?: JSX.Element;
   selected?: number[];
+  onlySearchAction?: boolean;
+  title?: string;
   setSelected?: (selected: number[]) => void;
   filterAction?: (filter?: string) => void;
   downloadAction?: () => Promise<void>;
@@ -57,6 +59,8 @@ const TableComponent: React.FC<IProps> = ({
   filterComponent,
   selectionActions,
   selected,
+  onlySearchAction = false,
+  title = "",
   setSelected,
   filterAction,
   downloadAction,
@@ -198,7 +202,7 @@ const TableComponent: React.FC<IProps> = ({
               <Table stickyHeader aria-label="sticky table">
                 <TableHead key="pagination">
                   <TableRow>
-                    {paginated && (
+                    {paginated ? (
                       <TablePagination
                         rowsPerPageOptions={[
                           5,
@@ -208,6 +212,7 @@ const TableComponent: React.FC<IProps> = ({
                           // 100,
                           // { label: "All", value: -1 },
                         ]}
+                        labelRowsPerPage={"Filas:"}
                         style={{ width: actions === false ? "100%" : "50%" }}
                         count={data.length}
                         page={page}
@@ -216,6 +221,13 @@ const TableComponent: React.FC<IProps> = ({
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                         ActionsComponent={TablePaginationActions}
                       />
+                    ) : (
+                      <th
+                        style={{ width: actions === false ? "100%" : "50%" }}
+                        className="MuiTableCell-root MuiTableCell-head MuiTablePagination-root MuiTableCell-stickyHeader"
+                      >
+                        <label style={{ fontSize: "1.2rem" }}>{title}</label>
+                      </th>
                     )}
                     {actions && (
                       <TableActions
@@ -230,6 +242,7 @@ const TableComponent: React.FC<IProps> = ({
                         handlePrint={handlePrint}
                         setShowFilter={setShowFilter}
                         setShowColumn={setShowColumn}
+                        onlySearchAction={onlySearchAction}
                       />
                     )}
                   </TableRow>
@@ -279,9 +292,6 @@ const TableComponent: React.FC<IProps> = ({
                         role="checkbox"
                         tabIndex={-1}
                         key={uuid()}
-                        onClick={(event) => {
-                          if (selected) handleSelect(Number(datum.id));
-                        }}
                       >
                         {selectable && (
                           <TableCell padding="checkbox">
@@ -300,11 +310,7 @@ const TableComponent: React.FC<IProps> = ({
                               <TableCell
                                 key={uuid()}
                                 align={column.align}
-                                style={{
-                                  backgroundColor: column.color
-                                    ? column.color(datum)
-                                    : "unset",
-                                }}
+                                style={column.style ? column.style(datum) : {}}
                               >
                                 {column.render === undefined
                                   ? datum[column.id]

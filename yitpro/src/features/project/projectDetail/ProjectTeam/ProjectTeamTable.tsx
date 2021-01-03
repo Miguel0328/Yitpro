@@ -1,10 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
-import {
-  Icon,
-  Image,
-  Segment,
-} from "semantic-ui-react";
+import { Icon, Image, Segment } from "semantic-ui-react";
 import TableComponent from "../../../../app/common/table/TableComponent";
 import { IProjectTeam } from "../../../../app/models/project";
 import { IColumn } from "../../../../app/models/table";
@@ -17,15 +13,13 @@ const ProjectTeamTable = () => {
     filteredTeam: team,
     selected,
     filterByText,
-    setProjectId,
     getTeam,
     clearTeam,
     setSelected,
+    deleteTeam,
+    downloadTeam,
   } = rootStore.projectTeamStore;
-  const { projectId } = rootStore.projectStore;
-  const { openDeletionModal } = rootStore.modalStore;
-
-  setProjectId(projectId);
+  const { openConfirmationModal } = rootStore.modalStore;
 
   useEffect(() => {
     getTeam();
@@ -70,7 +64,10 @@ const ProjectTeamTable = () => {
             name="trash"
             className="icon-table"
             onClick={() => {
-              openDeletionModal(team.user, () => alert("hola"));
+              openConfirmationModal(team.user, "deletion", () => {
+                setSelected([team.id]);
+                deleteTeam();
+              });
             }}
           />
         </div>
@@ -84,9 +81,10 @@ const ProjectTeamTable = () => {
       size="large"
       name="trash"
       onClick={() => {
-        openDeletionModal(
+        openConfirmationModal(
           selected.length.toString(),
-          () => alert("hola"),
+          "deletion",
+          deleteTeam,
           true
         );
       }}
@@ -96,7 +94,7 @@ const ProjectTeamTable = () => {
   return (
     <Segment loading={loading} className="segment-table">
       <TableComponent
-        orderColumn="code"
+        orderColumn="user"
         columns={columns}
         data={team}
         selectable={true}
@@ -104,8 +102,7 @@ const ProjectTeamTable = () => {
         selected={selected}
         setSelected={setSelected}
         filterAction={filterByText}
-        // downloadAction={download}
-        // filterComponent={<ProjectFilter />}
+        downloadAction={downloadTeam}
       />
     </Segment>
   );

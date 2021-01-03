@@ -19,6 +19,47 @@ namespace Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Persistence.Models.CatalogModel", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<long?>("CatalogId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<bool>("Protected")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("smalldatetime");
+
+                    b.Property<long?>("UpdatedById")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CatalogId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Catalog");
+                });
+
             modelBuilder.Entity("Persistence.Models.ClientModel", b =>
                 {
                     b.Property<short>("Id")
@@ -81,6 +122,35 @@ namespace Persistence.Migrations
                     b.ToTable("Menu");
                 });
 
+            modelBuilder.Entity("Persistence.Models.PhaseModel", b =>
+                {
+                    b.Property<long>("PhaseId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("ClasificationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("PSP")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("smalldatetime");
+
+                    b.Property<long>("UpdatedById")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("PhaseId", "ClasificationId");
+
+                    b.HasIndex("ClasificationId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Phase");
+                });
+
             modelBuilder.Entity("Persistence.Models.ProjectModel", b =>
                 {
                     b.Property<long>("Id")
@@ -131,16 +201,14 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Models.ProjectTeamModel", b =>
                 {
-                    b.Property<short>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("smallint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("ProjectId")
                         .HasColumnType("bigint");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("smalldatetime");
@@ -148,16 +216,11 @@ namespace Persistence.Migrations
                     b.Property<long>("UpdatedById")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "ProjectId");
 
                     b.HasIndex("ProjectId");
 
                     b.HasIndex("UpdatedById");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ProjectTeam");
                 });
@@ -336,6 +399,18 @@ namespace Persistence.Migrations
                     b.ToTable("UserPermission");
                 });
 
+            modelBuilder.Entity("Persistence.Models.CatalogModel", b =>
+                {
+                    b.HasOne("Persistence.Models.CatalogModel", "Catalog")
+                        .WithMany()
+                        .HasForeignKey("CatalogId");
+
+                    b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+                });
+
             modelBuilder.Entity("Persistence.Models.ClientModel", b =>
                 {
                     b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
@@ -351,6 +426,27 @@ namespace Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
+                });
+
+            modelBuilder.Entity("Persistence.Models.PhaseModel", b =>
+                {
+                    b.HasOne("Persistence.Models.CatalogModel", "Clasification")
+                        .WithMany()
+                        .HasForeignKey("ClasificationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Persistence.Models.CatalogModel", "Phase")
+                        .WithMany()
+                        .HasForeignKey("PhaseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Persistence.Models.UserModel", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Persistence.Models.ProjectModel", b =>

@@ -9,7 +9,8 @@ namespace Service.Interfaces
     public interface IOptionService
     {
         Task<List<OptionDTO>> GetRoles();
-        Task<List<OptionDTO>> GetLineManagers();
+        Task<List<OptionDTO>> GetManagers();
         Task<List<OptionDTO>> GetClients();
+        Task<List<OptionDTO>> GetCatalogs();
     }
 }

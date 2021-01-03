@@ -43,7 +43,7 @@ const NavBar: React.FC = () => {
               spaced="right"
               src={user?.photo ?? "/assets/avatar.png"}
             />
-            <Dropdown pointing="top right" text={user?.name}>
+            <Dropdown className="nav-dropdown" pointing="top right" text={user?.name}>
               <Dropdown.Menu>
                 <Dropdown.Item text="My profile" icon="user" />
                 <Dropdown.Item text="Logout" icon="power" onClick={logout} />

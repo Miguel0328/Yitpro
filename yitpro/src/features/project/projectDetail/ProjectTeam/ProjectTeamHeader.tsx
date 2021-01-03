@@ -1,7 +1,13 @@
-import React from "react";
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
 import { Button, Header, Segment } from "semantic-ui-react";
+import { RootStoreContext } from "../../../../app/stores/root";
+import ProjectTeamRemaining from "./ProjectTeamRemaining";
 
 const ProjectTeamHeader = () => {
+  const rootStore = useContext(RootStoreContext);
+  const { openModal } = rootStore.modalStore;
+
   return (
     <Segment clearing className="segment-header">
       <Header
@@ -12,9 +18,17 @@ const ProjectTeamHeader = () => {
         content="Equipo"
         floated="left"
       />
-      <Button primary content="Agregar" floated="right" icon="add user" />
+      <Button
+        primary
+        content="Agregar"
+        floated="right"
+        icon="add user"
+        onClick={() => {
+          openModal(<ProjectTeamRemaining />, "small", "Agregar usuarios");
+        }}
+      />
     </Segment>
   );
 };
 
-export default ProjectTeamHeader;
+export default observer(ProjectTeamHeader);

@@ -24,9 +24,12 @@ namespace API.Controllers
         public async Task<List<OptionDTO>> GetRoles() => await _option.GetRoles();              
         
         [HttpGet("clients")]
-        public async Task<List<OptionDTO>> GetClients() => await _option.GetClients();        
+        public async Task<List<OptionDTO>> GetClients() => await _option.GetClients();           
         
-        [HttpGet("line-managers")]
-        public async Task<List<OptionDTO>> GetLineManagers() => await _option.GetLineManagers();
+        [HttpGet("catalogs")]
+        public async Task<List<OptionDTO>> GetCatalogs() => await _option.GetCatalogs();        
+        
+        [HttpGet("managers")]
+        public async Task<List<OptionDTO>> GetManagers() => await _option.GetManagers();
     }
 }

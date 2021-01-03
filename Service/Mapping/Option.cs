@@ -27,6 +27,11 @@ namespace Service.Mapping
             CreateMap<ClientModel, OptionDTO>()
                 .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
                 .ForMember(x => x.Text, o => o.MapFrom(s => s.Name))
+                .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));           
+            
+            CreateMap<CatalogModel, OptionDTO>()
+                .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
+                .ForMember(x => x.Text, o => o.MapFrom(s => s.Alias))
                 .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));
 
             CreateMap<UserModel, OptionDTO>()

@@ -4,7 +4,7 @@ import { history } from "../..";
 import Role from "../api/role";
 import { filterByText, getErrors } from "../common/util/util";
 import { Messages } from "../models/messages";
-import { IRole, IRoleFilter, IRolePermission } from "../models/role";
+import { IRole, IRoleFilter, IRolePermission, RoleFilterValues } from "../models/role";
 import { RootStore } from "./root";
 
 export default class RoleStore {
@@ -27,11 +27,7 @@ export default class RoleStore {
 
   @observable role: IRole | undefined;
   @observable roles: IRole[] = [];
-  @observable filter: IRoleFilter = {
-    role: "",
-    active: "",
-    protected: "",
-  };
+  @observable filter: IRoleFilter = new RoleFilterValues();
   @observable loading = false;
   @observable submitting = false;
   @observable filtered: IRole[] = [];
@@ -46,11 +42,11 @@ export default class RoleStore {
     "indeterminate";
 
   getRole = (id: number): IRole | undefined => {
-    return this.roles.find((x) => x.id === id);
+    return this.filtered.find((x) => x.id === id);
   };
 
   @action clearFilter = () => {
-    this.filter = { role: "", active: "", protected: "" };
+    this.filter = new RoleFilterValues();
   };
 
   @action clearPermissions = () => {

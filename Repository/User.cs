@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Resources.DTO;
+using EFCore.BulkExtensions;
 
 namespace Repository
 {
@@ -109,6 +110,7 @@ namespace Repository
                 (from menu in _context.Menu
                  join leftPermissions in _context.UserPermission.Where(x => x.UserId == id) on menu.Id equals leftPermissions.MenuId into ljPermissions
                  from permission in ljPermissions.DefaultIfEmpty()
+                 orderby menu.Order
                  select new { menu, permission })
                  .Select(x => new UserPermissionModel
                  {
@@ -118,7 +120,8 @@ namespace Repository
                      Create = x.permission.Create,
                      Update = x.permission.Update,
                      Delete = x.permission.Delete,
-                     Menu = x.menu
+                     Menu = x.menu,
+                     
                  }).ToListAsync();
 
             return permissions;
@@ -126,7 +129,7 @@ namespace Repository
 
         public async Task<bool> PutPermissions(List<UserPermissionModel> permissions)
         {
-            await _context.BulkMergeAsync(permissions);
+            await _context.BulkInsertOrUpdateAsync(permissions);
             return true;
         }
 

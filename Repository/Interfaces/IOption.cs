@@ -9,8 +9,9 @@ namespace Repository.Interfaces
    public interface IOption
     {
         Task<List<RoleModel>> GetRoles();
-        Task<List<UserModel>> GetLineManagers();
+        Task<List<UserModel>> GetManagers();
         Task<List<ClientModel>> GetClients();
+        Task<List<CatalogModel>> GetCatalogs();
 
     }
 }

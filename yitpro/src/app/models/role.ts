@@ -23,6 +23,16 @@ export interface IRolePermission {
   delete: boolean;
 }
 
+export class RoleFilterValues implements IRoleFilter {
+  role = "";
+  active: "" | "yes" | "no" = "";
+  protected: "" | "yes" | "no" = "";
+
+  constructor(init?: IRole) {
+    Object.assign(this, init);
+  }
+}
+
 export class RoleFormValues implements IRole {
   id = 0;
   name = "";

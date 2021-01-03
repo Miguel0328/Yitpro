@@ -31,11 +31,17 @@ namespace Service
         {
             var options = await _option_.GetClients();
             return _mapper.Map<List<OptionDTO>>(options);
+        }               
+        
+        public async Task<List<OptionDTO>> GetCatalogs()
+        {
+            var options = await _option_.GetCatalogs();
+            return _mapper.Map<List<OptionDTO>>(options);
         }        
         
-        public async Task<List<OptionDTO>> GetLineManagers()
+        public async Task<List<OptionDTO>> GetManagers()
         {
-            var options = await _option_.GetLineManagers();
+            var options = await _option_.GetManagers();
             return _mapper.Map<List<OptionDTO>>(options);
         }
     }

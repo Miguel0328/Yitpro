@@ -4,6 +4,7 @@ import ProjectDetailTab from "../projectDetail/ProjectDetailTab";
 import { RouteComponentProps } from "react-router-dom";
 import ProjectDetailHeader from "./ProjectDetailHeader";
 import { RootStoreContext } from "../../../app/stores/root";
+import { observer } from "mobx-react-lite";
 
 interface ProjectParams {
   code: string;
@@ -14,26 +15,28 @@ const ProjectDetail: React.FC<RouteComponentProps<ProjectParams>> = ({
 }) => {
   const rootStore = useContext(RootStoreContext);
   const {
-    index,
+    indexDetail,
     setProjectCode,
     getId,
     getDetail,
     clearProjectName,
+    clearProject,
   } = rootStore.projectStore;
   const { loadingIndex } = rootStore.commonStore;
 
   setProjectCode(match.params.code);
 
   useEffect(() => {
-    index()
-      .then(getId)
+    getId()
+      .then(indexDetail)
       .then(getDetail)
       .catch((error) => console.log(error));
 
     return () => {
       clearProjectName();
+      clearProject();
     };
-  }, [index, getId, getDetail, clearProjectName]);
+  }, [getId, getDetail, clearProjectName, clearProject, indexDetail]);
 
   if (loadingIndex) return null;
 
@@ -46,4 +49,4 @@ const ProjectDetail: React.FC<RouteComponentProps<ProjectParams>> = ({
   );
 };
 
-export default ProjectDetail;
+export default observer(ProjectDetail);

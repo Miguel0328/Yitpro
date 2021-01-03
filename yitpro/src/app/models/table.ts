@@ -4,7 +4,7 @@ export interface IColumn {
   label: string;
   width: string;
   align: "left" | "center" | "right";
-  color?: any;
+  style?: any;
   orderable?: boolean;
 }
 

@@ -67,7 +67,7 @@ export default class UserStore {
 
   @action initForm = async () => {
     this.rootStore.optionStore.getRoleOptions();
-    this.rootStore.optionStore.getLineManagersOptions();
+    this.rootStore.optionStore.getManagerOptions();
   };
 
   @action setUserId = (id: number) => {

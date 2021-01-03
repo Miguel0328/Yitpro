@@ -17,6 +17,7 @@ namespace Persistence.EntityConfiguration
 
             builder
                 .Property(x => x.UpdatedAt)
+                .IsRequired()
                 .HasColumnType("smalldatetime");
 
             builder

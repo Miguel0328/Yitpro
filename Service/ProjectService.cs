@@ -27,7 +27,8 @@ namespace Service
 
         public async Task<List<ProjectDTO>> Get(ProjectFilterDTO filter)
         {
-            var projects = await _project_.Get(filter);
+            var userId = _service.GetCurrentUserId();
+            var projects = await _project_.Get(filter, userId);
             return _mapper.Map<List<ProjectDTO>>(projects);
         }
 
@@ -41,6 +42,12 @@ namespace Service
         {
             var team = await _project_.GetTeam(id);
             return _mapper.Map<List<ProjectTeamDTO>>(team);
+        }          
+        
+        public async Task<List<UserDTO>> GetRemainingTeam(long id)
+        {
+            var remaining = await _project_.GetRemainingTeam(id);
+            return _mapper.Map<List<UserDTO>>(remaining);
         }        
         
         public async Task<long> GetId(string code)
@@ -59,6 +66,12 @@ namespace Service
         {
             var project = _mapper.Map<ProjectModel>(_project);
             return await _project_.Post(project);
+        }        
+        
+        public async Task<bool> PostTeam(SelectedDTO _newTeam)
+        {
+            var newTeam = _mapper.Map<SelectedDTO>(_newTeam);
+            return await _project_.PostTeam(newTeam);
         }
 
         public async Task<bool> Put(ProjectDetailDTO _project)
@@ -73,10 +86,25 @@ namespace Service
             return await _project_.PutEnabled(project);
         }
 
+        public async Task<bool> DeleteTeam(SelectedDTO _deleteTeam)
+        {
+            var deleteTeam = _mapper.Map<SelectedDTO>(_deleteTeam);
+            return await _project_.DeleteTeam(deleteTeam);
+        }
+
         public async Task<byte[]> Download()
         {
-            var projects = await _project_.Download();
+            var userId = _service.GetCurrentUserId();
+            var projects = await _project_.Download(userId);
             var file = projects.ToTable("Usuarios").ToExcel();
+
+            return file;
+        }
+
+        public async Task<byte[]> DownloadTeam(long id)
+        {
+            var projects = await _project_.DownloadTeam(id);
+            var file = projects.ToTable("Equipo").ToExcel();
 
             return file;
         }

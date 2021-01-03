@@ -47,7 +47,7 @@ namespace Persistence.EntityConfiguration
         public void Configure(EntityTypeBuilder<ProjectTeamModel> builder)
         {
             builder
-                .HasKey(x => x.Id);
+                .HasKey(x => new { x.UserId, x.ProjectId });
 
             builder
                 .Property(x => x.UpdatedAt)

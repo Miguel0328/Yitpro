@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Models;
 using Repository.Interfaces;
@@ -23,9 +24,13 @@ namespace Repository
             _context = context;
         }
 
-        public async Task<List<ProjectModel>> Get(ProjectFilterDTO filter)
+        public async Task<List<ProjectModel>> Get(ProjectFilterDTO filter, long userId)
         {
-            var projects = _context.Project.Include(x => x.Leader).Include(x => x.Client).Select(x => x);
+            var projects =
+                _context.Project
+                .Include(x => x.Team).Include(x => x.Leader).Include(x => x.Client)
+                .Where(x => x.LeaderId == userId || x.Team.Where(y => y.Active).Select(x => x.UserId).Contains(userId))
+                .Select(x => x);
 
             if (filter != null)
             {
@@ -45,15 +50,20 @@ namespace Repository
             return team;
         }
 
+        public async Task<List<UserModel>> GetRemainingTeam(long id)
+        {
+            var current = _context.ProjectTeam.Where(x => x.ProjectId == id && x.Active).Select(x => x.User);
+            var all = _context.User.Select(x => x);
+            var remaining = await all.Except(current).ToListAsync();
+            return remaining;
+        }
+
         public async Task<ProjectModel> GetDetail(long id)
         {
             var project = await _context.Project.Include(x => x.Leader).Include(x => x.Client).FirstOrDefaultAsync(x => x.Id == id);
-            if (project == null)
-                throw new RestException(HttpStatusCode.NotFound, new { project = "Not found" });
-
             return project;
-        }        
-        
+        }
+
         public async Task<long> GetId(string code)
         {
             var project = await _context.Project.FirstOrDefaultAsync(x => x.Code == code);
@@ -75,12 +85,38 @@ namespace Repository
             return project.Id;
         }
 
+        public async Task<bool> PostTeam(SelectedDTO _newTeam)
+        {
+            var usersToAdd = _context.User.Where(x => _newTeam.Ids.Contains(x.Id));
+
+            var toUpdate = _context.ProjectTeam
+                .Where(x => x.ProjectId == _newTeam.Id && _newTeam.Ids.Contains(x.UserId))
+                .AsNoTracking().Select(x => new ProjectTeamModel
+                {
+                    ProjectId = x.ProjectId,
+                    UserId = x.UserId,
+                    Active = true,
+                    UpdatedById = _newTeam.UpdatedBy,
+                    UpdatedAt = _newTeam.UpdatedAt
+                });
+
+            var toAdd = usersToAdd.Select(x => new ProjectTeamModel
+            {
+                ProjectId = _newTeam.Id,
+                UserId = x.Id,
+                Active = true,
+                UpdatedById = _newTeam.UpdatedBy,
+                UpdatedAt = _newTeam.UpdatedAt
+            });
+
+            var union = toAdd.Union(toUpdate).ToList();
+            await _context.BulkInsertOrUpdateAsync(union);
+
+            return true;
+        }
+
         public async Task<bool> Put(ProjectModel _project)
         {
-            var project = await _context.Project.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _project.Id);
-            if (project == null)
-                throw new RestException(HttpStatusCode.NotFound, new { project = "Not found" });
-
             var duplicate = await _context.Project
                 .AnyAsync(x => (x.Name == _project.Name || x.Code == _project.Code) && x.Id != _project.Id);
             if (duplicate)
@@ -94,10 +130,6 @@ namespace Repository
 
         public async Task<bool> PutEnabled(ProjectModel _project)
         {
-            var project = await _context.Project.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _project.Id);
-            if (project == null)
-                throw new RestException(HttpStatusCode.NotFound, new { project = "Not found" });
-
             var entry = _context.Attach(_project);
             entry.Property(x => x.Active).IsModified = true;
             entry.Property(x => x.UpdatedById).IsModified = true;
@@ -106,18 +138,56 @@ namespace Repository
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<object> Download()
+        public async Task<bool> DeleteTeam(SelectedDTO _deleteTeam)
+        {
+            var toUpdate = _context.ProjectTeam
+                .Where(x => x.ProjectId == _deleteTeam.Id && _deleteTeam.Ids.Contains(x.UserId))
+                .AsNoTracking().Select(x => new ProjectTeamModel
+                {
+                    ProjectId = x.ProjectId,
+                    UserId = x.UserId,
+                    Active = false,
+                    UpdatedById = _deleteTeam.UpdatedBy,
+                    UpdatedAt = _deleteTeam.UpdatedAt
+                }).ToList();
+
+            await _context.BulkUpdateAsync(toUpdate);
+
+            return true;
+        }
+
+        public async Task<object> Download(long userId)
         {
             var projects =
                 await _context.Project
+                .Include(x => x.Team).Include(x => x.Leader).Include(x => x.Client)
+                .Where(x => x.LeaderId == userId || x.Team.Where(y => y.Active).Select(x => x.UserId).Contains(userId))
                 .Select(x => new
                 {
                     Clave = x.Code,
                     Proyecto = x.Name,
                     Cliente = x.Client.Name,
                     Lider = x.Leader.FullName,
-                    Descripcion = x.Description.SplitWords(10),
+                    Descripcion = x.Description.SplitWords(),
                     Activo = x.Active ? "Sí" : "No"
+                }).ToListAsync();
+
+            if (projects.Count == 0)
+                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = "No hay registros para exportar" });
+
+            return projects;
+        }
+
+        public async Task<object> DownloadTeam(long id)
+        {
+            var projects =
+                await _context.ProjectTeam.Include(x => x.User).Include(x => x.Project)
+                .Where(x => x.ProjectId == id && x.Active)
+                .Select(x => new
+                {
+                    Proyecto = x.Project.Name,
+                    Usuario = x.User.FullName,
+                    Incluido_desde = x.UpdatedAt.ToString("dd/MM/yyyy")
                 }).ToListAsync();
 
             if (projects.Count == 0)

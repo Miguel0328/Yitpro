@@ -4,7 +4,7 @@ import { history } from "../..";
 import Client from "../api/client";
 import { filterByText, getErrors } from "../common/util/util";
 import { Messages } from "../models/messages";
-import { IClient, IClientFilter } from "../models/client";
+import { ClientFilterValues, IClient, IClientFilter } from "../models/client";
 import { RootStore } from "./root";
 
 export default class ClientStore {
@@ -23,20 +23,17 @@ export default class ClientStore {
 
   @observable client: IClient | undefined;
   @observable clients: IClient[] = [];
-  @observable filter: IClientFilter = {
-    client: "",
-    active: "",
-  };
+  @observable filter: IClientFilter = new ClientFilterValues();
   @observable loading = false;
   @observable submitting = false;
   @observable filtered: IClient[] = [];
 
   getClient = (id: number): IClient | undefined => {
-    return this.clients.find((x) => x.id === id);
+    return this.filtered.find((x) => x.id === id);
   };
 
   @action clearFilter = () => {
-    this.filter = { client: "", active: "" };
+    this.filter = new ClientFilterValues();
   };
 
   @action clearClients = () => {

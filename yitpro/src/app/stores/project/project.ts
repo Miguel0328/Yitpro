@@ -55,7 +55,7 @@ export default class ProjectStore {
 
   @action initForm = async () => {
     this.rootStore.optionStore.getClientOptions();
-    this.rootStore.optionStore.getLineManagersOptions();
+    this.rootStore.optionStore.getManagerOptions();
   };
 
   @action setProjectCode = (code: string) => {
@@ -87,6 +87,18 @@ export default class ProjectStore {
     }
   };
 
+  @action indexDetail = async () => {
+    this.rootStore.commonStore.loadingIndex = true;
+    try {
+      await Project.indexDetial(this.projectId);
+    } catch (error) {
+      history.push("/forbidden");
+      throw error;
+    } finally {
+      this.rootStore.commonStore.loadingIndex = false;
+    }
+  };
+
   @action get = async () => {
     this.loading = true;
     try {
@@ -101,12 +113,12 @@ export default class ProjectStore {
 
   @action getId = async () => {
     try {
-      this.loadingDetail = true;
+      this.rootStore.commonStore.loadingIndex = true;
       this.projectId = await Project.getId(this.projectCode);
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
-      this.loadingDetail = false;
+      this.rootStore.commonStore.loadingIndex = false;
     }
   };
 
@@ -162,7 +174,7 @@ export default class ProjectStore {
   @action put = async (project: IProjectDetail) => {
     this.submitting = true;
     try {
-      await Project.put(project);
+      await Project.put(project, project.id);
       toast.success(Messages.putSuccess);
       const updatedProject = await Project.getById(project.id);
       const index = this.projects.findIndex((x) => x.id === updatedProject.id);
@@ -177,7 +189,7 @@ export default class ProjectStore {
 
   @action putEnabled = async (project: IProject) => {
     try {
-      await Project.putEnabled(project);
+      await Project.putEnabled(project, project.id);
       toast.success(Messages.putSuccess);
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));

@@ -88,12 +88,17 @@ namespace API
                 {
                     policy.Requirements.Add(new DeleteRequirement());
                 });
+                opt.AddPolicy("Project", policy =>
+                {
+                    policy.Requirements.Add(new ProjectRequirement());
+                });
             });
 
             services.AddTransient<IAuthorizationHandler, GetRequirementHandler>();
             services.AddTransient<IAuthorizationHandler, PostRequirementHandler>();
             services.AddTransient<IAuthorizationHandler, PutRequirementHandler>();
             services.AddTransient<IAuthorizationHandler, DeleteRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, ProjectRequirementHandler>();
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenKey"]));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -113,12 +118,16 @@ namespace API
             services.AddScoped<IBaseService, BaseService>();
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IPhaseService, PhaseService>();
+            services.AddScoped<ICatalogService, CatalogService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IOptionService, OptionService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IProfile, Repository.Profile>();
             services.AddScoped<IRole, Role>();
+            services.AddScoped<IPhase, Phase>();
+            services.AddScoped<ICatalog, Catalog>();
             services.AddScoped<IUser, User>();
             services.AddScoped<IOption, Option>();
             services.AddScoped<IClient, Client>();
@@ -129,10 +138,13 @@ namespace API
                 cfg.AddProfile(new BaseProfile());
                 cfg.AddProfile(new EventProfile());
                 cfg.AddProfile(new RoleProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new CatalogProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new PhaseProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new UserProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new OptionProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new ClientProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new ProjectProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new SelectedProfile(provider.GetService<IBaseService>()));
             }).CreateMapper());
         }
 

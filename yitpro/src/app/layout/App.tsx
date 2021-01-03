@@ -16,7 +16,7 @@ import NavBar from "../../features/nav/Navbar";
 import Home from "../../features/home/Home";
 import Role from "../../features/role/Role";
 import ModalContainer from "../common/modals/ModalContainer";
-import DeletionModalContainer from "../common/modals/DeletionModalContainer";
+import ConfirmationModalContainer from "../common/modals/ConfirmationModalContainer";
 import PrivateRoute from "./PrivateRoute";
 import { RootStoreContext } from "../stores/root";
 import LoadingComponent from "./LoadingComponent";
@@ -27,6 +27,8 @@ import CalendarComponent from "../../features/calendar/Calendar";
 import Client from "../../features/client/Client";
 import Project from "../../features/project/Project";
 import ProjectDetail from "../../features/project/projectDetail/ProjectDetail";
+import Catalog from "../../features/catalog/Catalog";
+import Phase from "../../features/phase/Phase";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -48,7 +50,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <ToastContainer position="top-right" />
       <ModalContainer />
       <UpperModalContainer />
-      <DeletionModalContainer />
+      <ConfirmationModalContainer />
       <Switch>
         <Route exact path="/login" component={Login} />
         <Fragment>
@@ -61,6 +63,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute exact path="/role" component={Role} />
                 <PrivateRoute exact path="/user" component={User} />
                 <PrivateRoute exact path="/client" component={Client} />
+                <PrivateRoute exact path="/catalog" component={Catalog} />
+                <PrivateRoute exact path="/phase" component={Phase} />
                 <PrivateRoute exact path="/project" component={Project} />
                 <PrivateRoute
                   exact

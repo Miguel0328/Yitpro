@@ -22,11 +22,13 @@ export default class ModalStore {
     header: "",
   };
 
-  @observable.shallow deletionModal = {
+  @observable.shallow confirmationModal = {
     open: false,
     name: "",
     multiple: false,
-    onDelete: () => {},
+    onConfirm: () => {},
+    type: "",
+    onCancel: () => {},
   };
 
   @action openModal = (content: any, size: any, header: string) => {
@@ -55,20 +57,27 @@ export default class ModalStore {
     this.upperModal.header = "";
   };
 
-  @action openDeletionModal = (
-    name: string,
-    onDelete: () => void,
-    multiple?: boolean
+  @action openConfirmationModal = (
+    text: string,
+    type: "deletion" | "confirmation",
+    onConfirm: () => void,
+    multiple?: boolean,
+    onCancel?: () => void
   ) => {
-    this.deletionModal.open = true;
-    this.deletionModal.multiple = multiple ?? false;
-    this.deletionModal.name = name;
-    this.deletionModal.onDelete = onDelete;
+    this.confirmationModal.open = true;
+    this.confirmationModal.multiple = multiple ?? false;
+    this.confirmationModal.name = text;
+    this.confirmationModal.onConfirm = onConfirm;
+    this.confirmationModal.type = type;
+    if (onCancel) this.confirmationModal.onCancel = onCancel;
+    else this.confirmationModal.onCancel = () => {};
   };
 
-  @action closeDeletionModal = () => {
-    this.deletionModal.open = false;
-    this.deletionModal.name = "";
-    this.deletionModal.onDelete = () => {};
+  @action closeConfirmationModal = () => {
+    this.confirmationModal.open = false;
+    this.confirmationModal.name = "";
+    this.confirmationModal.type = "";
+    this.confirmationModal.onConfirm = () => {};
+    this.confirmationModal.onCancel = () => {};
   };
 }

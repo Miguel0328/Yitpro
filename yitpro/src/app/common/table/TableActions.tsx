@@ -8,6 +8,7 @@ interface IProps {
   filterComponent?: JSX.Element;
   selected: number[];
   selectionActions?: JSX.Element;
+  onlySearchAction: boolean;
   downloadAction?: () => Promise<void>;
   filterAction?: (filter?: string) => void;
   handlePrint: (() => void) | undefined;
@@ -22,6 +23,7 @@ const TableActions: React.FC<IProps> = ({
   filterComponent,
   selected,
   selectionActions,
+  onlySearchAction,
   filterAction,
   downloadAction,
   handlePrint,
@@ -67,12 +69,14 @@ const TableActions: React.FC<IProps> = ({
               onClick={downloadAction}
             ></Icon>
           )}
-          <Icon
-            className="icon-table-header"
-            size="large"
-            name="print"
-            onClick={handlePrint}
-          ></Icon>
+          {!onlySearchAction && (
+            <Icon
+              className="icon-table-header"
+              size="large"
+              name="print"
+              onClick={handlePrint}
+            ></Icon>
+          )}
           {filterComponent && (
             <Icon
               className="icon-table-header"
@@ -84,15 +88,17 @@ const TableActions: React.FC<IProps> = ({
               }}
             ></Icon>
           )}
-          <Icon
-            className="icon-table-header"
-            size="large"
-            name="columns"
-            onClick={() => {
-              setShowColumn(!showColumn);
-              setShowFilter(false);
-            }}
-          ></Icon>
+          {!onlySearchAction && (
+            <Icon
+              className="icon-table-header"
+              size="large"
+              name="columns"
+              onClick={() => {
+                setShowColumn(!showColumn);
+                setShowFilter(false);
+              }}
+            ></Icon>
+          )}
         </Container>
       )}
     </th>

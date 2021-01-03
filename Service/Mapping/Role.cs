@@ -18,6 +18,7 @@ namespace Service.Mapping
 
             CreateMap<RoleModel, RoleDTO>();
             CreateMap<RoleDTO, RoleModel>()
+                .ForMember(x => x.Protected, o => o.MapFrom(s => false))
                 .ForMember(x => x.UpdatedById, o => o.MapFrom(s => _service.GetCurrentUserId()))
                 .ForMember(x => x.UpdatedAt, o => o.MapFrom(s => DateTime.Now));
 

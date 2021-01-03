@@ -10,12 +10,16 @@ namespace Repository.Interfaces
     public interface IProject
     {
         Task<long> Post(ProjectModel _project);
+        Task<bool> PostTeam(SelectedDTO _newTeam);
         Task<bool> Put(ProjectModel _project);
+        Task<bool> DeleteTeam(SelectedDTO _deleteTeam);
         Task<bool> PutEnabled(ProjectModel _project);
-        Task<List<ProjectModel>> Get(ProjectFilterDTO _filter);
+        Task<List<ProjectModel>> Get(ProjectFilterDTO _filter, long userId);
         Task<List<ProjectTeamModel>> GetTeam(long id);
+        Task<List<UserModel>> GetRemainingTeam(long id);
         Task<ProjectModel> GetDetail(long id);
         Task<long> GetId(string code);
-        Task<object> Download();
+        Task<object> Download(long userId);
+        Task<object> DownloadTeam(long id);
     }
 }

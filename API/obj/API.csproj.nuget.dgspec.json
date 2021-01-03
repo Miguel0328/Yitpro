@@ -149,10 +149,6 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[3.1.8, )"
-            },
-            "Z.EntityFramework.Plus.EFCore": {
-              "target": "Package",
-              "version": "[3.1.0, )"
             }
           },
           "imports": [
@@ -223,9 +219,9 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
-            "Z.EntityFramework.Plus.EFCore": {
+            "EFCore.BulkExtensions": {
               "target": "Package",
-              "version": "[3.1.0, )"
+              "version": "[3.2.7, )"
             }
           },
           "imports": [

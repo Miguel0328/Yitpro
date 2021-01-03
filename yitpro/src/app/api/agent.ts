@@ -59,16 +59,22 @@ const requests = {
       .then(responseBody),
   getBody: (url: string, body: {}) =>
     axios.post(url, body).then(sleep(0)).then(responseBody),
-  post: (url: string, body: {}) =>
-    axios.post(url, body).then(sleep(0)).then(responseBody),
+  post: (url: string, body: {}, id?: number | string) =>
+    axios
+      .post(!id ? url : `${url}/${id}`, body)
+      .then(sleep(0))
+      .then(responseBody),
   postForm: (url: string, formData: FormData) =>
     axios
       .post(url, formData, {
         headers: { "Content-type": "multipart/form-data" },
       })
       .then(responseBody),
-  put: (url: string, body: {}) =>
-    axios.put(url, body).then(sleep(0)).then(responseBody),
+  put: (url: string, body: {}, id?: number | string) =>
+    axios
+      .put(!id ? url : `${url}/${id}`, body)
+      .then(sleep(0))
+      .then(responseBody),
   putForm: (url: string, formData: FormData) =>
     axios
       .put(url, formData, {
@@ -76,15 +82,17 @@ const requests = {
       })
       .then(responseBody),
   delete: (url: string) => axios.delete(url).then(sleep(0)).then(responseBody),
-  download: (url: string, name: string) =>
-    axios.get(url, { responseType: "blob" }).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", name);
-      document.body.appendChild(link);
-      link.click();
-    }),
+  download: (url: string, name: string, id?: number | string) =>
+    axios
+      .get(!id ? url : `${url}/${id}`, { responseType: "blob" })
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", name);
+        document.body.appendChild(link);
+        link.click();
+      }),
 };
 
 export default requests;

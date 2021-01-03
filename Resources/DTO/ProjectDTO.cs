@@ -37,7 +37,7 @@ namespace Resources.DTO
 
     public class ProjectTeamDTO
     {
-        public short Id { get; set; }
+        public long Id { get; set; }
         public string User { get; set; }
         public string UserPhoto { get; set; }
     }

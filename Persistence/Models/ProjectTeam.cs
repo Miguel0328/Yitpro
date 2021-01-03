@@ -6,7 +6,6 @@ namespace Persistence.Models
 {
     public class ProjectTeamModel
     {
-        public short Id { get; set; }
         public long UserId { get; set; }
         public virtual UserModel User { get; set; }
         public long ProjectId { get; set; }
