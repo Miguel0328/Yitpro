@@ -31,7 +31,7 @@ namespace Service.Mapping
             
             CreateMap<CatalogModel, OptionDTO>()
                 .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
-                .ForMember(x => x.Text, o => o.MapFrom(s => s.Alias))
+                .ForMember(x => x.Text, o => o.MapFrom(s => s.Description.Length < 50 ? s.Description : s.Alias))
                 .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));
 
             CreateMap<UserModel, OptionDTO>()

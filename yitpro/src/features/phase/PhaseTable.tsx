@@ -41,9 +41,6 @@ const PhaseTable = () => {
       label: "Nombre",
       align: "left",
       width: "84%",
-      style: (phase: IPhase) => {
-        return phase.id === current?.id ? { backgroundColor: "lightgray" } : {};
-      },
       render: (phase: IPhase) => (
         <Button
           as="a"
@@ -63,9 +60,6 @@ const PhaseTable = () => {
       align: "center",
       width: "16%",
       orderable: false,
-      style: (phase: IPhase) => {
-        return phase.id === current?.id ? { backgroundColor: "lightgray" } : {};
-      },
       render: (phase: IPhase) =>
         phase.active && (
           <div className="table-actions">
@@ -96,6 +90,10 @@ const PhaseTable = () => {
     },
   ];
 
+  const rowStyle = (phase: IPhase) => {
+    return phase.id === current?.id ? { backgroundColor: "lightgray" } : {};
+  };
+
   return (
     <Segment loading={loadingPhases} className="segment-table">
       <TableComponent
@@ -108,6 +106,7 @@ const PhaseTable = () => {
         // downloadAction={download}
         paginated={false}
         onlySearchAction={true}
+        rowStyle={rowStyle}
       />
     </Segment>
   );

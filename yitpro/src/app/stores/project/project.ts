@@ -56,6 +56,9 @@ export default class ProjectStore {
   @action initForm = async () => {
     this.rootStore.optionStore.getClientOptions();
     this.rootStore.optionStore.getManagerOptions();
+    this.rootStore.optionStore.getProjectTypeOptions();
+    this.rootStore.optionStore.getProjectMethodologyOptions();
+    this.rootStore.optionStore.getProjectStatusOptions();
   };
 
   @action setProjectCode = (code: string) => {

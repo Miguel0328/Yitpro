@@ -40,6 +40,7 @@ interface IProps {
   selected?: number[];
   onlySearchAction?: boolean;
   title?: string;
+  rowStyle?: (obj?: any) => object;
   setSelected?: (selected: number[]) => void;
   filterAction?: (filter?: string) => void;
   downloadAction?: () => Promise<void>;
@@ -61,6 +62,7 @@ const TableComponent: React.FC<IProps> = ({
   selected,
   onlySearchAction = false,
   title = "",
+  rowStyle,
   setSelected,
   filterAction,
   downloadAction,
@@ -292,6 +294,7 @@ const TableComponent: React.FC<IProps> = ({
                         role="checkbox"
                         tabIndex={-1}
                         key={uuid()}
+                        style={rowStyle ? rowStyle(datum) : {}}
                       >
                         {selectable && (
                           <TableCell padding="checkbox">

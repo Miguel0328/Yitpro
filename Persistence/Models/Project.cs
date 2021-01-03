@@ -14,6 +14,13 @@ namespace Persistence.Models
         public virtual ClientModel Client { get; set; }
         public long LeaderId { get; set; }
         public virtual UserModel Leader { get; set; }
+        public long TypeId { get; set; }
+        public virtual CatalogModel Type { get; set; }
+        public long StatusId { get; set; }
+        public virtual CatalogModel Status { get; set; }
+        public long MethodologyId { get; set; }
+        public virtual CatalogModel Methodology { get; set; }
+        public bool PSP { get; set; }
         public bool Active { get; set; }
         public long UpdatedById { get; set; }
         public virtual UserModel UpdatedBy { get; set; }

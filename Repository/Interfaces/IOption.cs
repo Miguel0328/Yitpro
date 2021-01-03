@@ -12,6 +12,7 @@ namespace Repository.Interfaces
         Task<List<UserModel>> GetManagers();
         Task<List<ClientModel>> GetClients();
         Task<List<CatalogModel>> GetCatalogs();
+        Task<List<CatalogModel>> GetCatalogs(long id);
 
     }
 }

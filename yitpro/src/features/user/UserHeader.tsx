@@ -24,7 +24,7 @@ const UserHeader = () => {
         floated="right"
         onClick={() => {
           setUserId(0);
-          openModal(<UserForm />, "small", "Nuevo usuario");
+          openModal(<UserForm />, "medium", "Nuevo usuario");
         }}
       />
     </Segment>

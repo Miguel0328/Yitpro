@@ -28,7 +28,7 @@ namespace Repository
         {
             var projects =
                 _context.Project
-                .Include(x => x.Team).Include(x => x.Leader).Include(x => x.Client)
+                .Include(x => x.Team).Include(x => x.Leader).Include(x => x.Client).Include(x => x.Status).Include(x => x.Type).Include(x => x.Methodology)
                 .Where(x => x.LeaderId == userId || x.Team.Where(y => y.Active).Select(x => x.UserId).Contains(userId))
                 .Select(x => x);
 
@@ -60,7 +60,7 @@ namespace Repository
 
         public async Task<ProjectModel> GetDetail(long id)
         {
-            var project = await _context.Project.Include(x => x.Leader).Include(x => x.Client).FirstOrDefaultAsync(x => x.Id == id);
+            var project = await _context.Project.Include(x => x.Leader).Include(x => x.Client).Include(x => x.Status).Include(x => x.Type).Include(x => x.Methodology).FirstOrDefaultAsync(x => x.Id == id);
             return project;
         }
 
@@ -160,7 +160,7 @@ namespace Repository
         {
             var projects =
                 await _context.Project
-                .Include(x => x.Team).Include(x => x.Leader).Include(x => x.Client)
+                .Include(x => x.Team).Include(x => x.Leader).Include(x => x.Client).Include(x => x.Status).Include(x => x.Type).Include(x => x.Methodology)
                 .Where(x => x.LeaderId == userId || x.Team.Where(y => y.Active).Select(x => x.UserId).Contains(userId))
                 .Select(x => new
                 {
@@ -168,6 +168,9 @@ namespace Repository
                     Proyecto = x.Name,
                     Cliente = x.Client.Name,
                     Lider = x.Leader.FullName,
+                    Tipo = x.Type.Description,
+                    Metodologia = x.Methodology.Description,
+                    Estatus = x.Status.Description,
                     Descripcion = x.Description.SplitWords(),
                     Activo = x.Active ? "Sí" : "No"
                 }).ToListAsync();

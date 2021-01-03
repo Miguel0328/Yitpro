@@ -37,7 +37,7 @@ const UserTable = () => {
       id: "name",
       label: "Nombre",
       align: "left",
-      width: "26%",
+      width: "24%",
       // color: (user: IUser) => (user.active ? undefined : "#ee9f9f"),
       render: (user: IUser) => (
         <div
@@ -57,13 +57,19 @@ const UserTable = () => {
       id: "email",
       label: "Correo",
       align: "left",
-      width: "25%",
+      width: "20%",
     },
     {
       id: "role",
       label: "Rol",
       align: "left",
-      width: "25%",
+      width: "16%",
+    },
+    {
+      id: "department",
+      label: "Departamento",
+      align: "left",
+      width: "16%",
     },
     {
       id: "password",
@@ -114,7 +120,7 @@ const UserTable = () => {
             onClick={() => {
               console.log("Editando");
               setUserId(user.id);
-              openModal(<UserForm />, "small", "Editar: " + user.name);
+              openModal(<UserForm />, "medium", "Editar: " + user.name);
             }}
           />
           <Switch

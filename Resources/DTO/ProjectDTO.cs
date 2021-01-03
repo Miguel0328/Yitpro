@@ -13,6 +13,9 @@ namespace Resources.DTO
         public string Client { get; set; }
         public string Leader { get; set; }
         public string LeaderPhoto { get; set; }
+        public string Type { get; set; }
+        public string Methodology { get; set; }
+        public string Status { get; set; }
         public bool Active { get; set; }
     }
 
@@ -32,6 +35,10 @@ namespace Resources.DTO
         public string Description { get; set; }
         public short ClientId { get; set; }
         public long LeaderId { get; set; }
+        public long TypeId { get; set; }
+        public long StatusId { get; set; }
+        public long MethodologyId { get; set; }
+        public bool PSP { get; set; }
         public bool Active { get; set; }
     }
 
@@ -51,6 +58,9 @@ namespace Resources.DTO
             RuleFor(x => x.Description).NotEmpty().MaximumLength(1200).WithName("Descripción");
             RuleFor(x => x.ClientId).NotEmpty().WithName("Cliente");
             RuleFor(x => x.LeaderId).NotEmpty().WithName("Líder");
+            RuleFor(x => x.MethodologyId).NotEmpty().WithName("Metodología");
+            RuleFor(x => x.StatusId).NotEmpty().WithName("Estatus");
+            RuleFor(x => x.TypeId).NotEmpty().WithName("Tipo");
         }
     }
 }

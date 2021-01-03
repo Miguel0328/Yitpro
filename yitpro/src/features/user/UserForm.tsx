@@ -7,13 +7,7 @@ import {
   isRequired,
   hasLengthLessThan,
 } from "revalidate";
-import {
-  Form,
-  Button,
-  Grid,
-  Image,
-  Segment,
-} from "semantic-ui-react";
+import { Form, Button, Grid, Image, Segment } from "semantic-ui-react";
 import DateInput from "../../app/common/form/DateInput";
 import SelectInput from "../../app/common/form/SelectInput";
 import SliderInput from "../../app/common/form/SliderInput";
@@ -55,6 +49,7 @@ const validate = combineValidators({
   )(),
   admissionDate: isRequired({ message: "La fecha de ingreso es obligatoria" }),
   roleId: isRequired({ message: "El rol es obligatorio" }),
+  departmentId: isRequired({ message: "El departamento es obligatorio" }),
 });
 
 const UserForm = () => {
@@ -70,7 +65,11 @@ const UserForm = () => {
     clearUser,
   } = rootStore.userStore;
   const { openUpperModal } = rootStore.modalStore;
-  const { roleOptions, lineManagersOptions } = rootStore.optionStore;
+  const {
+    roleOptions,
+    lineManagersOptions,
+    departmentOptions,
+  } = rootStore.optionStore;
 
   const [photo, setPhoto] = useState<Blob>();
 
@@ -98,7 +97,10 @@ const UserForm = () => {
     formData.append("admissionDate", user.admissionDate?.toUTCString() ?? "");
     if (user.roleId) formData.append("roleId", user.roleId.toString());
     if (user.managerId) formData.append("managerId", user.managerId.toString());
+    if (user.departmentId)
+      formData.append("departmentId", user.departmentId.toString());
     formData.append("active", user.active.toString());
+    formData.append("capture", user.capture.toString());
     formData.append("locked", user.locked.toString());
     formData.append("photo", photo ?? "");
 
@@ -120,7 +122,7 @@ const UserForm = () => {
             <Form onSubmit={handleSubmit} error>
               <Grid stackable>
                 <Grid.Row stretched style={{ paddingBottom: "1em" }}>
-                  <Grid.Column width={4}>
+                  <Grid.Column width={3}>
                     <Image
                       circular
                       style={{ width: "100%" }}
@@ -133,26 +135,42 @@ const UserForm = () => {
                       }
                     />
                   </Grid.Column>
-                  <Grid.Column width={6}>
+                  <Grid.Column style={{ width: "27.083%" }}>
                     <strong>Numero de empleado</strong>
                     <Field
                       name="employeeNumber"
                       placeholder="Numero de empleado"
                       component={TextInput}
                     />
-                    <strong>Apellido paterno</strong>
-                    <Field
-                      name="lastName"
-                      placeholder="Apellido paterno"
-                      component={TextInput}
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={6}>
                     <strong>Nombre(s)</strong>
                     <Field
                       name="firstName"
                       placeholder="Nombre(s)"
                       component={TextInput}
+                    />
+                  </Grid.Column>
+                  <Grid.Column style={{ width: "27.083%" }}>
+                    <strong>Rol</strong>
+                    <Field
+                      name="roleId"
+                      placeholder="Rol"
+                      options={roleOptions ?? []}
+                      component={SelectInput}
+                    />
+                    <strong>Apellido paterno</strong>
+                    <Field
+                      name="lastName"
+                      placeholder="Apellido parent"
+                      component={TextInput}
+                    />
+                  </Grid.Column>
+                  <Grid.Column style={{ width: "27.083%" }}>
+                    <strong>Fecha de ingreso</strong>
+                    <Field
+                      name="admissionDate"
+                      placeholder="Fecha de ingreso"
+                      date={true}
+                      component={DateInput}
                     />
                     <strong>Apellido materno</strong>
                     <Field
@@ -162,7 +180,7 @@ const UserForm = () => {
                     />
                   </Grid.Column>
                 </Grid.Row>
-                <Grid.Column width={4} verticalAlign="bottom">
+                <Grid.Column width={3} verticalAlign="bottom">
                   <Button
                     fluid
                     onClick={(e) => {
@@ -177,7 +195,7 @@ const UserForm = () => {
                     Agregar Foto
                   </Button>
                 </Grid.Column>
-                <Grid.Column width={6}>
+                <Grid.Column style={{ width: "27.083%" }}>
                   <strong>Correo</strong>
                   <Field
                     name="email"
@@ -185,41 +203,7 @@ const UserForm = () => {
                     component={TextInput}
                   />
                 </Grid.Column>
-                <Grid.Column width={6}>
-                  <strong>Fecha de ingreso</strong>
-                  <Field
-                    name="admissionDate"
-                    placeholder="Fecha de ingreso"
-                    date={true}
-                    component={DateInput}
-                  />
-                </Grid.Column>
-                <Grid.Column width={2}>
-                  <strong>Activo</strong>
-                  <Field
-                    name="active"
-                    component={SliderInput}
-                    type="checkbox"
-                  />
-                </Grid.Column>
-                <Grid.Column width={2}>
-                  <strong>Bloqueado</strong>
-                  <Field
-                    name="locked"
-                    component={SliderInput}
-                    type="checkbox"
-                  />
-                </Grid.Column>
-                <Grid.Column width={6}>
-                  <strong>Rol</strong>
-                  <Field
-                    name="roleId"
-                    placeholder="Rol"
-                    options={roleOptions ?? []}
-                    component={SelectInput}
-                  />
-                </Grid.Column>
-                <Grid.Column width={6}>
+                <Grid.Column style={{ width: "27.083%" }}>
                   <strong>Jefe directo</strong>
                   <Field
                     name="managerId"
@@ -227,6 +211,39 @@ const UserForm = () => {
                     options={lineManagersOptions ?? []}
                     component={SelectInput}
                     clearable={true}
+                  />
+                </Grid.Column>
+                <Grid.Column style={{ width: "27.083%" }}>
+                  <strong>Departamento</strong>
+                  <Field
+                    name="departmentId"
+                    placeholder="Departamento"
+                    options={departmentOptions ?? []}
+                    component={SelectInput}
+                  />
+                </Grid.Column>
+                <Grid.Column style={{ width: "9.375%" }}>
+                  <strong>Activo</strong>
+                  <Field
+                    name="active"
+                    component={SliderInput}
+                    type="checkbox"
+                  />
+                </Grid.Column>
+                <Grid.Column style={{ width: "9.375%" }}>
+                  <strong>Bloqueado</strong>
+                  <Field
+                    name="locked"
+                    component={SliderInput}
+                    type="checkbox"
+                  />
+                </Grid.Column>
+                <Grid.Column style={{ width: "27.083%" }}>
+                  <strong>Captura actividades</strong>
+                  <Field
+                    name="capture"
+                    component={SliderInput}
+                    type="checkbox"
                   />
                 </Grid.Column>
                 <Grid.Column textAlign="right" width={16}>

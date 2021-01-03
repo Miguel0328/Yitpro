@@ -22,10 +22,12 @@ namespace Service.Mapping
             CreateMap<UserModel, UserDTO>()
                 .ForMember(x => x.Name, o => o.MapFrom(s => $"{s.FirstName} {s.LastName} {s.SecondLastName}"))
                 .ForMember(x => x.Role, o => o.MapFrom(s => s.Role.Name))
+                .ForMember(x => x.Department, o => o.MapFrom(s => s.Department.Description))
                 .ForMember(x => x.Photo, o => o.MapFrom(s => s.Photo == null ? null :
                 $"{_request.Scheme}://{_request.Host}{_request.PathBase}/{s.Photo}"));
             CreateMap<UserDTO, UserModel>()
                 .ForMember(x => x.Role, o => o.Ignore())
+                .ForMember(x => x.Department, o => o.Ignore())
                 .ForMember(x => x.UpdatedById, o => o.MapFrom(s => _service.GetCurrentUserId()))
                 .ForMember(x => x.UpdatedAt, o => o.MapFrom(s => DateTime.Now));
 

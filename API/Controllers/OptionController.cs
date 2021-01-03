@@ -27,8 +27,11 @@ namespace API.Controllers
         public async Task<List<OptionDTO>> GetClients() => await _option.GetClients();           
         
         [HttpGet("catalogs")]
-        public async Task<List<OptionDTO>> GetCatalogs() => await _option.GetCatalogs();        
-        
+        public async Task<List<OptionDTO>> GetCatalogs() => await _option.GetCatalogs();
+
+        [HttpGet("catalogs/{id}")]
+        public async Task<List<OptionDTO>> GetCatalogs(long id) => await _option.GetCatalogs(id);
+
         [HttpGet("managers")]
         public async Task<List<OptionDTO>> GetManagers() => await _option.GetManagers();
     }

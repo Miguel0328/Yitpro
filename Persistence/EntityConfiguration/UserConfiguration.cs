@@ -56,6 +56,11 @@ namespace Persistence.EntityConfiguration
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
+                .HasOne(x => x.Department)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder
                 .HasOne(x => x.Role)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);

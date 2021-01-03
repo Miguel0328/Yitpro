@@ -13,6 +13,7 @@ namespace Resources.DTO
         public string Email { get; set; }
         public string Role { get; set; }
         public string Photo { get; set; }
+        public string Department { get; set; }
         public bool Active { get; set; }
     }
 
@@ -37,6 +38,8 @@ namespace Resources.DTO
         public long? ManagerId { get; set; }
         public IFormFile Photo { get; set; }
         public string PhotoUrl { get; set; }
+        public long DepartmentId { get; set; }
+        public bool Capture { get; set; }
         public bool Active { get; set; }
         public bool Locked { get; set; }
     }
@@ -64,7 +67,8 @@ namespace Resources.DTO
             RuleFor(x => x.SecondLastName).NotEmpty().MaximumLength(100).WithName("Apellido materno");
             RuleFor(x => x.Email).NotEmpty().EmailAddress().MaximumLength(200).WithName("Email");
             RuleFor(x => x.AdmissionDate).NotEmpty().WithName("Fecha de ingreso");
-            RuleFor(x => x.RoleId).NotEmpty().GreaterThan<UserDetailDTO, short>(0).WithName("Rol");
+            RuleFor(x => x.RoleId).NotEmpty().WithName("Rol");
+            RuleFor(x => x.DepartmentId).NotEmpty().WithName("Departamento");
         }
     }
 }

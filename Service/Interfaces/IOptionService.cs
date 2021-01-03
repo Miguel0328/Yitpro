@@ -12,5 +12,6 @@ namespace Service.Interfaces
         Task<List<OptionDTO>> GetManagers();
         Task<List<OptionDTO>> GetClients();
         Task<List<OptionDTO>> GetCatalogs();
+        Task<List<OptionDTO>> GetCatalogs(long id);
     }
 }

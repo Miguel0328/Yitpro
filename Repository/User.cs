@@ -25,7 +25,7 @@ namespace Repository
 
         public async Task<List<UserModel>> Get(UserFilterDTO filter)
         {
-            var users = _context.User.Include(x => x.Role).Select(x => x);
+            var users = _context.User.Include(x => x.Role).Include(x => x.Department).Select(x => x);
 
             if (filter != null)
             {
@@ -41,7 +41,7 @@ namespace Repository
 
         public async Task<UserModel> GetDetail(long id)
         {
-            var user = await _context.User.Include(x => x.Role).FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _context.User.Include(x => x.Role).Include(x => x.Department).FirstOrDefaultAsync(x => x.Id == id);
             if (user == null)
                 throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
 
@@ -121,7 +121,7 @@ namespace Repository
                      Update = x.permission.Update,
                      Delete = x.permission.Delete,
                      Menu = x.menu,
-                     
+
                  }).ToListAsync();
 
             return permissions;
@@ -158,7 +158,7 @@ namespace Repository
         public async Task<object> Download()
         {
             var users =
-                await _context.User
+                await _context.User.Include(x => x.Department)
                 .Select(x => new
                 {
                     No_Empleado = x.EmployeeNumber,
@@ -166,6 +166,7 @@ namespace Repository
                     x.Email,
                     Rol = x.Role.Name,
                     Jefe_Directo = x.Manager.EmployeeNumber,
+                    Departamento = x.Department.Description,
                     Fecha_Ingreso = x.AdmissionDate.ToString("dd/MM/yyyy"),
                     Activo = x.Active ? "Sí" : "No",
                     Bloqueado = x.Locked ? "Sí" : "No"

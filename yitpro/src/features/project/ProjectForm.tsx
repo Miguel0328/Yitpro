@@ -7,12 +7,7 @@ import {
   isRequired,
   hasLengthLessThan,
 } from "revalidate";
-import {
-  Form,
-  Button,
-  Grid,
-  Segment,
-} from "semantic-ui-react";
+import { Form, Button, Grid, Segment } from "semantic-ui-react";
 import SelectInput from "../../app/common/form/SelectInput";
 import SliderInput from "../../app/common/form/SliderInput";
 import TextAreaInput from "../../app/common/form/TextAreaInput";
@@ -41,6 +36,9 @@ const validate = combineValidators({
   )(),
   leaderId: isRequired({ message: "El líder es obligatorio" }),
   clientId: isRequired({ message: "El cliente es obligatorio" }),
+  methodologyId: isRequired({ message: "La metodologia es obligatoria" }),
+  statusId: isRequired({ message: "El estatus es obligatorio" }),
+  typeId: isRequired({ message: "El tipo es obligatorio" }),
 });
 
 const ProjectForm = () => {
@@ -55,7 +53,13 @@ const ProjectForm = () => {
     put,
     clearProject,
   } = rootStore.projectStore;
-  const { clientOptions, lineManagersOptions } = rootStore.optionStore;
+  const {
+    clientOptions,
+    lineManagersOptions,
+    projectTypeOptions,
+    projectStatusOptions,
+    projectMethodologyOptions,
+  } = rootStore.optionStore;
 
   useEffect(() => {
     initForm();
@@ -124,36 +128,36 @@ const ProjectForm = () => {
                     component={SelectInput}
                   />
                 </Grid.Column>
-                {/* <Grid.Column>
+                <Grid.Column>
                   <strong>Metodología</strong>
                   <Field
-                    name="managerId"
-                    placeholder="Estatus"
-                    options={lineManagersOptions ?? []}
+                    name="methodologyId"
+                    placeholder="Metodología"
+                    options={projectMethodologyOptions ?? []}
                     component={SelectInput}
                   />
-                </Grid.Column> */}
+                </Grid.Column>
               </Grid>
-              {/* <Grid stackable columns={3}>
+              <Grid stackable columns={3}>
                 <Grid.Column>
                   <strong>Tipo de proyecto</strong>
                   <Field
-                    name="managerId"
-                    placeholder="Estatus"
-                    options={lineManagersOptions ?? []}
+                    name="typeId"
+                    placeholder="Tipo de proyecto"
+                    options={projectTypeOptions ?? []}
                     component={SelectInput}
                   />
                 </Grid.Column>
                 <Grid.Column>
                   <strong>Estatus</strong>
                   <Field
-                    name="managerId"
+                    name="statusId"
                     placeholder="Estatus"
-                    options={lineManagersOptions ?? []}
+                    options={projectStatusOptions ?? []}
                     component={SelectInput}
                   />
                 </Grid.Column>
-              </Grid> */}
+              </Grid>
               <Grid stackable>
                 <Grid.Column width={16}>
                   <strong>Descripción</strong>
@@ -168,6 +172,14 @@ const ProjectForm = () => {
                   <strong>Activo</strong>
                   <Field
                     name="active"
+                    component={SliderInput}
+                    type="checkbox"
+                  />
+                </Grid.Column>
+                <Grid.Column width={2}>
+                  <strong>PSP</strong>
+                  <Field
+                    name="psp"
                     component={SliderInput}
                     type="checkbox"
                   />

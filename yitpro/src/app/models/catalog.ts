@@ -1,3 +1,10 @@
+export class GC {
+  static department: number = 3;
+  static projectMethodology: number = 4;
+  static projectType: number = 5;
+  static projectStatus: number = 6;
+}
+
 export interface ICatalog {
   id: number;
   catalogId: number;

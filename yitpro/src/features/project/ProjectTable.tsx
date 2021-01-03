@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from "react";
 import { Segment, Icon, Image } from "semantic-ui-react";
 import TableComponent from "../../app/common/table/TableComponent";
 import { IColumn } from "../../app/models/table";
-import { IProject } from "../../app/models/project";
+import { IProject, ProjectStatus } from "../../app/models/project";
 import { RootStoreContext } from "../../app/stores/root";
 // import ProjectFilter from "./ProjectFilter";
 import ProjectForm from "./ProjectForm";
@@ -40,28 +40,26 @@ const ProjectTable = () => {
       align: "left",
       width: "10%",
       render: (project: IProject) => (
-        <Link to={"project/detail/" + project.code} >
-          {project.code}
-        </Link>
+        <Link to={"project/detail/" + project.code}>{project.code}</Link>
       ),
     },
     {
       id: "name",
       label: "Nombre",
       align: "left",
-      width: "34%",
+      width: "20%",
     },
     {
       id: "client",
       label: "Cliente",
       align: "left",
-      width: "24%",
+      width: "15%",
     },
     {
       id: "leader",
       label: "Líder",
       align: "left",
-      width: "24%",
+      width: "22%",
       render: (project: IProject) => (
         <div
           style={{
@@ -80,6 +78,24 @@ const ProjectTable = () => {
           <span>{project.leader}</span>
         </div>
       ),
+    },
+    {
+      id: "type",
+      label: "Tipo",
+      align: "left",
+      width: "15%",
+    },
+    {
+      id: "methodology",
+      label: "Metodología",
+      align: "left",
+      width: "10%",
+    },
+    {
+      id: "status",
+      label: "Estatus",
+      align: "left",
+      width: "10%",
     },
     {
       id: "actions",
@@ -114,6 +130,12 @@ const ProjectTable = () => {
     },
   ];
 
+  const rowStyle = (project: IProject) => {
+    return project.status === ProjectStatus.canceled
+      ? { backgroundColor: "#ffbbbb" }
+      : {};
+  };
+
   return (
     <Segment loading={loading} className="segment-table">
       <TableComponent
@@ -123,6 +145,7 @@ const ProjectTable = () => {
         filterAction={filterByText}
         downloadAction={download}
         filterComponent={<ProjectFilter />}
+        rowStyle={rowStyle}
       />
     </Segment>
   );

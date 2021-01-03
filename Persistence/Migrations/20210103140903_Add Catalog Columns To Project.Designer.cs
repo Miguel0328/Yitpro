@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210103140903_Add Catalog Columns To Project")]
+    partial class AddCatalogColumnsToProject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,12 +325,6 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("AdmissionDate")
                         .HasColumnType("smalldatetime");
 
-                    b.Property<bool>("Capture")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("DepartmentId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)")
@@ -380,8 +376,6 @@ namespace Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
 
                     b.HasIndex("ManagerId");
 
@@ -567,11 +561,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Persistence.Models.UserModel", b =>
                 {
-                    b.HasOne("Persistence.Models.CatalogModel", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
                     b.HasOne("Persistence.Models.UserModel", "Manager")
                         .WithMany()
                         .HasForeignKey("ManagerId")

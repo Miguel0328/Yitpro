@@ -1,3 +1,7 @@
+export class ProjectStatus {
+  static canceled = "Cancelado";
+}
+
 export interface IProject {
   id: number;
   client: string;
@@ -5,6 +9,9 @@ export interface IProject {
   code: string;
   leader: string;
   leaderPhoto: string;
+  type: string;
+  methodology: string;
+  status: string;
   active: boolean;
 }
 
@@ -23,12 +30,16 @@ export interface IProjectFilter {
 
 export interface IProjectDetail {
   id: number;
-  clientId?: number | "";
+  clientId: number | "";
   name: string;
   code: string;
-  leaderId?: number | "";
+  leaderId: number | "";
+  typeId: number | "";
+  statusId: number | "";
+  methodologyId: number | "";
   description: string;
   active: boolean;
+  psp: boolean;
 }
 
 export class ProjectFilterValues implements IProjectFilter {
@@ -44,12 +55,16 @@ export class ProjectFilterValues implements IProjectFilter {
 
 export class ProjectFormValues implements IProjectDetail {
   id: number = 0;
-  clientId?: number | "" = "";
+  clientId: number | "" = "";
   name: string = "";
   code: string = "";
   leaderId: number | "" = "";
+  typeId: number | "" = "";
+  statusId: number | "" = "";
+  methodologyId: number | "" = "";
   description: string = "";
   active: boolean = false;
+  psp: boolean = false;
 
   constructor(init?: IProjectDetail) {
     Object.assign(this, init);

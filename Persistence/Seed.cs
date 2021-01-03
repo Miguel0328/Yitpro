@@ -68,6 +68,22 @@ namespace Persistence
                 await context.SaveChangesAsync();
             }
 
+            //if (!context.Catalog.Any())
+            //{
+            //    var catalogs = new List<CatalogModel>
+            //    {
+            //        new CatalogModel { Description = "Proyecto - Estatus", Alias = "Proyecto - Estatus", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
+            //        new CatalogModel { Description = "Proyecto - Tipo", Alias = "Proyecto - Tipo", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
+            //        new CatalogModel { Description = "Proyecto - Metodología", Alias = "Proyecto - Metodología", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
+            //        new CatalogModel { Description = "Departamento", Alias = "Departamento", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
+            //        new CatalogModel { Description = "Proyecto - Fase", Alias = "Proyecto - Fase", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
+            //        new CatalogModel { Description = "Actividad - Clasificación", Alias = "Actividad - Clasificación", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now }
+            //    };
+
+            //    await context.Catalog.AddRangeAsync(catalogs);
+            //    await context.SaveChangesAsync();
+            //}
+
             if (!context.User.Any())
             {
                 var adminUserPermission = new List<UserPermissionModel>();
@@ -93,6 +109,7 @@ namespace Persistence
                     Email = "administrador@sistema.com",
                     AdmissionDate = DateTime.Now,
                     RoleId = 1,
+                    Capture = true,
                     Active = true,
                     Locked = false,
                     Password = BCrypt.Net.BCrypt.HashPassword("Pa$$w0rd" + config["SecretPass"].ToString()),
@@ -100,22 +117,6 @@ namespace Persistence
                     UpdatedAt = DateTime.Now,
                     Permissions = adminUserPermission
                 }; await context.User.AddAsync(user);
-                await context.SaveChangesAsync();
-            }
-
-            if (!context.Catalog.Any())
-            {
-                var catalogs = new List<CatalogModel>
-                {
-                    new CatalogModel { Description = "Proyecto - Estatus", Alias = "Proyecto - Estatus", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
-                    new CatalogModel { Description = "Proyecto - Tipo", Alias = "Proyecto - Tipo", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
-                    new CatalogModel { Description = "Proyecto - Metodología", Alias = "Proyecto - Metodología", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
-                    new CatalogModel { Description = "Departamento", Alias = "Departamento", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
-                    new CatalogModel { Description = "Proyecto - Fase", Alias = "Proyecto - Fase", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now },
-                    new CatalogModel { Description = "Actividad - Clasificación", Alias = "Actividad - Clasificación", Protected = true, Active = true, UpdatedById = 1, UpdatedAt=DateTime.Now }
-                };
-
-                await context.Catalog.AddRangeAsync(catalogs);
                 await context.SaveChangesAsync();
             }
         }

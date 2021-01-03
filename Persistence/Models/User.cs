@@ -19,6 +19,9 @@ namespace Persistence.Models
         public virtual RoleModel Role { get; set; }
         public long? ManagerId { get; set; }
         public virtual UserModel Manager { get; set; }
+        public long? DepartmentId { get; set; }
+        public virtual CatalogModel Department { get; set; }
+        public bool Capture { get; set; }
         public bool Active { get; set; }
         public bool Locked { get; set; }
         public string Password { get; set; }

@@ -37,6 +37,12 @@ namespace Service
         {
             var options = await _option_.GetCatalogs();
             return _mapper.Map<List<OptionDTO>>(options);
+        }               
+        
+        public async Task<List<OptionDTO>> GetCatalogs(long id)
+        {
+            var options = await _option_.GetCatalogs(id);
+            return _mapper.Map<List<OptionDTO>>(options);
         }        
         
         public async Task<List<OptionDTO>> GetManagers()

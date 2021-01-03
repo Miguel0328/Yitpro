@@ -532,3 +532,7 @@ table a {
 .ui.button.a-button.white {
   color: white !important;
 }
+
+.ui.form .field > .selection.dropdown {
+  min-width: unset;
+}

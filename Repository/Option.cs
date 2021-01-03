@@ -2,6 +2,7 @@
 using Persistence;
 using Persistence.Models;
 using Repository.Interfaces;
+using Resources.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,10 @@ namespace Repository
 
         public async Task<List<UserModel>> GetManagers()
         {
-            return await _context.User.Where(x => x.Active && new[] { 1, 2, 3 }.Contains(x.RoleId)).OrderBy(x => x.FirstName + " " + x.LastName).ToListAsync();
+            return await _context.User
+                .Where(x => x.Active &&
+                (x.RoleId == UserRole.Admin || x.RoleId == UserRole.Manager || x.RoleId == UserRole.Leader))
+                .OrderBy(x => x.FirstName + " " + x.LastName).ToListAsync();
         }
 
         public async Task<List<ClientModel>> GetClients()
@@ -37,6 +41,11 @@ namespace Repository
         public async Task<List<CatalogModel>> GetCatalogs()
         {
             return await _context.Catalog.Where(x => x.Active && x.CatalogId == null).OrderBy(x => x.Description).ToListAsync();
+        }
+
+        public async Task<List<CatalogModel>> GetCatalogs(long id)
+        {
+            return await _context.Catalog.Where(x => x.Active && x.CatalogId == id).OrderBy(x => x.Description).ToListAsync();
         }
     }
 }

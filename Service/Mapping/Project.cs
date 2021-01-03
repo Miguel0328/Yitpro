@@ -22,11 +22,17 @@ namespace Service.Mapping
             CreateMap<ProjectModel, ProjectDTO>()
                 .ForMember(x => x.Client, o => o.MapFrom(s => s.Client.Name))
                 .ForMember(x => x.Leader, o => o.MapFrom(s => s.Leader.FullName))
+                .ForMember(x => x.Type, o => o.MapFrom(s => s.Type.Description))
+                .ForMember(x => x.Methodology, o => o.MapFrom(s => s.Methodology.Description))
+                .ForMember(x => x.Status, o => o.MapFrom(s => s.Status.Description))
                 .ForMember(x => x.LeaderPhoto, o => o.MapFrom(s => s.Leader.Photo == null ? null :
                 $"{_request.Scheme}://{_request.Host}{_request.PathBase}/{s.Leader.Photo}"));
             CreateMap<ProjectDTO, ProjectModel>()
                 .ForMember(x => x.Client, o => o.Ignore())
                 .ForMember(x => x.Leader, o => o.Ignore())
+                .ForMember(x => x.Type, o => o.Ignore())
+                .ForMember(x => x.Methodology, o => o.Ignore())
+                .ForMember(x => x.Status, o => o.Ignore())
                 .ForMember(x => x.UpdatedById, o => o.MapFrom(s => _service.GetCurrentUserId()))
                 .ForMember(x => x.UpdatedAt, o => o.MapFrom(s => DateTime.Now));
 
