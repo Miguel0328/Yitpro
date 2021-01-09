@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Resources.DTO;
 using EFCore.BulkExtensions;
+using Resources.Constants;
 
 namespace Repository
 {
@@ -41,18 +42,14 @@ namespace Repository
 
         public async Task<UserModel> GetDetail(long id)
         {
-            var user = await _context.User.Include(x => x.Role).Include(x => x.Department).FirstOrDefaultAsync(x => x.Id == id);
-            if (user == null)
-                throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
-
-            return user;
+            return await _context.User.Include(x => x.Role).Include(x => x.Department).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<long> Post(UserModel user)
         {
-            var duplicate = await _context.User.AnyAsync(x => x.Email == user.Email || x.EmployeeNumber == user.EmployeeNumber);
+            var duplicate = await _context.User.FirstOrDefaultAsync(x => x.Email == user.Email || x.EmployeeNumber == user.EmployeeNumber) != null;
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { user = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { user = Messages.Duplicated });
 
             _context.User.Add(user);
 
@@ -64,14 +61,14 @@ namespace Repository
 
         public async Task<bool> Put(UserModel _user)
         {
-            var user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _user.Id);
+            var user = await _context.User.FindAsync(_user.Id);
             if (user == null)
-                throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
+                throw new RestException(HttpStatusCode.NotFound, new { user = Messages.NotFound });
 
             var duplicate = await _context.User
-                .AnyAsync(x => (x.Email == _user.Email || x.EmployeeNumber == _user.EmployeeNumber) && x.Id != _user.Id);
+                .FirstOrDefaultAsync(x => (x.Email == _user.Email || x.EmployeeNumber == _user.EmployeeNumber) && x.Id != _user.Id) != null;
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { user = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { user = Messages.Duplicated });
 
             var entry = _context.Entry(_user);
             entry.State = EntityState.Modified;
@@ -88,9 +85,9 @@ namespace Repository
 
         public async Task<bool> PutEnabled(UserModel _user)
         {
-            var user = await _context.User.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _user.Id);
+            var user = await _context.User.FindAsync(_user.Id);
             if (user == null)
-                throw new RestException(HttpStatusCode.NotFound, new { user = "Not found" });
+                throw new RestException(HttpStatusCode.NotFound, new { user = Messages.NotFound });
 
             var entry = _context.Attach(_user);
             entry.Property(x => x.Active).IsModified = true;
@@ -102,10 +99,6 @@ namespace Repository
 
         public async Task<List<UserPermissionModel>> GetPermissions(long id)
         {
-            var User = await _context.User.FindAsync(id);
-            if (User == null)
-                throw new RestException(HttpStatusCode.NotFound, new { User = "Not found" });
-
             var permissions = await
                 (from menu in _context.Menu
                  join leftPermissions in _context.UserPermission.Where(x => x.UserId == id) on menu.Id equals leftPermissions.MenuId into ljPermissions
@@ -174,7 +167,7 @@ namespace Repository
                 .ToListAsync();
 
             if (users.Count == 0)
-                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = "No hay registros para exportar" });
+                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = Messages.NothingToExport });
 
             return users;
         }

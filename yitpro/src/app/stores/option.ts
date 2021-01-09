@@ -16,18 +16,28 @@ export default class OptionStore {
   @observable loadingRoles = false;
   @observable loadingClients = false;
   @observable loadingManagers = false;
+  @observable loadingResponsibles = false;
   @observable loadingCatalogs = false;
   @observable loadingDepartments = false;
   @observable loadingProjectCatalogs = false;
+  @observable loadingProjectPhases = false;
+  @observable loadingProjects = false;
+  @observable loadingClasifications = false;
+  @observable loadingProjectTeam = false;
 
   @observable roleOptions: IOption[] = [];
   @observable clientOptions: IOption[] = [];
   @observable catalogOptions: IOption[] = [];
   @observable departmentOptions: IOption[] = [];
-  @observable lineManagersOptions: IOption[] = [];
+  @observable managerOptions: IOption[] = [];
+  @observable responsibleOptions: IOption[] = [];
   @observable projectMethodologyOptions: IOption[] = [];
   @observable projectTypeOptions: IOption[] = [];
   @observable projectStatusOptions: IOption[] = [];
+  @observable projectPhaseOptions: IOption[] = [];
+  @observable projectOptions: IOption[] = [];
+  @observable clasificationOptions: IOption[] = [];
+  @observable projectTeamOptions: IOption[] = [];
 
   @action getRoleOptions = async () => {
     this.loadingRoles = true;
@@ -44,12 +54,10 @@ export default class OptionStore {
   };
 
   @action getClientOptions = async () => {
-    this.loadingClients = false;
+    this.loadingClients = true;
     try {
-      if (Array.from(this.clientOptions).length === 0) {
-        const options = await Option.getClients();
-        this.clientOptions = options;
-      }
+      const options = await Option.getClients();
+      this.clientOptions = options;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
@@ -58,12 +66,10 @@ export default class OptionStore {
   };
 
   @action getCatalogOptions = async () => {
-    this.loadingCatalogs = false;
+    this.loadingCatalogs = true;
     try {
-      if (Array.from(this.catalogOptions).length === 0) {
-        const options = await Option.getCatalogs();
-        this.catalogOptions = options;
-      }
+      const options = await Option.getCatalogs();
+      this.catalogOptions = options;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
@@ -72,12 +78,10 @@ export default class OptionStore {
   };
 
   @action getDepartmentOptions = async () => {
-    this.loadingDepartments = false;
+    this.loadingDepartments = true;
     try {
-      if (Array.from(this.catalogOptions).length === 0) {
-        const options = await Option.getCatalogs(GC.department);
-        this.departmentOptions = options;
-      }
+      const options = await Option.getCatalogs(GC.department);
+      this.departmentOptions = options;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
@@ -86,12 +90,10 @@ export default class OptionStore {
   };
 
   @action getProjectMethodologyOptions = async () => {
-    this.loadingProjectCatalogs = false;
+    this.loadingProjectCatalogs = true;
     try {
-      if (Array.from(this.catalogOptions).length === 0) {
-        const options = await Option.getCatalogs(GC.projectMethodology);
-        this.projectMethodologyOptions = options;
-      }
+      const options = await Option.getCatalogs(GC.projectMethodology);
+      this.projectMethodologyOptions = options;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
@@ -100,12 +102,10 @@ export default class OptionStore {
   };
 
   @action getProjectStatusOptions = async () => {
-    this.loadingProjectCatalogs = false;
+    this.loadingProjectCatalogs = true;
     try {
-      if (Array.from(this.catalogOptions).length === 0) {
-        const options = await Option.getCatalogs(GC.projectStatus);
-        this.projectStatusOptions = options;
-      }
+      const options = await Option.getCatalogs(GC.projectStatus);
+      this.projectStatusOptions = options;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
@@ -114,12 +114,10 @@ export default class OptionStore {
   };
 
   @action getProjectTypeOptions = async () => {
-    this.loadingProjectCatalogs = false;
+    this.loadingProjectCatalogs = true;
     try {
-      if (Array.from(this.catalogOptions).length === 0) {
-        const options = await Option.getCatalogs(GC.projectType);
-        this.projectTypeOptions = options;
-      }
+      const options = await Option.getCatalogs(GC.projectType);
+      this.projectTypeOptions = options;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
@@ -127,17 +125,81 @@ export default class OptionStore {
     }
   };
 
+  @action getProjectPhaseOptions = async () => {
+    this.loadingProjectPhases = true;
+    try {
+      const options = await Option.getCatalogs(GC.projectPhase);
+      this.projectPhaseOptions = options;
+    } catch (error) {
+      if (error && error?.status !== 500) toast.error(getErrors(error));
+    } finally {
+      this.loadingProjectPhases = false;
+    }
+  };
+
+  @action clearClasificationOptions = () => {
+    this.clasificationOptions = [];
+  };
+  @action getClasificationOptions = async (id: number) => {
+    this.loadingClasifications = true;
+    try {
+      const options = await Option.getClasifications(id);
+      this.clasificationOptions = options;
+    } catch (error) {
+      if (error && error?.status !== 500) toast.error(getErrors(error));
+    } finally {
+      this.loadingClasifications = false;
+    }
+  };
+
+  @action clearProjectTeamOptions = () => {
+    this.projectTeamOptions = [];
+  };
+  @action getProjectTeamOptions = async (id: number) => {
+    this.loadingProjectTeam = true;
+    try {
+      const options = await Option.getProjectTeam(id);
+      this.projectTeamOptions = options;
+    } catch (error) {
+      if (error && error?.status !== 500) toast.error(getErrors(error));
+    } finally {
+      this.loadingProjectTeam = false;
+    }
+  };
+
+  @action getProjectOptions = async () => {
+    this.loadingProjects = true;
+    try {
+      const options = await Option.getProjects();
+      this.projectOptions = options;
+    } catch (error) {
+      if (error && error?.status !== 500) toast.error(getErrors(error));
+    } finally {
+      this.loadingProjects = false;
+    }
+  };
+
   @action getManagerOptions = async () => {
     this.loadingManagers = true;
     try {
-      if (Array.from(this.roleOptions).length === 0) {
-        const options = await Option.getManagers();
-        this.lineManagersOptions = options;
-      }
+      const options = await Option.getManagers();
+      this.managerOptions = options;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
     } finally {
       this.loadingManagers = false;
+    }
+  };
+
+  @action getResponsibleOptions = async () => {
+    this.loadingResponsibles = true;
+    try {
+      const options = await Option.getResponsibles();
+      this.responsibleOptions = options;
+    } catch (error) {
+      if (error && error?.status !== 500) toast.error(getErrors(error));
+    } finally {
+      this.loadingResponsibles = false;
     }
   };
 }

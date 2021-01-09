@@ -26,8 +26,21 @@ export const getErrors = (error: AxiosResponse) => {
 };
 
 export function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  let bl: any = b[orderBy];
-  let al: any = a[orderBy];
+  let bl: any;
+  let al: any;
+
+  if (orderBy.toString().includes(".")) {
+    const parent: any = orderBy.toString().split(".")[0];
+    const child: any = orderBy.toString().split(".")[1];
+    const aT: any = a;
+    const bT: any = b;
+
+    bl = bT[parent][child];
+    al = aT[parent][child];
+  } else {
+    bl = b[orderBy];
+    al = a[orderBy];
+  }
 
   bl = typeof bl === "string" ? bl.toLowerCase() : bl;
   al = typeof al === "string" ? al.toLowerCase() : al;
@@ -76,8 +89,7 @@ export const filterByText = (keys: string[], searchFilter: string) => (
       value = el[key].toString();
     }
     if (
-      (el[key] !== null &&
-        value.toLowerCase().includes(searchFilter)) ||
+      (el[key] !== null && value.toLowerCase().includes(searchFilter)) ||
       searchFilter === ""
     )
       return true;

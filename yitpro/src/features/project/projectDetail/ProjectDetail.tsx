@@ -20,7 +20,7 @@ const ProjectDetail: React.FC<RouteComponentProps<ProjectParams>> = ({
     getId,
     getDetail,
     clearProjectName,
-    clearProject,
+    clearProjectId,
   } = rootStore.projectStore;
   const { loadingIndex } = rootStore.commonStore;
 
@@ -34,9 +34,9 @@ const ProjectDetail: React.FC<RouteComponentProps<ProjectParams>> = ({
 
     return () => {
       clearProjectName();
-      clearProject();
+      clearProjectId();
     };
-  }, [getId, getDetail, clearProjectName, clearProject, indexDetail]);
+  }, [getId, getDetail, clearProjectName, clearProjectId, indexDetail]);
 
   if (loadingIndex) return null;
 

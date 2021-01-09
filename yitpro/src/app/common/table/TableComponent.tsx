@@ -25,25 +25,26 @@ import TableActions from "./TableActions";
 import TableColumns from "./TableColumns";
 
 interface IProps {
-  data: any[];
-  columns: IColumn[];
-  headers?: IColumn[];
-  header?: boolean;
-  paginated?: boolean;
-  selectable?: boolean;
-  actions?: boolean;
-  orderable?: boolean;
-  orderColumn?: string;
-  orderDirection?: string;
-  filterComponent?: JSX.Element;
-  selectionActions?: JSX.Element;
-  selected?: number[];
-  onlySearchAction?: boolean;
-  title?: string;
-  rowStyle?: (obj?: any) => object;
-  setSelected?: (selected: number[]) => void;
-  filterAction?: (filter?: string) => void;
-  downloadAction?: () => Promise<void>;
+  data: any[]; // Data
+  columns: IColumn[]; // Columns
+  headers?: IColumn[]; // Columns for personalized headers
+  header?: boolean; // Header with pagination and actions
+  paginated?: boolean; // Paginated
+  selectable?: boolean; // Adds a checkbox to select rows
+  actions?: boolean; // Show actions from header
+  orderable?: boolean; // Orderable
+  orderColumn?: string; // Default column order for table
+  orderDirection?: "asc" | "desc"; // Default direction of order
+  filterComponent?: JSX.Element; // Component to filter data
+  selectionActions?: JSX.Element; // Actions which will be applied to selected rows
+  selected?: number[]; // Array of selected id
+  printable?: boolean; // Makes table printable
+  hideable?: boolean; // Enables table to hide/show columns
+  title?: string; // Title of table (Pagination must be disabled)
+  rowStyle?: (obj?: any) => object; // Style for row
+  setSelected?: (selected: number[]) => void; // Function to alter selected rows
+  filterAction?: (filter?: string) => void; // Functions to filter by text
+  downloadAction?: () => Promise<void>; // Function to download data
 }
 
 const TableComponent: React.FC<IProps> = ({
@@ -60,7 +61,8 @@ const TableComponent: React.FC<IProps> = ({
   filterComponent,
   selectionActions,
   selected,
-  onlySearchAction = false,
+  printable = true,
+  hideable = true,
   title = "",
   rowStyle,
   setSelected,
@@ -201,7 +203,11 @@ const TableComponent: React.FC<IProps> = ({
             ref={tableRef}
           >
             {header && (
-              <Table stickyHeader aria-label="sticky table">
+              <Table
+                className="sticky-table"
+                stickyHeader
+                aria-label="sticky table"
+              >
                 <TableHead key="pagination">
                   <TableRow>
                     {paginated ? (
@@ -234,6 +240,8 @@ const TableComponent: React.FC<IProps> = ({
                     {actions && (
                       <TableActions
                         paginated={paginated}
+                        printable={printable}
+                        hideable={hideable}
                         selected={selected ?? []}
                         showColumn={showColumn}
                         showFilter={showFilter}
@@ -244,14 +252,17 @@ const TableComponent: React.FC<IProps> = ({
                         handlePrint={handlePrint}
                         setShowFilter={setShowFilter}
                         setShowColumn={setShowColumn}
-                        onlySearchAction={onlySearchAction}
                       />
                     )}
                   </TableRow>
                 </TableHead>
               </Table>
             )}
-            <Table stickyHeader aria-label="sticky table">
+            <Table
+              className="sticky-table"
+              stickyHeader
+              aria-label="sticky table"
+            >
               <TableHeader
                 columns={columns}
                 headers={headers}
@@ -313,11 +324,20 @@ const TableComponent: React.FC<IProps> = ({
                               <TableCell
                                 key={uuid()}
                                 align={column.align}
+                                className={column.class}
                                 style={column.style ? column.style(datum) : {}}
                               >
-                                {column.render === undefined
-                                  ? datum[column.id]
-                                  : column.render(datum)}
+                                {column.contain ? (
+                                  <div className="long">
+                                    {column.render === undefined
+                                      ? datum[column.id]
+                                      : column.render(datum)}
+                                  </div>
+                                ) : column.render === undefined ? (
+                                  datum[column.id]
+                                ) : (
+                                  column.render(datum)
+                                )}
                               </TableCell>
                             )
                           );

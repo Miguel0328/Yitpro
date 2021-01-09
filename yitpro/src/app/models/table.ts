@@ -6,6 +6,8 @@ export interface IColumn {
   align: "left" | "center" | "right";
   style?: (obj?: any) => object;
   orderable?: boolean;
+  class?: string;
+  contain?: boolean;
 }
 
 export type Order = "asc" | "desc";

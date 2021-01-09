@@ -53,6 +53,10 @@ export default class ProjectStore {
     this.projectName = "";
   };
 
+  @action clearProjectId = () => {
+    this.projectId = 0;
+  }
+
   @action initForm = async () => {
     this.rootStore.optionStore.getClientOptions();
     this.rootStore.optionStore.getManagerOptions();

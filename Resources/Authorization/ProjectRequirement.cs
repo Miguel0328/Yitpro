@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Persistence;
+using Resources.DTO;
+using Resources.Extension;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -30,10 +35,9 @@ namespace Resources.Authorization
         {
             var projectId = Convert.ToInt64(_httpContextAccessor.HttpContext.Request.RouteValues["id"]?.ToString());
             var email = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var userId = _context.User.AsNoTracking().FirstOrDefault(x => x.Email == email)?.Id;
+            var user = _context.User.FirstOrDefault(x => x.Email == email);
 
-            var isProjectUser = _context.ProjectTeam.AsNoTracking().Any(x => x.ProjectId == projectId && x.UserId == userId && x.Active)
-                || _context.Project.AsNoTracking().Any(x => x.Id == projectId && x.LeaderId == userId);
+            var isProjectUser = user.GetProjects(_context).Select(x => x.Id).Contains(projectId);
 
             if (isProjectUser)
                 context.Succeed(requirement);

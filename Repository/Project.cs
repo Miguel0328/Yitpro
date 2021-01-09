@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Models;
+using Resources.Extension;
 using Repository.Interfaces;
+using Resources.Constants;
 using Resources.DTO;
 using Resources.Errors;
-using Resources.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,11 +27,8 @@ namespace Repository
 
         public async Task<List<ProjectModel>> Get(ProjectFilterDTO filter, long userId)
         {
-            var projects =
-                _context.Project
-                .Include(x => x.Team).Include(x => x.Leader).Include(x => x.Client).Include(x => x.Status).Include(x => x.Type).Include(x => x.Methodology)
-                .Where(x => x.LeaderId == userId || x.Team.Where(y => y.Active).Select(x => x.UserId).Contains(userId))
-                .Select(x => x);
+            var user = await _context.User.FindAsync(userId);
+            var projects = user.GetProjects(_context);
 
             if (filter != null)
             {
@@ -46,8 +44,7 @@ namespace Repository
 
         public async Task<List<ProjectTeamModel>> GetTeam(long id)
         {
-            var team = await _context.ProjectTeam.Include(x => x.User).Where(x => x.ProjectId == id && x.Active).ToListAsync();
-            return team;
+            return await _context.ProjectTeam.Include(x => x.User).Where(x => x.ProjectId == id && x.Active).ToListAsync();
         }
 
         public async Task<List<UserModel>> GetRemainingTeam(long id)
@@ -60,15 +57,16 @@ namespace Repository
 
         public async Task<ProjectModel> GetDetail(long id)
         {
-            var project = await _context.Project.Include(x => x.Leader).Include(x => x.Client).Include(x => x.Status).Include(x => x.Type).Include(x => x.Methodology).FirstOrDefaultAsync(x => x.Id == id);
-            return project;
+            return await _context.Project
+                .Include(x => x.Leader).Include(x => x.Client).Include(x => x.Status).Include(x => x.Type).Include(x => x.Methodology)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<long> GetId(string code)
         {
             var project = await _context.Project.FirstOrDefaultAsync(x => x.Code == code);
             if (project == null)
-                throw new RestException(HttpStatusCode.NotFound, new { project = "Not found" });
+                throw new RestException(HttpStatusCode.NotFound, new { project = Messages.NotFound });
 
             return project.Id;
         }
@@ -77,7 +75,7 @@ namespace Repository
         {
             var duplicate = await _context.Project.AnyAsync(x => x.Name == project.Name || x.Code == project.Code);
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { project = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { project = Messages.Duplicated });
 
             _context.Project.Add(project);
             await _context.SaveChangesAsync();
@@ -91,7 +89,7 @@ namespace Repository
 
             var toUpdate = _context.ProjectTeam
                 .Where(x => x.ProjectId == _newTeam.Id && _newTeam.Ids.Contains(x.UserId))
-                .AsNoTracking().Select(x => new ProjectTeamModel
+                .Select(x => new ProjectTeamModel
                 {
                     ProjectId = x.ProjectId,
                     UserId = x.UserId,
@@ -109,7 +107,7 @@ namespace Repository
                 UpdatedAt = _newTeam.UpdatedAt
             });
 
-            var union = toAdd.Union(toUpdate).ToList();
+            var union = await toAdd.Union(toUpdate).ToListAsync();
             await _context.BulkInsertOrUpdateAsync(union);
 
             return true;
@@ -118,9 +116,9 @@ namespace Repository
         public async Task<bool> Put(ProjectModel _project)
         {
             var duplicate = await _context.Project
-                .AnyAsync(x => (x.Name == _project.Name || x.Code == _project.Code) && x.Id != _project.Id);
+                .FirstOrDefaultAsync(x => (x.Name == _project.Name || x.Code == _project.Code) && x.Id != _project.Id) != null;
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { project = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { project = Messages.Duplicated });
 
             var entry = _context.Entry(_project);
             entry.State = EntityState.Modified;
@@ -140,16 +138,16 @@ namespace Repository
 
         public async Task<bool> DeleteTeam(SelectedDTO _deleteTeam)
         {
-            var toUpdate = _context.ProjectTeam
+            var toUpdate = await _context.ProjectTeam
                 .Where(x => x.ProjectId == _deleteTeam.Id && _deleteTeam.Ids.Contains(x.UserId))
-                .AsNoTracking().Select(x => new ProjectTeamModel
+                .Select(x => new ProjectTeamModel
                 {
                     ProjectId = x.ProjectId,
                     UserId = x.UserId,
                     Active = false,
                     UpdatedById = _deleteTeam.UpdatedBy,
                     UpdatedAt = _deleteTeam.UpdatedAt
-                }).ToList();
+                }).ToListAsync();
 
             await _context.BulkUpdateAsync(toUpdate);
 
@@ -176,7 +174,7 @@ namespace Repository
                 }).ToListAsync();
 
             if (projects.Count == 0)
-                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = "No hay registros para exportar" });
+                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = Messages.NothingToExport });
 
             return projects;
         }
@@ -194,7 +192,7 @@ namespace Repository
                 }).ToListAsync();
 
             if (projects.Count == 0)
-                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = "No hay registros para exportar" });
+                throw new RestException(HttpStatusCode.NotFound, new { Usuarios = Messages.NothingToExport });
 
             return projects;
         }

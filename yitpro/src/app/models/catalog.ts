@@ -1,4 +1,5 @@
 export class GC {
+  static projectPhase: number = 2;
   static department: number = 3;
   static projectMethodology: number = 4;
   static projectType: number = 5;

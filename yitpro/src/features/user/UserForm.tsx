@@ -15,6 +15,7 @@ import TextInput from "../../app/common/form/TextInput";
 import PhotoUploadWidget from "../../app/common/photoUpload/PhotoUploadWidget";
 import { IUserDetail, UserFormValues } from "../../app/models/user";
 import { RootStoreContext } from "../../app/stores/root";
+import "react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css";
 
 const validate = combineValidators({
   employeeNumber: composeValidators(
@@ -67,7 +68,7 @@ const UserForm = () => {
   const { openUpperModal } = rootStore.modalStore;
   const {
     roleOptions,
-    lineManagersOptions,
+    managerOptions,
     departmentOptions,
   } = rootStore.optionStore;
 
@@ -208,7 +209,7 @@ const UserForm = () => {
                   <Field
                     name="managerId"
                     placeholder="Jefe directo"
-                    options={lineManagersOptions ?? []}
+                    options={managerOptions ?? []}
                     component={SelectInput}
                     clearable={true}
                   />

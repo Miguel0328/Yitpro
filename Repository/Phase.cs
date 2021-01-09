@@ -25,8 +25,8 @@ namespace Repository
         public async Task<List<PhaseModel>> Get(long phaseId = 0)
         {
             var phases =
-                (from c in _context.Catalog.AsNoTracking()
-                 join p in _context.Phase.AsNoTracking() on c.Id equals p.PhaseId into pcdf
+                (from c in _context.Catalog
+                 join p in _context.Phase on c.Id equals p.PhaseId into pcdf
                  from p in pcdf.DefaultIfEmpty()
                  where (c.CatalogId == Resources.Constants.Catalog.Phase && c.Active) &&
                  (p.PhaseId == phaseId || phaseId == 0)
@@ -51,8 +51,8 @@ namespace Repository
         public async Task<List<PhaseModel>> GetClasifications(long phaseId)
         {
             var clasifications = await
-                (from c in _context.Catalog.AsNoTracking()
-                 join pc in _context.Phase.AsNoTracking().Where(x => x.PhaseId == phaseId) on c.Id equals pc.ClasificationId into pcdf
+                (from c in _context.Catalog
+                 join pc in _context.Phase.Where(x => x.PhaseId == phaseId) on c.Id equals pc.ClasificationId into pcdf
                  from pc in pcdf.DefaultIfEmpty()
                  where c.CatalogId == Resources.Constants.Catalog.Clasification && c.Active
                  select new PhaseModel
@@ -69,7 +69,7 @@ namespace Repository
 
         public async Task<bool> Put(PhaseModel phase)
         {
-            var exists = _context.Phase.AsNoTracking().Any(x => x.PhaseId == phase.PhaseId && x.ClasificationId == phase.ClasificationId);
+            var exists = _context.Phase.Any(x => x.PhaseId == phase.PhaseId && x.ClasificationId == phase.ClasificationId);
 
             if (exists)
             {
@@ -88,8 +88,8 @@ namespace Repository
         public async Task<bool> PutPSP(PhaseModel _phase)
         {
             var clasifications = await
-                (from c in _context.Catalog.AsNoTracking()
-                 join pc in _context.Phase.AsNoTracking().Where(x => x.PhaseId == _phase.PhaseId) on c.Id equals pc.ClasificationId into pcdf
+                (from c in _context.Catalog
+                 join pc in _context.Phase.Where(x => x.PhaseId == _phase.PhaseId) on c.Id equals pc.ClasificationId into pcdf
                  from pc in pcdf.DefaultIfEmpty()
                  where c.CatalogId == Resources.Constants.Catalog.Clasification && c.Active
                  select new PhaseModel
@@ -111,8 +111,8 @@ namespace Repository
         public async Task<bool> Put(long phaseId, long userId)
         {
             var clasifications = await
-                (from c in _context.Catalog.AsNoTracking()
-                 join pc in _context.Phase.AsNoTracking().Where(x => x.PhaseId == phaseId) on c.Id equals pc.ClasificationId into pcdf
+                (from c in _context.Catalog
+                 join pc in _context.Phase.Where(x => x.PhaseId == phaseId) on c.Id equals pc.ClasificationId into pcdf
                  from pc in pcdf.DefaultIfEmpty()
                  where c.CatalogId == Resources.Constants.Catalog.Clasification && c.Active
                  select new PhaseModel

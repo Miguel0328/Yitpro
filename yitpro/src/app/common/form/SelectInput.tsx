@@ -11,6 +11,8 @@ const SelectInput: React.FC<IProps> = ({
   width,
   options,
   placeholder,
+  loading,
+  disabled,
   clearable = false,
   meta: { touched, error },
 }) => {
@@ -19,6 +21,8 @@ const SelectInput: React.FC<IProps> = ({
       <Dropdown
         selection
         search
+        disabled={disabled}
+        loading={loading}
         clearable={clearable}
         value={input.value}
         onChange={(e, data) => input.onChange(data.value)}

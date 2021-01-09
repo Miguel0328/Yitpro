@@ -55,7 +55,7 @@ const ProjectForm = () => {
   } = rootStore.projectStore;
   const {
     clientOptions,
-    lineManagersOptions,
+    managerOptions,
     projectTypeOptions,
     projectStatusOptions,
     projectMethodologyOptions,
@@ -124,7 +124,7 @@ const ProjectForm = () => {
                   <Field
                     name="leaderId"
                     placeholder="Líder"
-                    options={lineManagersOptions ?? []}
+                    options={managerOptions ?? []}
                     component={SelectInput}
                   />
                 </Grid.Column>

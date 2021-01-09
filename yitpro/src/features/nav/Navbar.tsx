@@ -2,11 +2,15 @@ import React, { useContext } from "react";
 import { Menu, Container, Dropdown, Image, Icon } from "semantic-ui-react";
 import { RootStoreContext } from "../../app/stores/root";
 import { observer } from "mobx-react-lite";
+import ActivityForm from "../activity/activityForm/ActivityFormDetail";
+import ActivityTab from "../activity/activityForm/ActivityFormTab";
 
 const NavBar: React.FC = () => {
   const rootStore = useContext(RootStoreContext);
   const { collapsed, setCollapsed } = rootStore.commonStore;
   const { logout, user } = rootStore.profileStore;
+  const { openModal } = rootStore.modalStore;
+  const { setActivityId } = rootStore.activityStore;
 
   return (
     <Menu className="navbar header-height" fixed="top" inverted>
@@ -31,6 +35,12 @@ const NavBar: React.FC = () => {
           Organización: Raspberry Pi 4.0
         </Menu.Item>
         <Menu.Menu position="right">
+          <Menu.Item onClick={() => {
+            setActivityId(0);
+            openModal(<ActivityForm />, "medium", "Nueva Actividad")
+          }}>
+            <Icon className="icon-menu" name="pencil" />
+          </Menu.Item>{" "}
           <Menu.Item>
             <Icon className="icon-menu" name="key" />
           </Menu.Item>{" "}
@@ -43,7 +53,11 @@ const NavBar: React.FC = () => {
               spaced="right"
               src={user?.photo ?? "/assets/avatar.png"}
             />
-            <Dropdown className="nav-dropdown" pointing="top right" text={user?.name}>
+            <Dropdown
+              className="nav-dropdown"
+              pointing="top right"
+              text={user?.name}
+            >
               <Dropdown.Menu>
                 <Dropdown.Item text="My profile" icon="user" />
                 <Dropdown.Item text="Logout" icon="power" onClick={logout} />

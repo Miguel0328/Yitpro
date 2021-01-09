@@ -6,8 +6,6 @@ import TableComponent from "../../app/common/table/TableComponent";
 import { IPhase } from "../../app/models/phase";
 import { IColumn } from "../../app/models/table";
 import { RootStoreContext } from "../../app/stores/root";
-// import PhaseFilter from "./PhaseFilter";
-// import PhaseForm from "./PhaseForm";
 
 const PhaseTable = () => {
   const rootStore = useContext(RootStoreContext);
@@ -21,11 +19,8 @@ const PhaseTable = () => {
     getClasifications,
     clearPhases,
     setPhase,
-    // putEnabled,
-    // download,
     filterPhases,
   } = rootStore.phaseStore;
-  //   const { openModal } = rootStore.modalStore;
 
   useEffect(() => {
     get();
@@ -97,15 +92,14 @@ const PhaseTable = () => {
   return (
     <Segment loading={loadingPhases} className="segment-table">
       <TableComponent
-        // filterComponent={<PhaseFilter />}
         orderColumn="name"
         title="Fases"
         columns={columns}
         data={phases}
         filterAction={filterPhases}
-        // downloadAction={download}
         paginated={false}
-        onlySearchAction={true}
+        printable={false}
+        hideable={false}
         rowStyle={rowStyle}
       />
     </Segment>

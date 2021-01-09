@@ -31,7 +31,12 @@ export default class ModalStore {
     onCancel: () => {},
   };
 
-  @action openModal = (content: any, size: any, header: string) => {
+  @action openModal = (
+    content: any,
+    size: "mini" | "tiny" | "small" | "medium" | "large" | "fullscreen" | undefined,
+    header: string
+  ) => {
+    if (size === "medium") size = undefined;
     this.modal.open = true;
     this.modal.body = content;
     this.modal.size = size;

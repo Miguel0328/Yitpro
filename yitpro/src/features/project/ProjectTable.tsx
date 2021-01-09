@@ -1,7 +1,7 @@
 import { Switch } from "@material-ui/core";
 import { observer } from "mobx-react-lite";
 import React, { useContext, useEffect } from "react";
-import { Segment, Icon, Image } from "semantic-ui-react";
+import { Segment, Icon, Image, Button } from "semantic-ui-react";
 import TableComponent from "../../app/common/table/TableComponent";
 import { IColumn } from "../../app/models/table";
 import { IProject, ProjectStatus } from "../../app/models/project";
@@ -10,6 +10,7 @@ import { RootStoreContext } from "../../app/stores/root";
 import ProjectForm from "./ProjectForm";
 import ProjectFilter from "./ProjectFilter";
 import { Link } from "react-router-dom";
+import { history } from "../..";
 
 const ProjectTable = () => {
   const rootStore = useContext(RootStoreContext);
@@ -40,7 +41,14 @@ const ProjectTable = () => {
       align: "left",
       width: "10%",
       render: (project: IProject) => (
-        <Link to={"project/detail/" + project.code}>{project.code}</Link>
+        <Button
+          className="a-button"
+          onClick={()=>{
+            history.push("project/detail/" + project.code)
+          }}
+        >
+          {project.code}
+        </Button>
       ),
     },
     {

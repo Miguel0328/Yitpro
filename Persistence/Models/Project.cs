@@ -26,5 +26,6 @@ namespace Persistence.Models
         public virtual UserModel UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
         public virtual ICollection<ProjectTeamModel> Team { get; set; }
+        public virtual ICollection<ActivityModel> Activities { get; set; }
     }
 }

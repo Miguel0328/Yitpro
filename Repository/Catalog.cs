@@ -2,6 +2,7 @@
 using Persistence;
 using Persistence.Models;
 using Repository.Interfaces;
+using Resources.Constants;
 using Resources.Errors;
 using Resources.Extension;
 using System;
@@ -24,14 +25,14 @@ namespace Repository
 
         public async Task<long> Post(CatalogModel _catalog)
         {
-            var catalog = await _context.Catalog.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _catalog.CatalogId);
+            var catalog = await _context.Catalog.FindAsync(_catalog.CatalogId);
             if (catalog == null)
-                throw new RestException(HttpStatusCode.NotFound, new { catalog = "Not found" });
+                throw new RestException(HttpStatusCode.NotFound, new { catalog = Messages.NotFound });
 
             var duplicate = await _context.Catalog
-                .AnyAsync(x => (x.Description == _catalog.Description || x.Alias == _catalog.Alias) && x.CatalogId == _catalog.CatalogId);
+                .FirstOrDefaultAsync(x => (x.Description == _catalog.Description || x.Alias == _catalog.Alias) && x.CatalogId == _catalog.CatalogId) != null;
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { catalog = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { catalog = Messages.Duplicated });
 
             _context.Catalog.Add(_catalog);
             await _context.SaveChangesAsync();
@@ -41,11 +42,7 @@ namespace Repository
 
         public async Task<CatalogModel> Get(long id)
         {
-            var catalog = await _context.Catalog.FindAsync(id);
-            if (catalog == null)
-                throw new RestException(HttpStatusCode.NotFound, new { catalog = "Not found" });
-
-            return catalog;
+            return await _context.Catalog.FindAsync(id);
         }
 
         public async Task<List<CatalogModel>> Get(short id)
@@ -55,18 +52,18 @@ namespace Repository
 
         public async Task<bool> Put(CatalogModel _catalog)
         {
-            var catalog = await _context.Catalog.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _catalog.Id);
+            var catalog = await _context.Catalog.FindAsync(_catalog.Id);
             if (catalog == null)
-                throw new RestException(HttpStatusCode.NotFound, new { catalog = "Not found" });
-
-            var duplicate = await _context.Catalog
-                .AnyAsync(x => (x.Description == _catalog.Description || x.Alias == _catalog.Alias)
-                && x.CatalogId == _catalog.CatalogId && x.Id != _catalog.Id);
-            if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { catalog = "Already exists" });
+                throw new RestException(HttpStatusCode.NotFound, new { catalog = Messages.NotFound });
 
             if (catalog.Protected)
-                throw new RestException(HttpStatusCode.NotFound, new { catalog = "Protected catalogs cannot be modified" });
+                throw new RestException(HttpStatusCode.NotFound, new { catalog = Messages.ProtectedChanged });
+
+            var duplicate = await _context.Catalog
+                .FirstOrDefaultAsync(x => (x.Description == _catalog.Description || x.Alias == _catalog.Alias)
+                && x.CatalogId == _catalog.CatalogId && x.Id != _catalog.Id) != null;
+            if (duplicate)
+                throw new RestException(HttpStatusCode.BadRequest, new { catalog = Messages.Duplicated });
 
             var entry = _context.Entry(_catalog);
             entry.State = EntityState.Modified;
@@ -88,10 +85,10 @@ namespace Repository
                     Protegido = x.Protected ? "Sí" : "No",
                     Activo = x.Active ? "Sí" : "No",
                 })
-                .OrderBy(x => x.Catalogo).ThenByDescending(x=>x.Cabecera).ThenBy(x => x.Alias).ToListAsync();
+                .OrderBy(x => x.Catalogo).ThenByDescending(x => x.Cabecera).ThenBy(x => x.Alias).ToListAsync();
 
             if (catalogs.Count == 0)
-                throw new RestException(HttpStatusCode.NotFound, new { GeneralCatalogs = "No hay registros para exportar" });
+                throw new RestException(HttpStatusCode.NotFound, new { catalog = Messages.NothingToExport });
 
             return catalogs;
         }

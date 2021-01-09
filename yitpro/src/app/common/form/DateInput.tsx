@@ -20,6 +20,7 @@ const DateInput: React.FC<IProps> = ({
   return (
     <Form.Field error={touched && !!error} width={width}>
       <DateTimePicker
+        className="custom-datepicker"
         placeholder={placeholder}
         value={input.value || undefined}
         onChange={input.onChange}

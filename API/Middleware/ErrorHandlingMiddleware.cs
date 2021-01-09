@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Resources.Constants;
 using Resources.Errors;
 using System;
 using System.Net;
@@ -42,6 +44,12 @@ namespace API.Middleware
                     errors = re.Errors;
                     context.Response.StatusCode = (int)re.Code;
                     break;
+                //case DbUpdateConcurrencyException _:
+                //case DbUpdateException _:
+                //    logger.LogError(ex, "BD ERROR");
+                //    errors = new { obj = Messages.NotFound };
+                //    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                //    break;
                 case Exception e:
                     logger.LogError(ex, "SERVER ERROR");
                     errors = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message;

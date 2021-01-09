@@ -9,6 +9,8 @@ namespace Resources.Constants
         public const short
         Admin = 1,
         Manager = 2,
-        Leader = 3;
+        Leader = 3,
+        It = 4,
+        QA = 5;
     }
 }

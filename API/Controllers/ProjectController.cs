@@ -28,7 +28,7 @@ namespace API.Controllers
 
         [HttpGet("index/detail/{id}")]
         [Authorize("Get")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public void IndexDetail() { return; }
 
         [HttpGet]
@@ -41,17 +41,17 @@ namespace API.Controllers
 
         [HttpGet("{id}")]
         [Authorize("Get")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<ProjectDTO> Get(long id) => await _Project.Get(id);
 
         [HttpGet("team/{id}")]
         [Authorize("Get")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<List<ProjectTeamDTO>> GetTeam(long id) => await _Project.GetTeam(id);
 
         [HttpGet("team/remaining/{id}")]
         [Authorize("Get")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<List<UserDTO>> GetRemainingTeam(long id) => await _Project.GetRemainingTeam(id);
 
         [HttpGet("get-id/{code}")]
@@ -60,7 +60,7 @@ namespace API.Controllers
 
         [HttpGet("detail/{id}")]
         [Authorize("Get")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<ProjectDetailDTO> GetDetail(long id) => await _Project.GetDetail(id);
 
         [HttpPost]
@@ -69,29 +69,29 @@ namespace API.Controllers
 
         [HttpPost("team/{id}")]
         [Authorize("Post")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<bool> PostTeam(SelectedDTO newTeam) => await _Project.PostTeam(newTeam);
 
         [HttpPut("{id}")]
         [Authorize("Put")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<bool> Put(ProjectDetailDTO project) => await _Project.Put(project);
 
         [HttpPut("active/{id}")]
         [Authorize("Put")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<bool> PutEnabled(ProjectDTO project) => await _Project.PutEnabled(project);
 
         [HttpPut("team/{id}")]
         [Authorize("Delete")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<bool> DeleteTeam(SelectedDTO newTeam) => await _Project.DeleteTeam(newTeam);
 
         [HttpGet("download")]
         public async Task<IActionResult> Download() => File(await _Project.Download(), MimeType.XLSX);
 
         [HttpGet("team/download/{id}")]
-        [Authorize("Project")]
+        [Authorize("AccessProject")]
         public async Task<IActionResult> DownloadTeam(long id) => File(await _Project.DownloadTeam(id), MimeType.XLSX);
     }
 }

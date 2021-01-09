@@ -118,7 +118,6 @@ const UserTable = () => {
             name="edit"
             className="icon-table"
             onClick={() => {
-              console.log("Editando");
               setUserId(user.id);
               openModal(<UserForm />, "medium", "Editar: " + user.name);
             }}

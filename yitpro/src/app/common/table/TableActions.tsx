@@ -3,12 +3,13 @@ import { Container, Icon, Input } from "semantic-ui-react";
 
 interface IProps {
   paginated: boolean;
+  printable: boolean;
+  hideable: boolean;
   showColumn: boolean;
   showFilter: boolean;
   filterComponent?: JSX.Element;
   selected: number[];
   selectionActions?: JSX.Element;
-  onlySearchAction: boolean;
   downloadAction?: () => Promise<void>;
   filterAction?: (filter?: string) => void;
   handlePrint: (() => void) | undefined;
@@ -23,7 +24,8 @@ const TableActions: React.FC<IProps> = ({
   filterComponent,
   selected,
   selectionActions,
-  onlySearchAction,
+  printable,
+  hideable,
   filterAction,
   downloadAction,
   handlePrint,
@@ -69,7 +71,7 @@ const TableActions: React.FC<IProps> = ({
               onClick={downloadAction}
             ></Icon>
           )}
-          {!onlySearchAction && (
+          {printable && (
             <Icon
               className="icon-table-header"
               size="large"
@@ -88,7 +90,7 @@ const TableActions: React.FC<IProps> = ({
               }}
             ></Icon>
           )}
-          {!onlySearchAction && (
+          {hideable && (
             <Icon
               className="icon-table-header"
               size="large"

@@ -41,27 +41,28 @@ const ClasificationTable = () => {
       align: "center",
       width: "20%",
       orderable: false,
-      render: () => (
-        <Button
-          onClick={() => {
-            openConfirmationModal(
-              allClasifications.length.toString(),
-              "confirmation",
-              () => {
-                putAll(current!.id).then(() => {
-                  getById(current!.id);
-                });
-              },
-              true
-            );
-          }}
-          as="a"
-          style={{ color: "white !important" }}
-          className="a-button white"
-        >
-          Agregar todos
-        </Button>
-      ),
+      render: () =>
+        !current ? null : (
+          <Button
+            onClick={() => {
+              openConfirmationModal(
+                allClasifications.length.toString(),
+                "confirmation",
+                () => {
+                  putAll(current!.id).then(() => {
+                    getById(current!.id);
+                  });
+                },
+                true
+              );
+            }}
+            as="a"
+            style={{ color: "white !important" }}
+            className="a-button white"
+          >
+            Agregar todos
+          </Button>
+        ),
     },
   ];
 
@@ -108,7 +109,8 @@ const ClasificationTable = () => {
         data={clasifications}
         filterAction={filterClasifications}
         paginated={false}
-        onlySearchAction={true}
+        hideable={false}
+        printable={false}
       />
     </Segment>
   );

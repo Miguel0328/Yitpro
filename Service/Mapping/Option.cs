@@ -22,16 +22,26 @@ namespace Service.Mapping
             CreateMap<RoleModel, OptionDTO>()
                 .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
                 .ForMember(x => x.Text, o => o.MapFrom(s => s.Name))
-                .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));            
-            
+                .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));
+
             CreateMap<ClientModel, OptionDTO>()
                 .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
                 .ForMember(x => x.Text, o => o.MapFrom(s => s.Name))
-                .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));           
-            
+                .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));
+
             CreateMap<CatalogModel, OptionDTO>()
                 .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
                 .ForMember(x => x.Text, o => o.MapFrom(s => s.Description.Length < 50 ? s.Description : s.Alias))
+                .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));
+
+            CreateMap<PhaseModel, OptionDTO>()
+                .ForMember(x => x.Key, o => o.MapFrom(s => s.ClasificationId.ToString()))
+                .ForMember(x => x.Text, o => o.MapFrom(s => s.Clasification.Description))
+                .ForMember(x => x.Value, o => o.MapFrom(s => s.ClasificationId));            
+            
+            CreateMap<ProjectModel, OptionDTO>()
+                .ForMember(x => x.Key, o => o.MapFrom(s => s.Id.ToString()))
+                .ForMember(x => x.Text, o => o.MapFrom(s => s.Name))
                 .ForMember(x => x.Value, o => o.MapFrom(s => s.Id));
 
             CreateMap<UserModel, OptionDTO>()

@@ -9,7 +9,7 @@ const ModalContainer = () => {
     modal: { open, body, size, header },
     closeModal,
   } = rootStore.modalStore;
-  console.log("Modal aqui");
+  
   return (
     <Modal
       closeIcon

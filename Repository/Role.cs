@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using EFCore.BulkExtensions;
+using Resources.Constants;
 
 namespace Repository
 {
@@ -25,9 +26,9 @@ namespace Repository
 
         public async Task<short> Post(RoleModel _role)
         {
-            var duplicate = await _context.Role.AnyAsync(x => x.Name == _role.Name);
+            var duplicate = await _context.Role.FirstOrDefaultAsync(x => x.Name == _role.Name) != null;
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { role = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { role = Messages.Duplicated });
 
             _context.Role.Add(_role);
             await _context.SaveChangesAsync();
@@ -37,11 +38,7 @@ namespace Repository
 
         public async Task<RoleModel> Get(short id)
         {
-            var role = await _context.Role.FindAsync(id);
-            if (role == null)
-                throw new RestException(HttpStatusCode.NotFound, new { role = "Not found" });
-
-            return role;
+            return await _context.Role.FindAsync(id);
         }
 
         public async Task<List<RoleModel>> Get()
@@ -51,16 +48,16 @@ namespace Repository
 
         public async Task<bool> Put(RoleModel _role)
         {
-            var role = await _context.Role.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _role.Id);
+            var role = await _context.Role.FindAsync(_role.Id);
             if (role == null)
-                throw new RestException(HttpStatusCode.NotFound, new { role = "Not found" });
-
-            var duplicate = await _context.Role.AnyAsync(x => x.Name == _role.Name && x.Id != _role.Id);
-            if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { role = "Already exists" });
+                throw new RestException(HttpStatusCode.NotFound, new { role = Messages.NotFound });
 
             if (role.Protected)
-                throw new RestException(HttpStatusCode.NotFound, new { role = "Protected roles cannot be modified" });
+                throw new RestException(HttpStatusCode.NotFound, new { role = Messages.ProtectedChanged });
+
+            var duplicate = await _context.Role.FirstOrDefaultAsync(x => x.Name == _role.Name && x.Id != _role.Id) != null;
+            if (duplicate)
+                throw new RestException(HttpStatusCode.BadRequest, new { role = Messages.Duplicated });
 
             var entry = _context.Entry(_role);
             entry.State = EntityState.Modified;
@@ -71,10 +68,6 @@ namespace Repository
 
         public async Task<List<RolePermissionModel>> GetPermissions(short id)
         {
-            var role = await _context.Role.FindAsync(id);
-            if (role == null)
-                throw new RestException(HttpStatusCode.NotFound, new { role = "Not found" });
-
             var permissions = await
                 (from menu in _context.Menu
                  join leftPermissions in _context.RolePermission.Where(x => x.RoleId == id) on menu.Id equals leftPermissions.MenuId into ljPermissions
@@ -115,7 +108,7 @@ namespace Repository
                 .ToListAsync();
 
             if (roles.Count == 0)
-                throw new RestException(HttpStatusCode.NotFound, new { Roles = "No hay registros para exportar" });
+                throw new RestException(HttpStatusCode.NotFound, new { Roles = Messages.NothingToExport });
 
             return roles;
         }

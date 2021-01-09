@@ -2,6 +2,7 @@
 using Persistence;
 using Persistence.Models;
 using Repository.Interfaces;
+using Resources.Constants;
 using Resources.Errors;
 using System;
 using System.Collections.Generic;
@@ -23,9 +24,9 @@ namespace Repository
 
         public async Task<short> Post(ClientModel _client)
         {
-            var duplicate = await _context.Client.AnyAsync(x => x.Name == _client.Name);
+            var duplicate = await _context.Client.FirstOrDefaultAsync(x => x.Name == _client.Name) != null;
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { client = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { client = Messages.Duplicated });
 
             _context.Client.Add(_client);
             await _context.SaveChangesAsync();
@@ -35,11 +36,7 @@ namespace Repository
 
         public async Task<ClientModel> Get(short id)
         {
-            var client = await _context.Client.Include(x => x.Projects).FirstOrDefaultAsync(x => x.Id == id);
-            if (client == null)
-                throw new RestException(HttpStatusCode.NotFound, new { client = "Not found" });
-
-            return client;
+            return await _context.Client.Include(x => x.Projects).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<ClientModel>> Get()
@@ -49,13 +46,13 @@ namespace Repository
 
         public async Task<bool> Put(ClientModel _client)
         {
-            var client = await _context.Client.AsNoTracking().FirstOrDefaultAsync(x => x.Id == _client.Id);
+            var client = await _context.Client.FindAsync( _client.Id);
             if (client == null)
-                throw new RestException(HttpStatusCode.NotFound, new { client = "Not found" });
+                throw new RestException(HttpStatusCode.NotFound, new { client = Messages.NotFound });
 
-            var duplicate = await _context.Client.AnyAsync(x => x.Name == _client.Name && x.Id != _client.Id);
+            var duplicate = await _context.Client.FirstOrDefaultAsync(x => x.Name == _client.Name && x.Id != _client.Id) != null;
             if (duplicate)
-                throw new RestException(HttpStatusCode.BadRequest, new { client = "Already exists" });
+                throw new RestException(HttpStatusCode.BadRequest, new { client = Messages.Duplicated });
 
             var entry = _context.Entry(_client);
             entry.State = EntityState.Modified;
@@ -77,7 +74,7 @@ namespace Repository
                 .ToListAsync();
 
             if (clients.Count == 0)
-                throw new RestException(HttpStatusCode.NotFound, new { clients = "No hay registros para exportar" });
+                throw new RestException(HttpStatusCode.NotFound, new { clients = Messages.NothingToExport });
 
             return clients;
         }

@@ -54,6 +54,11 @@ namespace Persistence.EntityConfiguration
                 .HasOne(x => x.Status)
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasMany(x => x.Activities)
+                .WithOne(x => x.Project)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 

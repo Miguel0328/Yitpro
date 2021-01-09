@@ -29,6 +29,7 @@ import Project from "../../features/project/Project";
 import ProjectDetail from "../../features/project/projectDetail/ProjectDetail";
 import Catalog from "../../features/catalog/Catalog";
 import Phase from "../../features/phase/Phase";
+import Activity from "../../features/activity/Activity";
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const rootStore = useContext(RootStoreContext);
@@ -66,6 +67,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <PrivateRoute exact path="/catalog" component={Catalog} />
                 <PrivateRoute exact path="/phase" component={Phase} />
                 <PrivateRoute exact path="/project" component={Project} />
+                <PrivateRoute exact path="/activity" component={Activity} />
                 <PrivateRoute
                   exact
                   path="/project/detail/:code"

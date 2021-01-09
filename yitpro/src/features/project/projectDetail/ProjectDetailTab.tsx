@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab } from "semantic-ui-react";
 import ProjectForm from "../ProjectForm";
-import ProjectTeam from "./ProjectTeam/ProjectTeam";
+import ProjectTeam from "./projectTeam/ProjectTeam";
 
 const panes = [
   {

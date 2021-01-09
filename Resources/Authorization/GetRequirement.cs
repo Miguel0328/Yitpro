@@ -30,8 +30,8 @@ namespace Resources.Authorization
         {
             var route = _httpContextAccessor.HttpContext.Request.RouteValues["controller"];
             var email = _httpContextAccessor.HttpContext.User?.Claims?.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
-            var userId = _context.User.AsNoTracking().FirstOrDefault(x => x.Email == email)?.Id;
-            var menu = _context.Menu.AsNoTracking().FirstOrDefault(x => x.Route == route.ToString().ToLower());
+            var userId = _context.User.FirstOrDefault(x => x.Email == email)?.Id;
+            var menu = _context.Menu.FirstOrDefault(x => x.Route == route.ToString().ToLower());
 
             var hasPermission = _context.UserPermission.FirstOrDefault(x => x.UserId == userId && x.MenuId == menu.Id)?.Access;
 

@@ -1,14 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore.Query;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.EntityFrameworkCore.Storage;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Resources.Extension
 {
@@ -81,5 +85,29 @@ namespace Resources.Extension
         }
         private static object Private(this object obj, string privateField) => obj?.GetType().GetField(privateField, BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(obj);
         private static T Private<T>(this object obj, string privateField) => (T)obj?.GetType().GetField(privateField, BindingFlags.Instance | BindingFlags.NonPublic)?.GetValue(obj);
+
+        public static async Task<T> GetRequestBodyAsync<T>(this HttpRequest request) where T : new()
+        {
+            T objRequestBody = new T();
+
+            // IMPORTANT: Ensure the requestBody can be read multiple times.
+            HttpRequestRewindExtensions.EnableBuffering(request);
+
+            // IMPORTANT: Leave the body open so the next middleware can read it.
+            using (StreamReader reader = new StreamReader(
+                request.Body,
+                Encoding.UTF8,
+                detectEncodingFromByteOrderMarks: false,
+                leaveOpen: true))
+            {
+                string strRequestBody = await reader.ReadToEndAsync();
+                objRequestBody = JsonConvert.DeserializeObject<T>(strRequestBody);
+
+                // IMPORTANT: Reset the request body stream position so the next middleware can read it
+                request.Body.Position = 0;
+            }
+
+            return objRequestBody;
+        }
     }
 }

@@ -41,6 +41,7 @@ namespace API
         {
             services.AddDbContext<DataContext>(opt =>
             {
+                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 opt.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
 
@@ -88,7 +89,7 @@ namespace API
                 {
                     policy.Requirements.Add(new DeleteRequirement());
                 });
-                opt.AddPolicy("Project", policy =>
+                opt.AddPolicy("AccessProject", policy =>
                 {
                     policy.Requirements.Add(new ProjectRequirement());
                 });
@@ -124,6 +125,7 @@ namespace API
             services.AddScoped<IOptionService, OptionService>();
             services.AddScoped<IClientService, ClientService>();
             services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<IActivityService, ActivityService>();
             services.AddScoped<IProfile, Repository.Profile>();
             services.AddScoped<IRole, Role>();
             services.AddScoped<IPhase, Phase>();
@@ -132,6 +134,7 @@ namespace API
             services.AddScoped<IOption, Option>();
             services.AddScoped<IClient, Client>();
             services.AddScoped<IProject, Project>();
+            services.AddScoped<IActivity, Activity>();
 
             services.AddScoped(provider => new MapperConfiguration(cfg =>
             {
@@ -144,6 +147,7 @@ namespace API
                 cfg.AddProfile(new OptionProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new ClientProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new ProjectProfile(provider.GetService<IBaseService>()));
+                cfg.AddProfile(new ActivityProfile(provider.GetService<IBaseService>()));
                 cfg.AddProfile(new SelectedProfile(provider.GetService<IBaseService>()));
             }).CreateMapper());
         }

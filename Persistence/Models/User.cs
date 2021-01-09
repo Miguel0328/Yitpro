@@ -12,7 +12,7 @@ namespace Persistence.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string SecondLastName { get; set; }
-        public string FullName { get { return FirstName + " " + LastName + " " + SecondLastName; } }
+        public string FullName { get { return FirstName + " " + LastName; } }
         public string Email { get; set; }
         public DateTime AdmissionDate { get; set; }
         public short RoleId { get; set; }

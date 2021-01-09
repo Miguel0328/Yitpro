@@ -20,7 +20,7 @@ namespace Service.Mapping
             _request = _service.GetRequest();
 
             CreateMap<UserModel, UserDTO>()
-                .ForMember(x => x.Name, o => o.MapFrom(s => $"{s.FirstName} {s.LastName} {s.SecondLastName}"))
+                .ForMember(x => x.Name, o => o.MapFrom(s => s.FullName))
                 .ForMember(x => x.Role, o => o.MapFrom(s => s.Role.Name))
                 .ForMember(x => x.Department, o => o.MapFrom(s => s.Department.Description))
                 .ForMember(x => x.Photo, o => o.MapFrom(s => s.Photo == null ? null :
