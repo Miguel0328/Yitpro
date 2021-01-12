@@ -103,7 +103,13 @@ const ActivityTable = () => {
             background = "#707070";
             break;
         }
-        return { color: "white", backgroundColor: background };
+        return {
+          color: "white",
+          backgroundColor: background,
+          backgroundClip: "content-box",
+          padding: "8px 0",
+          textAlign: "center",
+        };
       },
     },
     {
@@ -145,7 +151,7 @@ const ActivityTable = () => {
           (activity.finalTime / activity.assignedTime) * 100
         );
         const color =
-          percent < 100 ? "green" : percent < 105 ? "yellow" : "red";
+          percent <= 100 ? "green" : percent <= 105 ? "yellow" : "red";
         return <Progress percent={percent} color={color} />;
       },
     },

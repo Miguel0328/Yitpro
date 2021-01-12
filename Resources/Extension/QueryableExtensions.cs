@@ -61,6 +61,10 @@ namespace Resources.Extension
                 activities = activities
                     .Where(x => x.Responsible.DepartmentId == departmentId || x.Assigned.DepartmentId == departmentId);
             }
+            else if (roleId == UserRole.Leader)
+            {
+                activities = activities.Where(x => x.Project.LeaderId == userId && (x.Responsible.DepartmentId == departmentId || x.Assigned.DepartmentId == departmentId));
+            }
             else if (roleId != UserRole.Admin)
             {
                 activities = activities

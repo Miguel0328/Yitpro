@@ -32,6 +32,6 @@ namespace Persistence.Models
         public long UpdatedById { get; set; }
         public virtual UserModel UpdatedBy { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public virtual List<ActivityCommentModel> Comments { get; set; }
+        public virtual ICollection<ActivityCommentModel> Comments { get; set; }
     }
 }

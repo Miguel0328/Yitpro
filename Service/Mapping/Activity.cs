@@ -20,19 +20,32 @@ namespace Service.Mapping
             _service = service;
             _request = _service.GetRequest();
 
+            CreateMap<ActivityCommentModel, ActivityCommentDTO>();
+
             CreateMap<ActivityModel, ActivityDetailDTO>()
-                .ForMember(x => x.Period, o => o.MapFrom(s => new List<DateTime> { s.StartDate, s.EndDate }));
+                .ForMember(x => x.Period, o => o.MapFrom(s => new List<DateTime> { s.StartDate, s.EndDate }))
+                .ForMember(x => x.Log, o => o.MapFrom(s => s.Comments.Where(x => x.Log)))
+                .ForMember(x => x.EstimatedTime,
+                    o => o.MapFrom(s => Math.Floor(TimeSpan.FromSeconds(s.EstimatedTime).TotalHours).ToString("00") + ":"
+                    + TimeSpan.FromSeconds(s.EstimatedTime).Minutes.ToString("00")))
+                .ForMember(x => x.AssignedTime,
+                    o => o.MapFrom(s => Math.Floor(TimeSpan.FromSeconds(s.AssignedTime).TotalHours).ToString("00") + ":"
+                    + TimeSpan.FromSeconds(s.AssignedTime).Minutes.ToString("00")))
+                .ForMember(x => x.FinalTime,
+                    o => o.MapFrom(s => Math.Floor(TimeSpan.FromSeconds(s.FinalTime).TotalHours).ToString("00") + ":"
+                    + TimeSpan.FromSeconds(s.FinalTime).Minutes.ToString("00")));
             CreateMap<ActivityDetailDTO, ActivityModel>()
                 .ForMember(x => x.StartDate, o => o.MapFrom(s => s.Period.Min()))
                 .ForMember(x => x.EndDate, o => o.MapFrom(s => s.Period.Max()))
+                .ForMember(x => x.FinalTime, o => o.Ignore())
                 .ForMember(x => x.AssignedTime,
                     o => o.MapFrom(
-                        s => (Convert.ToInt32(s.AssignedTime.Split(':', 2, StringSplitOptions.None).First()) * 3600)
-                    + (Convert.ToInt32(s.AssignedTime.Split(':', 2, StringSplitOptions.None).Last()) * 60)))
+                        s => (Convert.ToInt32(s.AssignedTime.Replace("_", "0").Split(':', 2, StringSplitOptions.None).First()) * 3600)
+                    + (Convert.ToInt32(s.AssignedTime.Replace("_", "0").Split(':', 2, StringSplitOptions.None).Last()) * 60)))
                 .ForMember(x => x.EstimatedTime,
                     o => o.MapFrom(
-                        s => (Convert.ToInt32(s.EstimatedTime.Split(':', 2, StringSplitOptions.None).First()) * 3600)
-                    + (Convert.ToInt32(s.EstimatedTime.Split(':', 2, StringSplitOptions.None).Last()) * 60)))
+                        s => (Convert.ToInt32(s.EstimatedTime.Replace("_", "0").Split(':', 2, StringSplitOptions.None).First()) * 3600)
+                    + (Convert.ToInt32(s.EstimatedTime.Replace("_", "0").Split(':', 2, StringSplitOptions.None).Last()) * 60)))
                 .ForMember(x => x.UpdatedById, o => o.MapFrom(s => _service.GetCurrentUserId()))
                 .ForMember(x => x.UpdatedAt, o => o.MapFrom(s => DateTime.Now));
 

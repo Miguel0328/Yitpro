@@ -26,11 +26,11 @@ namespace Repository
         {
             var phases =
                 (from c in _context.Catalog
-                 join p in _context.Phase on c.Id equals p.PhaseId into pcdf
+                 join leftP in _context.Phase on c.Id equals leftP.PhaseId into pcdf
                  from p in pcdf.DefaultIfEmpty()
                  where (c.CatalogId == Resources.Constants.Catalog.Phase && c.Active) &&
-                 (p.PhaseId == phaseId || phaseId == 0)
-                 select new { c, p })
+                 ((p != null && p.PhaseId == phaseId) || phaseId == 0)
+                 select new { c, p = p ?? new PhaseModel() })
                  .AsEnumerable()
                  .GroupBy(x => new { x.c.Id, x.c.Description })
                  .Select(x => new PhaseModel
@@ -52,16 +52,17 @@ namespace Repository
         {
             var clasifications = await
                 (from c in _context.Catalog
-                 join pc in _context.Phase.Where(x => x.PhaseId == phaseId) on c.Id equals pc.ClasificationId into pcdf
+                 join leftPc in _context.Phase.Where(x => x.PhaseId == phaseId) on c.Id equals leftPc.ClasificationId into pcdf
                  from pc in pcdf.DefaultIfEmpty()
                  where c.CatalogId == Resources.Constants.Catalog.Clasification && c.Active
-                 select new PhaseModel
+                 select new { c, pc = pc ?? new PhaseModel() })
+                 .Select(x => new PhaseModel
                  {
                      PhaseId = phaseId,
-                     ClasificationId = c.Id,
-                     Clasification = c,
-                     PSP = pc.PSP,
-                     Active = pc.Active,
+                     ClasificationId = x.c.Id,
+                     Clasification = x.c,
+                     PSP = x.pc.PSP,
+                     Active = x.pc.Active,
                  }).ToListAsync();
 
             return clasifications;
@@ -92,13 +93,14 @@ namespace Repository
                  join pc in _context.Phase.Where(x => x.PhaseId == _phase.PhaseId) on c.Id equals pc.ClasificationId into pcdf
                  from pc in pcdf.DefaultIfEmpty()
                  where c.CatalogId == Resources.Constants.Catalog.Clasification && c.Active
-                 select new PhaseModel
+                 select new { c, pc = pc ?? new PhaseModel() })
+                 .Select(x => new PhaseModel
                  {
                      PhaseId = _phase.PhaseId,
-                     ClasificationId = c.Id,
-                     Clasification = c,
+                     ClasificationId = x.c.Id,
+                     Clasification = x.c,
                      PSP = _phase.PSP,
-                     Active = pc.Active,
+                     Active = x.pc.Active,
                      UpdatedById = _phase.UpdatedById,
                      UpdatedAt = _phase.UpdatedAt
                  }).ToListAsync();
@@ -112,15 +114,16 @@ namespace Repository
         {
             var clasifications = await
                 (from c in _context.Catalog
-                 join pc in _context.Phase.Where(x => x.PhaseId == phaseId) on c.Id equals pc.ClasificationId into pcdf
+                 join leftPc in _context.Phase.Where(x => x.PhaseId == phaseId) on c.Id equals leftPc.ClasificationId into pcdf
                  from pc in pcdf.DefaultIfEmpty()
                  where c.CatalogId == Resources.Constants.Catalog.Clasification && c.Active
-                 select new PhaseModel
+                 select new { c, pc = pc ?? new PhaseModel() })
+                 .Select(x => new PhaseModel
                  {
                      PhaseId = phaseId,
-                     ClasificationId = c.Id,
-                     Clasification = c,
-                     PSP = pc.PSP,
+                     ClasificationId = x.c.Id,
+                     Clasification = x.c,
+                     PSP = x.pc.PSP,
                      Active = true,
                      UpdatedById = userId,
                      UpdatedAt = DateTime.Now

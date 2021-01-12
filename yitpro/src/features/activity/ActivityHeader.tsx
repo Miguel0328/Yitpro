@@ -13,7 +13,8 @@ const ActivityHeader = () => {
       <Header
         as="h2"
         style={{ margin: 0 }}
-        icon="pencil"
+        // icon="pencil"
+        image="http://localhost:5000/Files/Icons/lapiz.svg"
         className="icon-header"
         content="Actividades"
         floated="left"

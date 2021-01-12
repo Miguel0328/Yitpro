@@ -6,6 +6,7 @@ using Resources.Constants;
 using Resources.Extension;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,10 +31,8 @@ namespace Repository
 
         public async Task<ActivityModel> GetDetail(long id)
         {
-            return await _context.Activity.FindAsync(id);
+            return await _context.Activity.Include(x => x.Comments.Where(y => y.Log).OrderByDescending(x => x.Date)).ThenInclude(x => x.User).FirstOrDefaultAsync(x => x.Id == id);
         }
-
-        public 
 
         public async Task<long> Post(ActivityModel _activity)
         {

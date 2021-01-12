@@ -63,7 +63,7 @@ export class ProjectFormValues implements IProjectDetail {
   statusId: number | "" = "";
   methodologyId: number | "" = "";
   description: string = "";
-  active: boolean = false;
+  active: boolean = true;
   psp: boolean = false;
 
   constructor(init?: IProjectDetail) {

@@ -9,7 +9,7 @@ namespace Service.Interfaces
     public interface IBaseService
     {
         long GetCurrentUserId();
-        string GetFilesPath();
+        string GetBasePath();
         HttpRequest GetRequest();
         string CreateToken(string name);
     }

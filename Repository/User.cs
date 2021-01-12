@@ -104,7 +104,7 @@ namespace Repository
                  join leftPermissions in _context.UserPermission.Where(x => x.UserId == id) on menu.Id equals leftPermissions.MenuId into ljPermissions
                  from permission in ljPermissions.DefaultIfEmpty()
                  orderby menu.Order
-                 select new { menu, permission })
+                 select new { menu, permission = permission ?? new UserPermissionModel() })
                  .Select(x => new UserPermissionModel
                  {
                      MenuId = x.menu.Id,

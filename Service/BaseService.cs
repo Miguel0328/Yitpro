@@ -37,7 +37,7 @@ namespace Service
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, email)
+                new Claim(JwtRegisteredClaimNames.NameId, email),
             };
 
             var key = _key;
@@ -47,7 +47,7 @@ namespace Service
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(3),
-                SigningCredentials = creds
+                SigningCredentials = creds,
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -65,7 +65,7 @@ namespace Service
             return id;
         }
 
-        public string GetFilesPath()
+        public string GetBasePath()
         {
             return _configuration.GetValue<string>(WebHostDefaults.ContentRootKey);
         }

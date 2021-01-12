@@ -70,10 +70,10 @@ namespace Repository
         {
             var permissions = await
                 (from menu in _context.Menu
-                 join leftPermissions in _context.RolePermission.Where(x => x.RoleId == id) on menu.Id equals leftPermissions.MenuId into ljPermissions
+                 join leftPermission in _context.RolePermission.Where(x => x.RoleId == id) on menu.Id equals leftPermission.MenuId into ljPermissions
                  from permission in ljPermissions.DefaultIfEmpty()
                  orderby menu.Order
-                 select new { menu, permission })
+                 select new { menu, permission = permission ?? new RolePermissionModel() })
                  .Select(x => new RolePermissionModel
                  {
                      MenuId = x.menu.Id,

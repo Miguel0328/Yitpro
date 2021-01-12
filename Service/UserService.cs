@@ -85,7 +85,7 @@ namespace Service
 
         private async Task<string> SavePhoto(IFormFile file, string fileName)
         {
-            var path = _service.GetFilesPath();
+            var path = _service.GetBasePath();
             Directory.CreateDirectory(System.IO.Path.Combine(path, Resources.Constants.Path.UserPhotos));
             var name = System.IO.Path.Combine(Resources.Constants.Path.UserPhotos, $"{fileName}.jpg");
             var url = System.IO.Path.Combine(path, name);

@@ -25,6 +25,7 @@ import {
 import { observer } from "mobx-react-lite";
 import { OnChange } from "react-final-form-listeners";
 import ActivityFormLog from "./ActivityFormLog";
+import Activity from "../Activity";
 
 const ActivityFormDetail = () => {
   const rootStore = useContext(RootStoreContext);
@@ -101,6 +102,16 @@ const ActivityFormDetail = () => {
           },
         }}
         render={({ handleSubmit, invalid, pristine, values, form }) => {
+          const final =
+            parseInt(currentActivity?.finalTime.split(":")[0] ?? "0") * 3600 +
+            parseInt(currentActivity?.finalTime.split(":")[1] ?? "0") * 60;
+          const assigned =
+            parseInt(currentActivity?.assignedTime.split(":")[0] ?? "0") *
+              3600 +
+            parseInt(currentActivity?.assignedTime.split(":")[1] ?? "0") * 60;
+          const percent = Math.round((final / assigned) * 100);
+          const color =
+            percent <= 100 ? "green" : percent <= 105 ? "yellow" : "red";
           return (
             <Form onSubmit={handleSubmit} error>
               <Grid stackable className="no-padding">
@@ -113,12 +124,13 @@ const ActivityFormDetail = () => {
                 {!!activityId && (
                   <Grid.Column width={8} verticalAlign="bottom">
                     <Grid>
-                      <strong>01:30 horas</strong>
+                      <strong>{activity.finalTime} horas</strong>
                       <Grid.Column width={14} style={{ paddingRight: 10 }}>
+                        {" "}
                         <Progress
                           className="form-progress"
-                          percent={10}
-                          success
+                          percent={percent}
+                          color={color}
                         />
                       </Grid.Column>
                       <Grid.Column width={2} className="form-clock">
@@ -234,7 +246,7 @@ const ActivityFormDetail = () => {
                 <Grid.Column width={4}>
                   <strong>Horas estimadas</strong>
                   <Field
-                    name="assignedTime"
+                    name="estimatedTime"
                     placeholder="00:00"
                     mask={[/[0-9]/, /[0-9]/, ":", /[0-5]/, /[0-9]/]}
                     component={MaskInput}
@@ -243,7 +255,7 @@ const ActivityFormDetail = () => {
                 <Grid.Column width={4}>
                   <strong>Horas asignadas</strong>
                   <Field
-                    name="estimatedTime"
+                    name="assignedTime"
                     placeholder="00:00"
                     mask={[/[0-9]/, /[0-9]/, ":", /[0-5]/, /[0-9]/]}
                     component={MaskInput}
@@ -343,7 +355,7 @@ const ActivityFormDetail = () => {
                       width={4}
                       className="activity log-form"
                     >
-                      <ActivityFormLog />
+                      <ActivityFormLog comments={activity.log} />
                     </Grid.Column>
                   )}
                 </Grid.Row>

@@ -7,6 +7,7 @@ namespace Resources.Constants
     public class Path
     {
         public const string
-        UserPhotos = "Files/Users/Photos/";
+        UserPhotos = "Files/Users/Photos/",
+        Icons = "Files/Icons/";
     }
 }

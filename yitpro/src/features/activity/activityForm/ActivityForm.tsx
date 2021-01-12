@@ -13,7 +13,7 @@ const ActivityForm = () => {
       <Grid.Column width={activityId ? 12 : 16}>
         <ActivityFormDetail />
       </Grid.Column>  
-      {activityId && (
+      {!!activityId && (
         <Grid.Column width={4} style={{ borderLeft: "solid 1px lightgray" }}>
           <ActivityFormTab />
         </Grid.Column>

@@ -25,6 +25,7 @@ export interface IActivityDetail {
   responsibleId: number | "";
   assignedTime: string;
   estimatedTime: string;
+  finalTime: string;
   period: Date[];
   requirement: string;
   description: string;
@@ -32,7 +33,14 @@ export interface IActivityDetail {
   planned: boolean;
   urgent: boolean;
   finalDate?: Date;
-  justRead: boolean;
+  log: IActivityComment[];
+}
+
+export interface IActivityComment {
+  id: number;
+  user: IUser;
+  date: Date;
+  comment: string;
 }
 
 export class ActivityFormValues implements IActivityDetail {
@@ -44,6 +52,7 @@ export class ActivityFormValues implements IActivityDetail {
   responsibleId: number | "" = "";
   estimatedTime = "";
   assignedTime = "";
+  finalTime = "";
   period: Date[] = [];
   requirement = "";
   description = "";
@@ -51,7 +60,7 @@ export class ActivityFormValues implements IActivityDetail {
   planned = false;
   urgent = false;
   finalDate?: Date = undefined;
-  justRead = false;
+  log = [];
 
   constructor(init?: IActivityDetail) {
     Object.assign(this, init);

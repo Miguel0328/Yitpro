@@ -163,7 +163,7 @@ const ProjectForm = () => {
                   <strong>Descripción</strong>
                   <Field
                     name="description"
-                    rows={2}
+                    rows={4}
                     component={TextAreaInput}
                     type="checkbox"
                   />

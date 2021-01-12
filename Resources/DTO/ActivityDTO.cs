@@ -40,6 +40,15 @@ namespace Resources.DTO
         public bool Planned { get; set; }
         public bool Urgent { get; set; }
         public bool Status { get; set; }
+        public List<ActivityCommentDTO> Log { get; set; }
+    }
+
+    public class ActivityCommentDTO
+    {
+        public long Id { get; set; }
+        public string Comment { get; set; }
+        public DateTime Date { get; set; }
+        public UserDTO User { get; set; }
     }
 
     public class ActivityDetailDTOValidator : AbstractValidator<ActivityDetailDTO>
@@ -51,11 +60,11 @@ namespace Resources.DTO
             RuleFor(x => x.Period).NotEmpty().WithName("Periodo");
             RuleFor(x => x.AssignedTime).NotEmpty().MinimumLength(5).MaximumLength(5).WithName("Horas asignadas");
             RuleFor(x => x.EstimatedTime).NotEmpty().MinimumLength(5).MaximumLength(5).WithName("Horas estimadas");
-            RuleFor(x => x.ProjectId).NotEmpty().WithName("Cliente");
-            RuleFor(x => x.PhaseId).NotEmpty().WithName("Líder");
-            RuleFor(x => x.ClasificationId).NotEmpty().WithName("Metodología");
-            RuleFor(x => x.AssignedId).NotEmpty().WithName("Estatus");
-            RuleFor(x => x.ResponsibleId).NotEmpty().WithName("Tipo");
+            RuleFor(x => x.ProjectId).NotEmpty().WithName("Proyecto");
+            RuleFor(x => x.PhaseId).NotEmpty().WithName("Fase");
+            RuleFor(x => x.ClasificationId).NotEmpty().WithName("Clasificación");
+            RuleFor(x => x.AssignedId).NotEmpty().WithName("Asignado");
+            RuleFor(x => x.ResponsibleId).NotEmpty().WithName("Responsable");
         }
     }
 }

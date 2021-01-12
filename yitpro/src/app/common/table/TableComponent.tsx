@@ -281,7 +281,7 @@ const TableComponent: React.FC<IProps> = ({
                   <TableRow>
                     <TableCell
                       component="th"
-                      colSpan={5}
+                      colSpan={columns.length}
                       align="center"
                       scope="role"
                     >

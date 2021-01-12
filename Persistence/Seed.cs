@@ -24,6 +24,7 @@ namespace Persistence
                     new MenuModel { Id = 6, Description = "Proyectos", Route = "project", Icon = "paperclip", Level = 1, Order = 3000, Active = true },
                     new MenuModel { Id = 7, ParentId = 2, Description = "Catálogo general", Route = "catalog", Icon = "folder open", Level = 2, Order = 2040, Active = true },
                     new MenuModel { Id = 8, ParentId = 2, Description = "Fases", Route = "phase", Icon = "angle double up", Level = 2, Order = 2050, Active = true },
+                    new MenuModel { Id = 9, Description = "Actividades", Route = "activity", Icon = "pencil", Level = 1, Order = 4000, Active = true },
                 };
 
                 await context.Menu.AddRangeAsync(menus);

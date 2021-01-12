@@ -117,7 +117,6 @@ export default class ActivityStore {
         new Date(activity.period[0]),
         new Date(activity.period[1]),
       ];
-      activity.justRead = true;
       this.activity = activity;
     } catch (error) {
       if (error && error?.status !== 500) toast.error(getErrors(error));
